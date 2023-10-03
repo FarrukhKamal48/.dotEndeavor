@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# "<span color="#EE37B8">$(date '+%a')</span>"
+day="<span color='#41a7fc'>$(date '+%a')</span>" 
+date="<span color='#ffbc03'>$(date '+%d-%b')</span>"
+time="<span color='#41a7fc'>$(date '+%I:%M %P')</span>"
+
+TimeWidget="${day} ${date} ${time}"
+
+echo $TimeWidget 
