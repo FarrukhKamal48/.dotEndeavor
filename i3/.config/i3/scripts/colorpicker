@@ -1,4 +1,0 @@
-#!/bin/bash
-
-# dex /usr/share/applications/xcolor.desktop
-xcolor -s
