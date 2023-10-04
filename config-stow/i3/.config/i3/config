@@ -347,6 +347,10 @@ mode $resize {
     bindsym Shift+j move down $winMoveSpeed
     bindsym Shift+k move up $winMoveSpeed 
     bindsym Shift+l move right $winMoveSpeed 
+
+    # orientaion
+    bindsym r exec --no-startup-id ~/.config/i3/scripts/user/rotate.sh
+    bindsym $mod+r exec --no-startup-id ~/.config/i3/scripts/user/rotate.sh
     
     bindsym Return; exec --no-startup-id xset r rate 200 50; mode $normal
     bindsym Escape; exec --no-startup-id xset r rate 200 50; mode $normal
