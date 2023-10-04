@@ -545,11 +545,12 @@ set $mediumgrey		#8b8b8b
 set $yellowbrown	#e1b700
 # set $barBG #17212B
 set $barBG #1a1b26 
-set $workspaceFocusBG #41a7fc
+# set $workspaceFocusBG #41a7fc
+set $workspaceFocusBG #7aa2f7 
 set $workspaceUnfocusBG #16161e 
 set $focusWindowBorder #357592 
 # set $focusWindowBorder #292e42 
-set $urgentColor	#41a7fc	
+set $urgentColor	#e0af68	
 
 # define colors for windows:
 #class		        	    border		        bground		            text		    indicator	    child_border
