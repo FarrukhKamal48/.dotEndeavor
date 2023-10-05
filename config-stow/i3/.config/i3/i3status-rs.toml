@@ -23,8 +23,8 @@ critical_fg = "#15161e"
 
 [icons]
 icons = "awesome5"
-# [icons.overrides]
-# # bat = ["|E|", "|_|", "|=|", "|F|"]
+[icons.overrides]
+# bat = ["|E|", "|_|", "|=|", "|F|"]
 # bat_charging = ""
 #
 # [[block]]
@@ -32,35 +32,38 @@ icons = "awesome5"
 # format = " $icon 1min avg: $1m.eng(w:4) "
 # interval = 1
 
-# multimedia
+# timer
 [[block]]
-merge_with_next = false 
-block = "music"
-# format = " {$combo.str(max_w:30) $prev  $play  $next }|"
-format = " {$combo.str(max_w:0) $prev  $play  $next }|"
-seek_step_secs = 10
-[[block.click]]
-button = "up"
-action = "volume_up"
+merge_with_next = true 
+block = "tea_timer"
+format = "$icon {$hours:$minutes:$seconds|} "
+done_cmd = "notify-send 'Timer Finished'"
+increment = 60
 [[block.click]]
 button = "down"
-action = "volume_down"
+action = "increment"
 [[block.click]]
-button = "forward"
-action = "seek_forward"
+button = "up"
+action = "decrement"
 [[block.click]]
-button = "back"
-action = "seek_backward"
-[[block.click]]
-button = "Right on $combo"
-action = "next_player"
+button = "right"
+action = "reset"
 
-# [[block]]
-# block = "temperature"
-# format = " $icon $max max "
-# format_alt = " $icon $min min, $max max, $average avg "
-# interval = 5
-# chip = "acpitz-acpi-0"
+# multimedia
+[[block]]
+merge_with_next = true 
+block = "music"
+format = "{ $prev  $play  $next }|"
+seek_step_secs = 60
+[[block.click]]
+button = "left on $prev"
+action = "prev"
+[[block.click]]
+button = "left on $play"
+action = "play_pause"
+[[block.click]]
+button = "left on $next"
+action = "next"
 
 
 
