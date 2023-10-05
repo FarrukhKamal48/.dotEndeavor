@@ -64,6 +64,8 @@ action = "play_pause"
 [[block.click]]
 button = "left on $next"
 action = "next"
+[block.theme_overrides] # low priority
+info_bg = "#7aa2f7"
 
 
 
@@ -217,7 +219,7 @@ good_bg = "#7aa2f7"
 [[block]]
 merge_with_next = true 
 block = "sound"
-format = " $icon{$volume.eng(w:2)|} "
+format = "$icon{$volume.eng(w:2)|} "
 headphones_indicator = true
 [[block.click]]
 button = "right"
@@ -239,11 +241,6 @@ block = "battery"
 
 # not full and unpluged format
 format = " $icon {$percentage} "
-
-# full_format = " $icon "
-# charging_format = " $icon {$percentage|} "
-# empty_format = " $icon {$percentage|} "
-# not_charging_format = " $icon {$percentage|} "
 
 # full battery format
 full_format = "$icon {$percentage|} "
