@@ -6,6 +6,21 @@ theme = "solarized-dark"
 idle_bg = "#16161e"
 # idle_fg = "#abcdef"
 
+# green #9ece6a
+# purple #bb9af7
+# red #f7768e
+# blue #7aa2f7
+# yellow #e0af68
+
+good_bg = "#9ece6a"
+good_fg = "#15161e"
+info_bg = "#bb9af7"
+info_fg = "#15161e"
+warning_bg = "#e0af68"
+warning_fg = "#15161e"
+critical_bg = "#f7768e"
+critical_fg = "#15161e"
+
 [icons]
 icons = "awesome5"
 # [icons.overrides]
@@ -74,7 +89,7 @@ idle_bg = "#16161e"
 
 # cpu utilization
 [[block]]
-merge_with_next = true 
+merge_with_next = false 
 block = "cpu"
 format = "$icon$utilization "
 # command = "sensors|grep temp2: |  grep -oE '+[0-9]+.[0-9]+°C' | head -1 | sed 's/+//' | tr -d '\t\n\r'"
@@ -87,7 +102,7 @@ idle_bg = "#16161e"
 
 # gpu
 [[block]]
-merge_with_next = true 
+merge_with_next = false 
 block = "nvidia_gpu"
 format = "$icon $temperature$utilization"
 # format_alt = " $icon MEM: $vram_used_percents ($vram_used/$vram_total) "
@@ -181,32 +196,34 @@ idle_fg = "#16161e"
 merge_with_next = true 
 block = "bluetooth"
 mac = "84:AC:60:31:89:58"
-disconnected_format = "$icon -"
-format = " $icon $name { $percentage|}"
+disconnected_format = "$icon "
+format = "$icon PEATS "
 [block.battery_state]
 "0..20" = "critical"
 "21..22" = "warning"
-"23..100" = "good"
+"99..100" = "good"
 [[block.click]]
 button = "left"
 update = true
 [block.theme_overrides] # high priority
 idle_bg = "#7aa2f7"
 idle_fg = "#16161e"
+good_bg = "#7aa2f7"
 
 # volume
 [[block]]
 merge_with_next = true 
 block = "sound"
-format = " $icon {$volume.eng(w:2)|} "
+format = " $icon{$volume.eng(w:2)|} "
+headphones_indicator = true
 [[block.click]]
 button = "right"
 cmd = "pavucontrol"
 [[block.click]]
-button = "up"
+button = "down"
 action = "volume_up"
 [[block.click]]
-button = "down"
+button = "up"
 action = "volume_down"
 [block.theme_overrides] # high priority
 idle_bg = "#7aa2f7"
@@ -226,7 +243,7 @@ format = " $icon {$percentage} "
 # not_charging_format = " $icon {$percentage|} "
 
 # full battery format
-full_format = "$icon {$percentage.eng(w:2)|} "
+full_format = "$icon {$percentage|} "
 # not full and pluged in format
 charging_format = "$icon {$percentage|} "
 # empty and not plugged in format
