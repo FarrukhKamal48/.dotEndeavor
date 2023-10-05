@@ -9,7 +9,7 @@ fi
 alias ls='ls --color=auto'
 alias ll='ls -lav --ignore=..'
 alias l='ls -lav --ignore=.?*'
-alias la='ls --color=auto -al'
+alias la='ls --color=auto -a'
 
 
 # config file locations
