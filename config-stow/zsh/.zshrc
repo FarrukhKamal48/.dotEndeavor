@@ -13,7 +13,9 @@ alias la='ls --color=auto -av'
 
 
 # config file locations
-i3rc='/home/farrukh/.config/i3/config'
+conf='/home/farrukh/.dotEndeavor/config-stow/'
+i3rc='/home/farrukh/.dotEndeavor/config-stow/i3/.config/i3/config'
+zrc='/home/farrukh/.dotEndeavor/config-stow/zsh/.zshrc'
 
 # Use powerline
 USE_POWERLINE="false"
