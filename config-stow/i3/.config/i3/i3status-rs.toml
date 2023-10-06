@@ -32,40 +32,6 @@ icons = "awesome5"
 # format = " $icon 1min avg: $1m.eng(w:4) "
 # interval = 1
 
-# timer
-[[block]]
-merge_with_next = true 
-block = "tea_timer"
-format = "$icon {$hours:$minutes:$seconds|} "
-done_cmd = "notify-send 'Timer Finished'"
-increment = 60
-[[block.click]]
-button = "down"
-action = "increment"
-[[block.click]]
-button = "up"
-action = "decrement"
-[[block.click]]
-button = "right"
-action = "reset"
-
-# multimedia
-[[block]]
-merge_with_next = true 
-block = "music"
-format = "{ $prev  $play  $next }|"
-seek_step_secs = 60
-[[block.click]]
-button = "left on $prev"
-action = "prev"
-[[block.click]]
-button = "left on $play"
-action = "play_pause"
-[[block.click]]
-button = "left on $next"
-action = "next"
-[block.theme_overrides] # low priority
-info_bg = "#7aa2f7"
 
 
 
@@ -161,10 +127,49 @@ idle_bg = "#16161e"
 
 
 
+# multimedia
+[[block]]
+merge_with_next = true 
+block = "music"
+format = "{ $prev  $play  $next }|"
+seek_step_secs = 60
+[[block.click]]
+button = "left on $prev"
+action = "prev"
+[[block.click]]
+button = "left on $play"
+action = "play_pause"
+[[block.click]]
+button = "left on $next"
+action = "next"
+[block.theme_overrides] # mid priority
+idle_bg = "#3b4261"
+idle_fg = "#abcdef"
+
+# timer
+[[block]]
+merge_with_next = true 
+block = "tea_timer"
+format = " $icon {$hours:$minutes:$seconds|} "
+done_cmd = "notify-send 'Timer Finished'"
+increment = 60
+[[block.click]]
+button = "down"
+action = "increment"
+[[block.click]]
+button = "up"
+action = "decrement"
+[[block.click]]
+button = "right"
+action = "reset"
+[block.theme_overrides] # mid priority
+idle_bg = "#3b4261"
+idle_fg = "#abcdef"
+
 [[block]]
 block = "time"
 interval = 60
-format = " $timestamp.datetime(f:'%a %-d-%b %I:%M %P') "
+format = "$timestamp.datetime(f:'%a %-d-%b %I:%M %P') "
 [block.theme_overrides] # mid priority
 idle_bg = "#3b4261"
 idle_fg = "#abcdef"
