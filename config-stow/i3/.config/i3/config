@@ -188,12 +188,19 @@ floating_modifier $mod
 # *workpace nav---------------------------------------------------------------------------------------------------------------------------------------
 ######################################
 
-# switch/iterate between workspaces
-bindsym $mod+d workspace next
-bindsym $mod+a workspace prev
-# take focused container to workspace
-bindsym $mod+Shift+d move container to workspace  next; workspace next
-bindsym $mod+Shift+a move container to workspace  prev; workspace prev
+# switch/iterate between open workspaces
+bindsym $mod+d exec --no-startup-id $scripts/workspace_tool.sh next 
+bindsym $mod+a exec --no-startup-id $scripts/workspace_tool.sh prev  
+# take focused container to open workspace
+bindsym $mod+Shift+d exec --no-startup-id $scripts/workspace_tool.sh take-next
+bindsym $mod+Shift+a exec --no-startup-id $scripts/workspace_tool.sh take-prev  
+
+# # switch/iterate between workspaces
+# bindsym $mod+Tab exec --no-startup-id $scripts/workspace_tool.sh next
+# bindsym $mod+Shift+Tab exec --no-startup-id $scripts/workspace_tool.sh prev
+
+
+
 
 # switch to workspace
 bindsym $mod+1    workspace  $ws1
@@ -208,7 +215,9 @@ bindsym $mod+9    workspace  $ws9
 bindsym $mod+0    workspace  $ws10
 
 # open new empty workspace
-bindsym $mod+Shift+n exec $scripts/empty_workspace
+bindsym $mod+Shift+n exec --no-startup-id $scripts/workspace_tool.sh empty
+# take window to new empty workspace
+bindsym $mod+Shift+m exec --no-startup-id $scripts/workspace_tool.sh take-empty
 
 # move container to workspace
 bindsym $mod+Shift+1  move container to workspace  $ws1; workspace $ws1   
@@ -611,8 +620,8 @@ bindsym $alt+space exec --no-startup-id rofi -modi drun -show drun \
 ## rofi bindings for window menu ($mod+t /F10 optional disabled)
 
 # rofi show all windows
-bindsym $mod+Tab exec --no-startup-id rofi -show window \
-		-config ~/.config/rofi/rofidmenu.rasi
+# bindsym $mod+Tab exec --no-startup-id rofi -show window \
+# 		-config ~/.config/rofi/rofidmenu.rasi
 
 # bindsym $mod+Shift+Tab rofi -show -run-shell-command "nmtui-connect && read"
 ## rofi bindings to manage clipboard (install rofi-greenclip from the AUR)
