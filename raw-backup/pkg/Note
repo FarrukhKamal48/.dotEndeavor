@@ -1,0 +1,2 @@
+pkg_explicit was made using: pacman -Qe|cut -f 1 -d " " > pkg_explicit
+pkg_all was made using: pacman -Q|cut -f 1 -d " " > pkg_all
