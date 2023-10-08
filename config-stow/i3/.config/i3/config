@@ -342,7 +342,7 @@ bindsym $mod+Shift+b mode $brightness
 
 # Backlight setting using fn keys
 bindsym F10 exec --no-startup-id $scripts/volume_brightness.sh brightness_up
-bindsym F9 exec --no-startup-id $scripts/volume_brightness.sh brightness_down
+bindsym F8 exec --no-startup-id $scripts/volume_brightness.sh brightness_down
 
 # Volume mode
 bindsym $mod+Shift+v mode $volume
@@ -563,8 +563,8 @@ set $barBG #1a1b26
 # set $workspaceFocusBG #41a7fc
 set $workspaceFocusBG #7aa2f7 
 set $workspaceUnfocusBG #16161e 
-set $focusWindowBorder #357592 
-# set $focusWindowBorder #292e42 
+# set $focusWindowBorder #357592 
+set $focusWindowBorder #7aa2f7 
 set $urgentColor	#e0af68	
 
 # define colors for windows:
