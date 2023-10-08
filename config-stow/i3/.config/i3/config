@@ -47,8 +47,8 @@ mode $bluetooth {
     bindsym u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && bluetoothctl connect $soundPeats && pactl set-sink-volume @DEFAULT_SINK@ $peatsVolume%; mode $normal 
     bindsym i exec --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth && pactl set-sink-volume @DEFAULT_SINK@ $systemVolume%; mode $normal
 
-    bindsym j exec --no-startup-id $scripts/setAudioSink $sink_soundPeats; mode $normal
-    bindsym k exec --no-startup-id $scripts/setAudioSink $sink_system; mode $normal
+    bindsym h exec --no-startup-id $scripts/setAudioSink $sink_soundPeats; mode $normal
+    bindsym l exec --no-startup-id $scripts/setAudioSink $sink_system; mode $normal
 
     bindsym Return mode $normal
     bindsym Escape mode $normal
@@ -126,8 +126,8 @@ mode $brightness {
     bindsym f exec --no-startup-id brightnessctl -q set 75%; exec --no-startup-id $scripts/volume_brightness.sh brightness_notif  
     bindsym g exec --no-startup-id brightnessctl -q set 100%; exec --no-startup-id $scripts/volume_brightness.sh brightness_notif;
  
-    bindsym j exec --no-startup-id $scripts/volume_brightness.sh brightness_up
-    bindsym k exec --no-startup-id $scripts/volume_brightness.sh brightness_down
+    bindsym j exec --no-startup-id $scripts/volume_brightness.sh brightness_down
+    bindsym k exec --no-startup-id $scripts/volume_brightness.sh brightness_up
 
     bindsym Return mode $normal
     bindsym Escape mode $normal
@@ -143,8 +143,8 @@ mode $volume {
     bindsym j exec --no-startup-id $scripts/volume_brightness.sh volume_down
     bindsym k exec --no-startup-id $scripts/volume_brightness.sh volume_up
 
-    bindsym j exec --no-startup-id $scripts/setAudioSink $sink_soundPeats; mode $normal
-    bindsym k exec --no-startup-id $scripts/setAudioSink $sink_system; mode $normal
+    bindsym h exec --no-startup-id $scripts/setAudioSink $sink_soundPeats; mode $normal
+    bindsym l exec --no-startup-id $scripts/setAudioSink $sink_system; mode $normal
 
     bindsym Return mode $normal
     bindsym Escape mode $normal
@@ -189,17 +189,15 @@ floating_modifier $mod
 ######################################
 
 # switch/iterate between open workspaces
-bindsym $mod+d exec --no-startup-id $scripts/workspace_tool.sh next 
-bindsym $mod+a exec --no-startup-id $scripts/workspace_tool.sh prev  
+bindsym $mod+d workspace next
+bindsym $mod+a workspace prev  
 # take focused container to open workspace
-bindsym $mod+Shift+d exec --no-startup-id $scripts/workspace_tool.sh take-next
-bindsym $mod+Shift+a exec --no-startup-id $scripts/workspace_tool.sh take-prev  
+bindsym $mod+Shift+d move container to workspace next 
+bindsym $mod+Shift+a move container to workspace prev   
 
 # # switch/iterate between workspaces
-# bindsym $mod+Tab exec --no-startup-id $scripts/workspace_tool.sh next
-# bindsym $mod+Shift+Tab exec --no-startup-id $scripts/workspace_tool.sh prev
-
-
+bindsym $mod+Tab exec --no-startup-id $scripts/workspace_tool.sh next
+bindsym $mod+Shift+Tab exec --no-startup-id $scripts/workspace_tool.sh prev
 
 
 # switch to workspace
@@ -341,8 +339,8 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+b mode $brightness
 
 # Backlight setting using fn keys
-bindsym F10 exec --no-startup-id $scripts/volume_brightness.sh brightness_up
-bindsym F8 exec --no-startup-id $scripts/volume_brightness.sh brightness_down
+bindsym $alt+F10 exec --no-startup-id $scripts/volume_brightness.sh brightness_up
+bindsym $alt+F9 exec --no-startup-id $scripts/volume_brightness.sh brightness_down
 
 # Volume mode
 bindsym $mod+Shift+v mode $volume
@@ -401,8 +399,40 @@ set $ws9 "9"
 set $ws10 "ssh"
 
 
-# bind program to workspace and focus to them on startup:
-for_window [window_role="protonvpn-cli"] floating enable
+# bind program to workspace and focus to them on startup: find class names using xprop
+assign [class="unityhub"] $ws9
+assign [class="Unity"] $ws9
+
+for_window [class="unityhub"] floating enable; resize 960 540
+for_window [class="Unity"] floating enable; resize 960 540
+
+for_window [class="Yad" instance="yad"] floating enable
+for_window [class="Galculator" instance="galculator"] floating enable
+for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
+
+# set floating (nontiling) for special apps
+for_window [class="Xsane" instance="xsane"] floating enable
+for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
+for_window [class="qt5ct" instance="qt5ct"] floating enable
+for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
+for_window [class="Bluetooth-sendto" instance="bluetooth-sendto"] floating enable
+for_window [class="Pamac-manager"] floating enable
+for_window [window_role="About"] floating enable
+
+
+# set border of floating window
+for_window [class="urxvt"] border pixel 1
+
+# border of unfocused
+# for_window [all] border pixel none
+# for_window [con_id=__focused__] border pixel 10
+
+# set size of floating window
+#for_window [window_role="(?i)GtkFileChooserDialog"] resize set 640 480 #to set size of file choose dialog
+# for_window [floating] resize set 540 540 
+
+# set position of floating window
+for_window [class=".*"] move position center
 
 ##############
 # compositor #
@@ -510,37 +540,6 @@ exec --no-startup-id /usr/bin/dunst
 #exec_always --no-startup-id autotiling
 
 
-######################################
-# *floating window rules------------------------------------------------------------------------------------------------------------------------------
-######################################
-
-# set floating (nontiling) for apps needing it
-for_window [class="Yad" instance="yad"] floating enable
-for_window [class="Galculator" instance="galculator"] floating enable
-for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
-
-# set floating (nontiling) for special apps
-for_window [class="Xsane" instance="xsane"] floating enable
-for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
-for_window [class="qt5ct" instance="qt5ct"] floating enable
-for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
-for_window [class="Bluetooth-sendto" instance="bluetooth-sendto"] floating enable
-for_window [class="Pamac-manager"] floating enable
-for_window [window_role="About"] floating enable
-
-# set border of floating window
-for_window [class="urxvt"] border pixel 1
-
-# border of unfocused
-# for_window [all] border pixel none
-# for_window [con_id=__focused__] border pixel 10
-
-# set size of floating window
-#for_window [window_role="(?i)GtkFileChooserDialog"] resize set 640 480 #to set size of file choose dialog
-# for_window [floating] resize set 540 540 
-
-# set position of floating window
-for_window [class=".*"] move position center
 
 ###########################################
 # *color customization for bar and windows------------------------------------------------------------------------------------------------------------
