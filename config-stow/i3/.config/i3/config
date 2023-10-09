@@ -507,6 +507,9 @@ exec_always --no-startup-id copyq && copyq hide
 # default power-profiles
 exec_always --no-startup-id powerprofilesctl set balanced
 
+# shutdown timer
+exec_always --no-startup-id shutdown -P 19:30 "Sleeep. Shuting down..."
+
 # set default mode
 # exec_always mode $normal
 
