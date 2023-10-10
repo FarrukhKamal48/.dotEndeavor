@@ -112,8 +112,8 @@ mode $resize {
     bindsym Shift+l move right $winMoveSpeed 
 
     # orientaion
-    bindsym r exec --no-startup-id $scripts/rotate.sh; mode $normal
-    bindsym $mod+r exec --no-startup-id $scripts/rotate.sh; mode $normal
+    bindsym r exec --no-startup-id $scripts/rotate.sh
+    bindsym $mod+r exec --no-startup-id $scripts/rotate.sh
     
     bindsym Return; exec --no-startup-id xset r rate 200 50; mode $normal
     bindsym Escape; exec --no-startup-id xset r rate 200 50; mode $normal
