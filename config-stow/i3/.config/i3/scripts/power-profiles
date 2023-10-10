@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#
 # Use rofi/zenity to change system runstate thanks to systemd.
 #
 # Note: this currently relies on associative array support in the shell.
@@ -122,10 +121,9 @@ typeset -A menu
 
 menu=(
   # [ Cancel]=""
-  # [🤖Cancel]=""
-  [  Auto]="echo '631225' | sudo -S auto-cpufreq --force=reset"
-  [  Performance]="echo '631225' | sudo -S auto-cpufreq --force=performance"
-  [  Power Saver]="echo '631225' | sudo -S auto-cpufreq --force=powersave"
+  [  Auto]="echo '890' | sudo -S auto-cpufreq --force=reset"
+  [  Performance]="echo '890' | sudo -S auto-cpufreq --force=performance"
+  [  Power Saver]="echo '890' | sudo -S auto-cpufreq --force=powersave"
 )
 
 menu_nrows=${#menu[@]}
