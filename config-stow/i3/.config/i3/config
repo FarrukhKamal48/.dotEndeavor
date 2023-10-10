@@ -306,8 +306,9 @@ bindsym $mod+Shift+q [all] kill
 
 # start apps
 bindsym $mod+space exec --no-startup-id alacritty
-bindsym $mod+g exec --no-startup-id /usr/bin/brave
+bindsym $mod+g exec --no-startup-id brave
 bindsym $mod+e exec --no-startup-id alacritty -e ranger 
+bindsym $mod+w exec --no-startup-id code 
 bindsym $mod+Shift+equal exec --no-startup-id $scripts/colorpicker
 
 # Open copyq context menu
