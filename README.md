@@ -3,10 +3,6 @@
 ```
 yay -S stow
 ```
-or 
-```
-sudo pacman -S stow
-```
 
 ## Setup Config
 
@@ -30,7 +26,7 @@ This contains files which are not necessarily 'dot files'.
 
 The `raw-backup/zsh` folder contains an exact copy of the manjaro zsh config, which is to be placed in `usr/share/zsh/`. After which you have to install `powerlevel10k` zsh theme (using AUR).
 
-As for the `raw-backup/browser` folder, it just contains brave settings and extension configs. So far, vimium config config has been added.
+As for the `raw-backup/browser` folder, it just contains brave settings and extension configs. So far, vimium config has been added.
 
 
 
