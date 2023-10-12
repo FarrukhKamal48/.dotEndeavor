@@ -16,7 +16,7 @@ configuration {
 window {
     background-color: @background;
     border:           2;
-    padding:          10;
+    padding:          5;
     transparency:     "real";
     width:            120px;
     location:         east;
@@ -24,7 +24,7 @@ window {
     /*x-offset:       850;*/
 }
 listview {
-    lines:     7;
+    lines:     6;
     columns:   1;
     scrollbar: false;
 }
