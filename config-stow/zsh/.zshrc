@@ -14,8 +14,11 @@ alias la='ls --color=auto -av'
 
 # config file locations
 conf='/home/farrukh/.dotEndeavor/config-stow/'
-i3rc='/home/farrukh/.dotEndeavor/config-stow/i3/.config/i3/config'
-zrc='/home/farrukh/.dotEndeavor/config-stow/zsh/.zshrc'
+craw='/home/farrukh/.dotEndeavor/config-stow/'
+ci3='/home/farrukh/.dotEndeavor/config-stow/i3/.config/i3/config'
+czsh='/home/farrukh/.dotEndeavor/config-stow/zsh/.zshrc'
+calac='/home/farrukh/.dotEndeavor/config-stow/alacritty/.config/alacritty/alacritty.yml'
+
 
 # Use powerline
 USE_POWERLINE="false"
