@@ -140,39 +140,71 @@ font:
 #######################################
 ##      START OF COLOR SCHEMES       ##
 #######################################
-  ### Nord ###
-  Otto: &Otto
-    # Default colors
-    primary:
-      background: '#1A1B26'
-      foreground: '#D8DEE9'
-    # Cursor colors
-    cursor:
-      text: '#000000'
-      cursor: '#00CACA'
-    # Normal colors
-    normal:
-      black:   '#156BDC'
-      red:     '#F22C57'
-      green:   '#2AACAA'
-      yellow:  '#EBCB8B'
-      blue:    '#F77067'
-      magenta: '#B48EAD'
-      cyan:    '#88C0D0'
-      white:   '#E5E9F0'
+### Nord ###
+Otto: &Otto
+  # Default colors
+  primary:
+    background: '#1A1B26'
+    foreground: '#D8DEE9'
+  # Cursor colors
+  cursor:
+    text: '#000000'
+    cursor: '#00CACA'
+  # Normal colors
+  normal:
+    black:   '#156BDC'
+    red:     '#F22C57'
+    green:   '#2AACAA'
+    yellow:  '#EBCB8B'
+    blue:    '#F77067'
+    magenta: '#B48EAD'
+    cyan:    '#88C0D0'
+    white:   '#E5E9F0'
 
-    # Bright colors
-    bright:
-      black:   '#4C566A'
-      red:     '#BF616A'
-      green:   '#A3BE8C'
-      yellow:  '#EBCB8B'
-      blue:    '#81A1C1'
-      magenta: '#B48EAD'
-      cyan:    '#8FBCBB'
-      white:   '#ECEFF4'
+  # Bright colors
+  bright:
+    black:   '#4C566A'
+    red:     '#BF616A'
+    green:   '#A3BE8C'
+    yellow:  '#EBCB8B'
+    blue:    '#81A1C1'
+    magenta: '#B48EAD'
+    cyan:    '#8FBCBB'
+    white:   '#ECEFF4'
 
-colors: *Otto 
+TokyoNight: &TokyoNight
+  # Default colors
+  primary:
+    background: '#1A1B26'
+    foreground: '#D8DEE9'
+  # Cursor colors
+  cursor:
+    text: '#000000'
+    cursor: '#00CACA'
+  # Normal colors
+  normal:
+    black:   '#156BDC'
+    red:     '#F7768E'
+    green:   '#2AACAA'
+    yellow:  '#E0AF68'
+    blue:    '#7AA2F7'
+    magenta: '#9A7ECC'
+    cyan:    '#4ABAAF'
+    white:   '#ACB0D0'
+
+  # Bright colors
+  bright:
+    black:   '#4E5173'
+    red:     '#e06c75'
+    green:   '#d19a66'
+    yellow:  '#98c379'
+    blue:    '#61afef'
+    magenta: '#c678dd'
+    cyan:    '#56B6C2'
+    white:   '#ABB2BF'
+
+colors: *TokyoNight 
+# colors: *Otto 
 
 
 # Key Binds
