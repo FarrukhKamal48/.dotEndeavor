@@ -34,6 +34,8 @@ set $sink_soundPeats bluez_output.84_AC_60_31_89_58.1
 set $peatsVolume 50
 set $systemVolume 100
 
+set $shutdownMessage = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n                                                                             ShutDown at 8:30 pm" 
+
 ######################################
 # *Neovim style---------------------------------------------------------------------------------------------------------------------------------------
 ######################################
@@ -318,8 +320,13 @@ bindsym $alt+x exec --no-startup-id copyq previous
 
 bindsym Print exec --no-startup-id scrot ~/Media/Pictures/Screenshots/%Y-%m-%d-%T-screenshot.png && notify-send "Screenshot saved to ~/Media/Pictures/Screenshots/$(date +"%Y-%m-%d-%T")-screenshot.png"
 
-# exit-menu
+# Power Profiles menu
+bindsym $mod+Shift+p exec --no-startup-id $scripts/power-profiles
+# Shutdown, Reboot etc menu
 bindsym $mod+Shift+o exec --no-startup-id $scripts/powermenu
+# Change Curfew menu
+bindsym $mod+Shift+bracketleft exec --no-startup-id $scripts/curfew-menu
+
 bindsym $mod+Shift+BackSpace exec --no-startup-id systemctl poweroff
 bindsym $mod+Shift+Return exec --no-startup-id systemctl reboot
 bindsym $mod+Shift+backslash exec --no-startup-id i3-msg exit 
@@ -509,7 +516,7 @@ exec_always --no-startup-id copyq && copyq hide
 exec_always --no-startup-id powerprofilesctl set balanced
 
 # shutdown timer
-exec_always --no-startup-id shutdown -P 20:30 "Sleeep. Shuting down..."
+exec_always --no-startup-id alacritty -e zsh -c 'shutdown -P 20:30 && echo $shutdownMessage && sleep 1'
 
 # set default mode
 # exec_always mode $normal
@@ -612,8 +619,6 @@ bar {
 # keybinding in fancy rofi (automated):
 bindsym F7 exec $scripts/keyhint-2
 
-# Power Profiles menu switcher (rofi)
-bindsym $mod+Shift+p exec --no-startup-id $scripts/power-profiles
 # bindsym $mod+Shift+p mode $power_profiles
 
 # rofi run menu
