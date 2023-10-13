@@ -203,8 +203,8 @@ TokyoNight: &TokyoNight
     cyan:    '#56B6C2'
     white:   '#ABB2BF'
 
-colors: *TokyoNight 
-# colors: *Otto 
+# colors: *TokyoNight 
+colors: *Otto 
 
 
 # Key Binds
