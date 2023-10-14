@@ -327,7 +327,7 @@ bindsym $mod+Shift+o exec --no-startup-id $scripts/powermenu
 # Change Curfew menu
 bindsym $mod+Shift+bracketleft exec --no-startup-id $scripts/curfew-menu
 
-bindsym $mod+Shift+BackSpace exec --no-startup-id protonvpn-cli d && systemctl poweroff
+bindsym $mod+Shift+BackSpace exec --no-startup-id protonvpn-cli d;exec --no-startup-id systemctl poweroff 
 bindsym $mod+Shift+Return exec --no-startup-id protonvpn-cli d && systemctl reboot
 bindsym $mod+Shift+backslash exec --no-startup-id i3-msg exit 
 # bindsym $mod+Shift+backslash exec $scripts/blur-lock
