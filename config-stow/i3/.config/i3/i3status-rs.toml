@@ -62,7 +62,7 @@ idle_bg = "#16161e"
 [[block]]
 merge_with_next = false 
 block = "cpu"
-format = "$icon$utilization "
+format = "$icon$utilization " 
 # command = "sensors|grep temp2: |  grep -oE '+[0-9]+.[0-9]+°C' | head -1 | sed 's/+//' | tr -d '\t\n\r'"
 interval = 10
 [[block.click]]
@@ -75,7 +75,7 @@ idle_bg = "#16161e"
 [[block]]
 merge_with_next = false 
 block = "nvidia_gpu"
-format = "$icon $temperature$utilization"
+format = "$icon $temperature$utilization "
 # format_alt = " $icon MEM: $vram_used_percents ($vram_used/$vram_total) "
 interval = 20
 [[block.click]]
@@ -89,7 +89,7 @@ idle_bg = "#16161e"
 [[block]]
 merge_with_next = true 
 block = "memory"
-format = " $icon $mem_used.eng(w:3)"
+format = "$icon $mem_used.eng(w:3)"
 format_alt = " $icon $mem_total$mem_total_used $mem_used.eng(w:4)"
 interval = 30
 warning_mem = 60
@@ -188,7 +188,7 @@ merge_with_next = true
 block = "net"
 # device = "wlp2s0"
 format = " $icon {$ssid $signal_strength|} "
-format_alt = " $icon {$ssid $signal_strength $speed_down.eng(w:3){,}$speed_up.eng(w:3)}| "
+format_alt = " $icon {$ssid $signal_strength $speed_down.eng(w:3){,}$speed_up.eng(w:3) }|"
 interval = 1
 [[block.click]]
 button = "left"
