@@ -347,8 +347,8 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+b mode $brightness
 
 # Backlight setting using fn keys
-bindsym $alt+F10 exec --no-startup-id $scripts/volume_brightness.sh brightness_up
-bindsym $alt+F9 exec --no-startup-id $scripts/volume_brightness.sh brightness_down
+bindsym F10 exec --no-startup-id $scripts/volume_brightness.sh brightness_up
+bindsym F9 exec --no-startup-id $scripts/volume_brightness.sh brightness_down
 
 # Volume mode
 bindsym $mod+Shift+v mode $volume
