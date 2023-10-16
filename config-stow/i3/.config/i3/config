@@ -194,8 +194,8 @@ floating_modifier $mod
 bindsym $mod+d workspace next
 bindsym $mod+a workspace prev  
 # take focused container to open workspace
-bindsym $mod+Shift+d move container to workspace next 
-bindsym $mod+Shift+a move container to workspace prev   
+bindsym $mod+Shift+d move container to workspace next; workspace next
+bindsym $mod+Shift+a move container to workspace prev; workspace prev
 
 # # switch/iterate between workspaces
 bindsym $mod+Tab exec --no-startup-id $scripts/workspace_tool.sh next
@@ -327,8 +327,8 @@ bindsym $mod+Shift+o exec --no-startup-id $scripts/powermenu
 # Change Curfew menu
 bindsym $mod+Shift+bracketleft exec --no-startup-id $scripts/curfew-menu
 
-bindsym $mod+Shift+BackSpace exec --no-startup-id protonvpn-cli d;exec --no-startup-id systemctl poweroff 
-bindsym $mod+Shift+Return exec --no-startup-id protonvpn-cli d && systemctl reboot
+bindsym $mod+Shift+BackSpace exec --no-startup-id protonvpn-cli d; exec --no-startup-id systemctl poweroff 
+bindsym $mod+Shift+Return exec --no-startup-id protonvpn-cli d; exec --no-startup-id systemctl reboot
 bindsym $mod+Shift+backslash exec --no-startup-id i3-msg exit 
 # bindsym $mod+Shift+backslash exec $scripts/blur-lock
 
@@ -557,46 +557,39 @@ exec --no-startup-id /usr/bin/dunst
 ###########################################
 
 # Define colors variables:
-# set $darkbluetrans	#08052be6
-set $darkblue		#08052b
-set $lightblue		#5294e2
-set $urgentred		#e53935
-set $white		#ffffff
-set $black	    #16161e
-set $purple		#e345ff
-set $darkgrey		#383c4a
-set $grey		#b0b5bd
-set $mediumgrey		#8b8b8b
-set $yellowbrown	#e1b700
-# set $barBG #17212B
-set $barBG #1a1b26 
-# set $workspaceFocusBG #41a7fc
-set $workspaceFocusBG #7aa2f7 
-set $workspaceUnfocusBG #16161e 
-# set $focusWindowBorder #357592 
-set $focusWindowBorder #7aa2f7 
-set $urgentColor	#e0af68	
+set $darkblue	            #08052b 
+set $lightblue	            #5294e2 
+set $urgentred	            #e53935 
+set $white	                #ffffff 
+set $black	                #16161e 
+set $purple	                #e345ff 
+set $darkgrey		        #383c4a 
+set $grey	            	#b0b5bd 
+set $mediumgrey	        	#8b8b8b 
+set $yellowbrown            #e1b700	
+set $barBG                  #1a1b26 
+set $workspaceFocusBG       #7aa2f7 
+set $workspaceUnfocusBG     #16161e 
+set $focusWindowBorder      #7aa2f7 
+set $urgentColor	        #e0af68	
 
 # define colors for windows:
 #class		        	    border		        bground		            text		            indicator	    child_border
 client.focused		    	$focusWindowBorder	$focusWindowBorder		#0f0f0f	                $mediumgrey  
-client.unfocused	    	$darkblue	        $darkblue           	$workspaceUnfocusBG		#1a1b26         #1a1b26	
+client.unfocused	    	$darkblue	        $darkblue           	$workspaceUnfocusBG		$black          $black	
 client.focused_inactive		$darkblue	        $darkblue           	$workspaceUnfocusBG	    $black		    $black
 client.urgent		    	$urgentred	        $urgentred	            $white	    	        $yellowbrown	$yellowbrown
 
 
-# my bar
 bar {
-    # font pango: DejaVu Sans Mono 10
     font pango: JetBrains Mono Nerd Font 10
     status_command i3status-rs ~/.config/i3/i3status-rs.toml
 
     position bottom
-    #tray_output primary
+    # tray_output primary
     tray_padding 4
 
     strip_workspace_numbers no
-    ##strip_workspace_name no
 
     colors {
         separator         $barBG 
