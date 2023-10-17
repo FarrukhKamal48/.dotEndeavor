@@ -3,7 +3,7 @@
  * Maintainer: joekamprad [joekamprad //a_t// endeavouros.com]
  *******************************************************/
 configuration {
-    font:                "Jetbrains Mono Nerd Font 15";
+    font:                "Jetbrains Mono Nerd Font 12";
     show-icons:          true;
     icon-theme:          "Qogir";
     display-drun:        "Apps";
