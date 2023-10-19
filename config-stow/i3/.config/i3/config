@@ -504,13 +504,18 @@ exec_always --no-startup-id xset r rate 200 50
 # set natural scroll
 exec_always --no-startup-id xinput set-prop 12 337 1
 # set scroll speed (to 50)
-exec_always --no-startup-id xinput set-prop 12 361 50
+exec_always --no-startup-id xinput set-prop 12 361 10
 
 # set display refresh rate
 exec_always --no-startup-id xrandr --output eDP-1 --mode 1920x1080 --refresh 60.32
 
 # start copyq
 exec_always --no-startup-id copyq && copyq hide
+
+# disable internet
+exec_always --no-startup-id nmcli radio wifi off
+# diable bluetooth
+# exec_always --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth && pactl set-sink-volume @DEFAULT_SINK@ $systemVolume%
 
 # default power-profiles
 exec_always --no-startup-id powerprofilesctl set balanced
