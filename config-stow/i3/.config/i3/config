@@ -523,7 +523,7 @@ exec_always --no-startup-id nmcli radio wifi off
 exec_always --no-startup-id powerprofilesctl set balanced
 
 # shutdown timer
-exec_always --no-startup-id alacritty -e zsh -c 'shutdown -P 20:30 && echo $shutdownMessage && sleep 1'
+exec_always --no-startup-id alacritty -e zsh -c 'shutdown -P 20:30'
 
 # set default mode
 # exec_always mode $normal
