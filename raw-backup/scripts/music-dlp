@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+POCO=9f6e2831_140f_4a92_97a0_4bf9e67e1eef 
+kdeStation=/home/farrukh/Media/kdeStation
+saveLocation=/home/farrukh/Media/Music/
+
+Power="https://www.youtube.com/playlist?list=PLbmCC8rB2_0By8D08-nPFb4oHOEglPT4T"
+Feel="https://www.youtube.com/playlist?list=PLbmCC8rB2_0DFnd3ZVUHNmSNxQk_ofDIW"
+Funk="https://www.youtube.com/playlist?list=PLbmCC8rB2_0DGfFRwmYNpn1pHGFujzx2X"
+
+currPlaylist="https://www.youtube.com/playlist?list=PLbmCC8rB2_0By8D08-nPFb4oHOEglPT4T"
+
+
+# # select playlist
+case $1 in
+    Power)
+    currPlaylist=$Power
+    ;;
+
+    Feel)
+    currPlaylist=$Feel
+    ;;
+
+    Funk)
+    currPlaylist=$Funk
+    ;;
+esac
+
+echo "From Power Playlist: $currPlaylist"
+echo " "
+
+# download the music
+yt-dlp -x --audio-format mp3 $currPlaylist --playlist-start $2 --playlist-end $3 --paths $kdeStation
+
+if [ $4 == "save" ]; then
+    echo " "
+    echo 'Saving songs Permonently in "$4"'
+
+    cp $kdeStation/* $saveLocation
+fi
+
+for musicFile in $kdeStation/*; do
+    echo " "
+    echo 'kdeconnect sending: "$musicFile"'
+    # echo "$musicFile"
+
+    kdeconnect-cli --device=$POCO --share="$musicFile"
+    # wait
+    sleep 2s
+done
+
+echo " "
+echo 'Cleaning temporary files: "$kdeStation"'
+
+rm -rf $kdeStation/*
