@@ -2,35 +2,55 @@
 
 POCO=9f6e2831_140f_4a92_97a0_4bf9e67e1eef 
 kdeStation=/home/farrukh/Media/kdeStation
-saveLocation=/home/farrukh/Media/Music/
+saveLocation=/home/farrukh/Media/Music
 
 Power="https://www.youtube.com/playlist?list=PLbmCC8rB2_0By8D08-nPFb4oHOEglPT4T"
 Feel="https://www.youtube.com/playlist?list=PLbmCC8rB2_0DFnd3ZVUHNmSNxQk_ofDIW"
 Funk="https://www.youtube.com/playlist?list=PLbmCC8rB2_0DGfFRwmYNpn1pHGFujzx2X"
 
 currPlaylist="https://www.youtube.com/playlist?list=PLbmCC8rB2_0By8D08-nPFb4oHOEglPT4T"
+currLocation=/home/farrukh/Media/Music
 
 
-# # select playlist
+# select playlist
 case $1 in
     Power)
     currPlaylist=$Power
+    currLocation=$saveLocation/Power
     ;;
 
     Feel)
     currPlaylist=$Feel
+    currLocation=$saveLocation/Feel
     ;;
 
     Funk)
     currPlaylist=$Funk
+    currLocation=$saveLocation/Funk
     ;;
 esac
 
-echo "From Power Playlist: $currPlaylist"
-echo " "
 
-# download the music
-yt-dlp -x --audio-format mp3 $currPlaylist --playlist-start $2 --playlist-end $3 --paths $saveLocation
+if [ $2 == "all" ]; then
+    echo " "
+    echo "From Power Playlist: $currPlaylist"
+    echo "Downloading All Songs"
+    echo "Destination: $currLocation"
+    echo " "
+
+    # download entire playlist
+    yt-dlp -x --audio-format mp3 $currPlaylist --paths $currLocation
+else
+    echo " "
+    echo "From Power Playlist: $currPlaylist"
+    echo "Downloading Songs $2 to $3"
+    echo "Destination: $currLocation"
+    echo " "
+
+    # download the music
+    yt-dlp -x --audio-format mp3 $currPlaylist --playlist-start $2 --playlist-end $3 --paths $currLocation
+fi
+
 
 # if [ $4 == "save" ]; then
 #     echo " "
