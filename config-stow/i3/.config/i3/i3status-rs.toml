@@ -33,6 +33,16 @@ icons = "awesome5"
 # interval = 1
 
 
+[[block]]
+merge_with_next = false 
+block = "focused_window"
+format = " {$title|} "
+[block.theme_overrides] # low priority
+idle_bg = "#1a1b26"
+idle_fg = "#7aa2f7"
+# [block.format]
+# full = " $title.str(max_w:15) |"
+# short = " $title.str(max_w:10) |"
 
 
 ######################################
