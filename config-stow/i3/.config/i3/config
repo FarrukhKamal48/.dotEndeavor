@@ -412,6 +412,7 @@ set $ws10 "ssh"
 # bind program to workspace and focus to them on startup: find class names using xprop
 assign [class="unityhub"] $ws9
 assign [class="Unity"] $ws9
+assign [class="localsend_app"] $ws7
 
 for_window [class="unityhub"] floating enable; resize 960 540
 for_window [class="Unity"] floating enable; resize 960 540
