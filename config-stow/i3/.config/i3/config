@@ -308,8 +308,8 @@ bindsym $mod+Shift+q [all] kill
 
 # start apps
 bindsym $mod+space exec --no-startup-id alacritty
-bindsym $mod+g exec --no-startup-id brave
-bindsym $mod+t exec --no-startup-id brave web.whatsapp.com
+bindsym $mod+g exec --no-startup-id google-chrome-stable
+bindsym $mod+t exec --no-startup-id google-chrome-stable web.whatsapp.com
 bindsym $mod+y exec --no-startup-id localsend
 bindsym $mod+e exec --no-startup-id alacritty -e ranger 
 bindsym $mod+w exec --no-startup-id code 
