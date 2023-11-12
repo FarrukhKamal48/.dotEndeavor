@@ -230,24 +230,24 @@ idle_bg = "#7aa2f7"
 idle_fg = "#16161e"
 good_bg = "#7aa2f7"
 
-# volume
-[[block]]
-merge_with_next = true 
-block = "sound"
-format = "$icon{$volume.eng(w:2)|} "
-headphones_indicator = true
-[[block.click]]
-button = "right"
-cmd = "pavucontrol"
-[[block.click]]
-button = "down"
-action = "volume_up"
-[[block.click]]
-button = "up"
-action = "volume_down"
-[block.theme_overrides] # high priority
-idle_bg = "#7aa2f7"
-idle_fg = "#16161e"
+# # volume
+# [[block]]
+# merge_with_next = true 
+# block = "sound"
+# format = "$icon{$volume.eng(w:2)|} "
+# headphones_indicator = true
+# [[block.click]]
+# button = "right"
+# cmd = "pavucontrol"
+# [[block.click]]
+# button = "down"
+# action = "volume_up"
+# [[block.click]]
+# button = "up"
+# action = "volume_down"
+# [block.theme_overrides] # high priority
+# idle_bg = "#7aa2f7"
+# idle_fg = "#16161e"
 
 # battery
 [[block]]
