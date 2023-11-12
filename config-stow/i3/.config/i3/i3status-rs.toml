@@ -82,17 +82,17 @@ update = true
 idle_bg = "#16161e"
 
 # gpu
-[[block]]
-merge_with_next = false 
-block = "nvidia_gpu"
-format = "$icon $temperature$utilization "
-# format_alt = " $icon MEM: $vram_used_percents ($vram_used/$vram_total) "
-interval = 20
-[[block.click]]
-button = "left"
-update = true
-[block.theme_overrides] # low priority
-idle_bg = "#16161e"
+# [[block]]
+# merge_with_next = false 
+# block = "nvidia_gpu"
+# format = "$icon $temperature$utilization "
+# # format_alt = " $icon MEM: $vram_used_percents ($vram_used/$vram_total) "
+# interval = 20
+# [[block.click]]
+# button = "left"
+# update = true
+# [block.theme_overrides] # low priority
+# idle_bg = "#16161e"
 
 
 # memory
