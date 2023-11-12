@@ -5,9 +5,9 @@
 
 # See README.md for usage instructions
 bar_color="#7aa2f7"
-volume_step=1
-max_volume=150
-brightness_step=1
+volume_step=5
+max_volume=100
+brightness_step=5
 brightness_min=480
 
 # Uses regex to get volume from pactl
@@ -95,7 +95,7 @@ case $1 in
     # Increases brightness and displays the notification
     currentBrightness=$(get_brightness)
     if [ "$currentBrightness" -eq 480 ]; then
-        brightnessctl -q set 1%
+        brightnessctl -q set $brightness_step%
     else
         brightnessctl -q set $brightness_step%+ 
     fi
