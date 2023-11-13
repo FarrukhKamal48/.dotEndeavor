@@ -218,7 +218,6 @@ block = "bluetooth"
 mac = "84:AC:60:31:89:58"
 disconnected_format = "$icon "
 format = "$icon PEATS "
-interval = 10
 [block.battery_state]
 "0..20" = "critical"
 "21..22" = "warning"
