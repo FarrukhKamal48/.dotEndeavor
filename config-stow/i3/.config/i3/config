@@ -43,8 +43,8 @@ set $shutdownMessage = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n                          
 
 mode $bluetooth {
 
-    bindsym $mod+Shift+u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && bluetoothctl connect $soundPeats && pactl set-sink-volume @DEFAULT_SINK@ $peatsVolume%; mode $normal
-    bindsym $mod+Shift+i exec --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth && pactl set-sink-volume @DEFAULT_SINK@ $systemVolume%; mode $normal
+    bindsym $mod+Shift+u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && bluetoothctl connect $soundPeats; mode $normal
+    bindsym $mod+Shift+i exec --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth; mode $normal
 
     bindsym u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && bluetoothctl connect $soundPeats && pactl set-sink-volume @DEFAULT_SINK@ $peatsVolume%; mode $normal 
     bindsym i exec --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth && pactl set-sink-volume @DEFAULT_SINK@ $systemVolume%; mode $normal
@@ -309,6 +309,7 @@ bindsym $mod+Shift+q [all] kill
 # start apps
 bindsym $mod+space exec --no-startup-id alacritty
 bindsym $mod+g exec --no-startup-id google-chrome-stable
+bindsym $mod+Shift+g exec --no-startup-id google-chrome-stable --incognito
 bindsym $mod+t exec --no-startup-id google-chrome-stable web.whatsapp.com
 bindsym $mod+y exec --no-startup-id localsend
 bindsym $mod+e exec --no-startup-id alacritty -e ranger 
