@@ -496,7 +496,7 @@ exec --no-startup-id ~/.screenlayout/monitor.sh
 exec_always --no-startup-id brightnessctl -q set 480
 
 # set wallpaper
-exec_always --no-startup-id sleep 1 && feh --bg-fill "/usr/share/endeavouros/backgrounds/Solid Blue.png"
+exec_always --no-startup-id sleep 1 && feh --bg-fill "/usr/share/endeavouros/backgrounds/iceberg_pc.jpg"
 
 # set powersavings for display:
 exec_always --no-startup-id xset s 480 dpms 600 600 600
