@@ -143,15 +143,15 @@ merge_with_next = true
 block = "music"
 format = "{ $prev  $play  $next }|"
 seek_step_secs = 60
-[[block.click]]
-button = "left on $prev"
-action = "prev"
-[[block.click]]
-button = "left on $play"
-action = "play_pause"
-[[block.click]]
-button = "left on $next"
-action = "next"
+# [[block.click]]
+# button = "left on $prev"
+# action = "prev"
+# [[block.click]]
+# button = "left on $play"
+# action = "play_pause"
+# [[block.click]]
+# button = "left on $next"
+# action = "next"
 [block.theme_overrides] # mid priority
 idle_bg = "#3b4261"
 idle_fg = "#abcdef"
