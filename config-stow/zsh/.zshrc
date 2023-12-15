@@ -14,7 +14,7 @@ alias la='ls --color=auto -av'
 
 # config file locations
 conf='/home/farrukh/.dotEndeavor/config-stow/'
-raw='/home/farrukh/.dotEndeavor/config-stow/'
+raw='/home/farrukh/.dotEndeavor/raw-backup/'
 i3='/home/farrukh/.dotEndeavor/config-stow/i3/.config/i3/config'
 zsh='/home/farrukh/.dotEndeavor/config-stow/zsh/.zshrc'
 alac='/home/farrukh/.dotEndeavor/config-stow/alacritty/.config/alacritty/alacritty.yml'
