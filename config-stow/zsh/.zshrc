@@ -27,7 +27,7 @@ USE_POWERLINE="false"
 export PATH="$PATH:/bin/butler/"
 
 export TERMINAL=alacritty
-export BROWSER=brave
+export BROWSER=brave-browser-nightly=
 export EDITOR=nvim
 
 # Source manjaro-zsh-configuration
