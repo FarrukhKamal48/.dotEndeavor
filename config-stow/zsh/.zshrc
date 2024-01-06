@@ -19,6 +19,10 @@ i3='/home/farrukh/.dotEndeavor/config-stow/i3/.config/i3/config'
 zsh='/home/farrukh/.dotEndeavor/config-stow/zsh/.zshrc'
 alac='/home/farrukh/.dotEndeavor/config-stow/alacritty/.config/alacritty/alacritty.yml'
 
+# sync thing
+bus='/home/farrukh/Bus/'
+sync='/home/farrukh/Sync/'
+stash='/home/farrukh/Bus/Stash/'
 
 # Use powerline
 USE_POWERLINE="false"
