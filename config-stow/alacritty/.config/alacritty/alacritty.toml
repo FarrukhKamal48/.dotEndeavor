@@ -1,62 +1,6 @@
 live_config_reload = true
 working_directory = "/home/farrukh/"
 
-# [Otto.bright]
-# black = "#4C566A"
-# blue = "#81A1C1"
-# cyan = "#8FBCBB"
-# green = "#A3BE8C"
-# magenta = "#B48EAD"
-# red = "#BF616A"
-# white = "#ECEFF4"
-# yellow = "#EBCB8B"
-#
-# [Otto.cursor]
-# cursor = "#00CACA"
-# text = "#000000"
-#
-# [Otto.normal]
-# black = "#156BDC"
-# blue = "#F77067"
-# cyan = "#88C0D0"
-# green = "#2AACAA"
-# magenta = "#B48EAD"
-# red = "#F22C57"
-# white = "#E5E9F0"
-# yellow = "#EBCB8B"
-#
-# [Otto.primary]
-# background = "#1A1B26"
-# foreground = "#D8DEE9"
-#
-# [TokyoNight.bright]
-# black = "#4E5173"
-# blue = "#61afef"
-# cyan = "#56B6C2"
-# green = "#d19a66"
-# magenta = "#c678dd"
-# red = "#e06c75"
-# white = "#ABB2BF"
-# yellow = "#98c379"
-#
-# [TokyoNight.cursor]
-# cursor = "#00CACA"
-# text = "#000000"
-#
-# [TokyoNight.normal]
-# black = "#156BDC"
-# blue = "#7AA2F7"
-# cyan = "#4ABAAF"
-# green = "#2AACAA"
-# magenta = "#9A7ECC"
-# red = "#F7768E"
-# white = "#ACB0D0"
-# yellow = "#E0AF68"
-#
-# [TokyoNight.primary]
-# background = "#1A1B26"
-# foreground = "#D8DEE9"
-
 [colors.bright]
 black = "#4C566A"
 blue = "#81A1C1"

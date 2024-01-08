@@ -46,7 +46,7 @@ mode $bluetooth {
     bindsym $mod+Shift+u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && bluetoothctl connect $soundPeats; mode $normal
     bindsym $mod+Shift+i exec --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth; mode $normal
 
-    bindsym u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && bluetoothctl connect $soundPeats && pactl set-sink-volume @DEFAULT_SINK@ $peatsVolume%; mode $normal 
+    bindsym u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && bluetoothctl connect $soundPeats; mode $normal 
     bindsym i exec --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth && pactl set-sink-volume @DEFAULT_SINK@ $systemVolume%; mode $normal
 
     bindsym h exec --no-startup-id $scripts/setAudioSink $sink_soundPeats; mode $normal
@@ -65,12 +65,12 @@ mode $wifi {
     bindsym i exec --no-startup-id nmcli radio wifi on; mode $normal
 
     # choose network
-    bindsym j exec --no-startup-id alacritty -e nmtui; mode $normal
-    bindsym $mod+Shift+j exec --no-startup-id alacritty -e nmtui; mode $normal
+    bindsym j exec --no-startup-id kitty -e nmtui; mode $normal
+    bindsym $mod+Shift+j exec --no-startup-id kitty -e nmtui; mode $normal
 
     # protonvpn connect
-    bindsym k exec --no-startup-id alacritty -e protonvpn-cli c; mode $normal
-    bindsym $mod+Shift+k exec --no-startup-id alacritty -e protonvpn-cli c; mode $normal
+    bindsym k exec --no-startup-id kitty -e protonvpn-cli c; mode $normal
+    bindsym $mod+Shift+k exec --no-startup-id kitty -e protonvpn-cli c; mode $normal
     # protonvpn disconnect
     bindsym l exec --no-startup-id protonvpn-cli d; mode $normal
     bindsym $mod+Shift+l exec --no-startup-id protonvpn-cli d; mode $normal
@@ -307,12 +307,12 @@ bindsym $mod+Shift+q [all] kill
 # bindsym $mod+Shift+a focus parent,kill
 
 # start apps
-bindsym $mod+space exec --no-startup-id alacritty
+bindsym $mod+space exec --no-startup-id kitty
 bindsym $mod+g exec --no-startup-id brave-browser-nightly
 bindsym $mod+Shift+g exec --no-startup-id brave-browser-nightly --incognito
 bindsym $mod+t exec --no-startup-id brave-browser-nightly web.whatsapp.com
 bindsym $mod+y exec --no-startup-id localsend
-bindsym $mod+e exec --no-startup-id alacritty -e ranger 
+bindsym $mod+e exec --no-startup-id kitty -e ranger 
 bindsym $mod+w exec --no-startup-id code 
 bindsym $mod+Shift+equal exec --no-startup-id $scripts/colorpicker
 
@@ -525,13 +525,13 @@ exec_always --no-startup-id nmcli radio wifi off
 exec_always --no-startup-id powerprofilesctl set balanced
 
 # shutdown timer
-exec_always --no-startup-id alacritty -e zsh -c 'shutdown -P 20:30'
+exec_always --no-startup-id kitty -e zsh -c 'shutdown -P 20:30'
 
 # set default mode
 # exec_always mode $normal
 
 # default apps
-set $wm_setting_app_terminal         alacritty
+set $wm_setting_app_terminal         kitty
 set $wm_setting_app_browser          brave-browser-nightly 
 
 # disable power saving (for example if using xscreensaver)
