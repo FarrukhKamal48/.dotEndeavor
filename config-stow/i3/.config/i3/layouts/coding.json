@@ -10,13 +10,10 @@
     },
     "marks": [],
     "name": "farrukh@farrukh-cyborg15:~",
-    "percent": 0.8,
+    "percent": 0.75,
     "swallows": [
        {
-        "class": "^kitty$",
-        "instance": "^kitty$",
-        "machine": "^farrukh\\-cyborg15$",
-        "title": "^farrukh\\@farrukh\\-cyborg15\\:\\~$"
+        "class": "^kitty$"
        }
     ],
     "type": "con"
@@ -34,13 +31,10 @@
     },
     "marks": [],
     "name": "farrukh@farrukh-cyborg15:~",
-    "percent": 0.3,
+    "percent": 0.25,
     "swallows": [
        {
-        "class": "^kitty$",
-        "instance": "^kitty$",
-        "machine": "^farrukh\\-cyborg15$",
-        "title": "^farrukh\\@farrukh\\-cyborg15\\:\\~$"
+        "class": "^kitty$"
        }
     ],
     "type": "con"
