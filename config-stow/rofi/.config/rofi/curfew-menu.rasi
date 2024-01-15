@@ -17,7 +17,7 @@ window {
     border:           2;
     padding:          5;
     transparency:     "real";
-    width:            75px;
+    width:            85px;
     location:         east;
     /*y-offset:       18;*/
     /*x-offset:       850;*/

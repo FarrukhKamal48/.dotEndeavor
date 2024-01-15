@@ -114,12 +114,12 @@ typeset -A menu
 # Menu with keys/commands
 
 menu=(
-  [ Shutdown]=" protonvpn-cli d && systemctl poweroff"
-  [ Reboot]=" protonvpn-cli d && systemctl reboot"
-  [ Suspend]="systemctl suspend"
-  [ Hibernate]=" protonvpn-cli d && systemctl hibernate"
-  [ Lock]="~/.config/i3/scripts/blur-lock"
-  [ Logout]="i3-msg exit"
+  [[1] Shutdown]=" protonvpn-cli d && systemctl poweroff"
+  [[2] Reboot]=" protonvpn-cli d && systemctl reboot"
+  [[3] Lock]="~/.config/i3/scripts/blur-lock"
+  [[4] Suspend]="systemctl suspend"
+  [[5] Logout]="i3-msg exit"
+  [[6] Hibernate]=" protonvpn-cli d && systemctl hibernate"
 )
 
 menu_nrows=${#menu[@]}

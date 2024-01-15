@@ -11,7 +11,7 @@ BORDER_COLOR="#222222"
 # ROFI_TEXT=":"
 #ROFI_OPTIONS=(-width -11 -location 0 -hide-scrollbar -bw 30 -color-window "#dd310027,#dd0310027,#dd310027" -padding 5)
 #ROFI_OPTIONS=(-width -18 -location 4 -hide-scrollbar -color-window "#cc310027,#00a0009a,#cc310027" -padding 5 -font "Sourcecode Pro Regular 10, FontAwesome 9")
-ROFI_OPTIONS=(-theme ~/.config/rofi/curfew-menu.rasi)
+ROFI_OPTIONS=(-theme ~/.config/rofi/layout-menu.rasi)
 # Zenity options
 ZENITY_TITLE="Power Profiles"
 ZENITY_TEXT="Set Profiles:"
@@ -88,8 +88,9 @@ typeset -A menu
 layouts=/home/farrukh/.dotEndeavor/config-stow/i3/.config/i3/layouts
 
 menu=(
-  [stash]="i3-msg append_layout $layouts/stash.json & kitty sh -c 'nvim /home/farrukh/Bus/Stash/links.md' & brave-browser-nightly --incognito & brave-browser-nightly --incognito" 
-  [code]="i3-msg append_layout $layouts/nvim-coding.json & kitty & kitty" 
+    [[1] code]="i3-msg append_layout $layouts/coding.json & kitty ~/Dev & kitty" 
+    [[2] term]="i3-msg append_layout $layouts/terminal.json & kitty" 
+    [[3] stash]="i3-msg append_layout $layouts/stash.json & kitty nvim ~/Bus/Stash/links.md & brave-browser-nightly --incognito & brave-browser-nightly --incognito" 
 )
 
 menu_nrows=${#menu[@]}

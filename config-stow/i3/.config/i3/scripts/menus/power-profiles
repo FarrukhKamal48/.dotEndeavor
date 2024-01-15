@@ -121,9 +121,9 @@ typeset -A menu
 
 menu=(
   # [ Cancel]=""
-  [  Auto]="echo '890' | sudo -S auto-cpufreq --force=reset"
-  [  Performance]="echo '890' | sudo -S auto-cpufreq --force=performance"
-  [  Power Saver]="echo '890' | sudo -S auto-cpufreq --force=powersave"
+  [[1] Auto]="echo '890' | sudo -S auto-cpufreq --force=reset"
+  [[2] Turbo]="echo '890' | sudo -S auto-cpufreq --force=performance"
+  [[3] Saver]="echo '890' | sudo -S auto-cpufreq --force=powersave"
 )
 
 menu_nrows=${#menu[@]}
