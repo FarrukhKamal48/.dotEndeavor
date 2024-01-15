@@ -1,0 +1,79 @@
+{
+    "border": "pixel",
+    "current_border_width": 1,
+    "floating": "auto_off",
+    "geometry": {
+       "height": 1056,
+       "width": 1920,
+       "x": 0,
+       "y": 0
+    },
+    "marks": [],
+    "name": "nvim ",
+    "percent": 0.5,
+    "swallows": [
+       {
+        "class": "^kitty$",
+        "instance": "^kitty$"
+       }
+    ],
+    "type": "con"
+}
+
+{
+    "border": "pixel",
+    "floating": "auto_off",
+    "layout": "splitv",
+    "marks": [],
+    "percent": 0.5,
+    "type": "con",
+    "nodes": [
+        {
+            "border": "pixel",
+            "current_border_width": 1,
+            "floating": "auto_off",
+            "geometry": {
+               "height": 1056,
+               "width": 1920,
+               "x": 0,
+               "y": 0
+            },
+            "marks": [],
+            "name": "New Private Tab - Brave",
+            "percent": 0.5,
+            "swallows": [
+               {
+                "class": "^Brave\\-browser\\-nightly$",
+                "instance": "^brave\\-browser\\-nightly$",
+                "title": "^New\\ Private\\ Tab\\ \\-\\ Brave$",
+                "window_role": "^browser$"
+               }
+            ],
+            "type": "con"
+        },
+        {
+            "border": "pixel",
+            "current_border_width": 1,
+            "floating": "auto_off",
+            "geometry": {
+               "height": 1054,
+               "width": 958,
+               "x": 971,
+               "y": 11
+            },
+            "marks": [],
+            "name": "New Private Tab - Brave",
+            "percent": 0.5,
+            "swallows": [
+               {
+                "class": "^Brave\\-browser\\-nightly$",
+                "instance": "^brave\\-browser\\-nightly$",
+                "title": "^New\\ Private\\ Tab\\ \\-\\ Brave$",
+                "window_role": "^browser$"
+               }
+            ],
+            "type": "con"
+        }
+    ]
+}
+
