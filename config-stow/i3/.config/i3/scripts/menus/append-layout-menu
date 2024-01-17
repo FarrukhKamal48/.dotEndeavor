@@ -85,12 +85,15 @@ typeset -A menu
 
 # Menu with keys/commands
 
+conf=/home/farrukh/.dotEndeavor/
 layouts=/home/farrukh/.dotEndeavor/config-stow/i3/.config/i3/layouts
 
 menu=(
-    [[1] code]="i3-msg append_layout $layouts/coding.json & kitty ~/Dev & kitty" 
+    [[1] code]="i3-msg append_layout $layouts/coding.json & kitty ~/Dev/ & kitty ~/Dev/" 
     [[2] term]="i3-msg append_layout $layouts/terminal.json & kitty" 
-    [[3] stash]="i3-msg append_layout $layouts/stash.json & kitty nvim ~/Bus/Stash/links.md & brave-browser-nightly --incognito & brave-browser-nightly --incognito" 
+    [[3] conf]="i3-msg append_layout $layouts/conf.json & kitty nvim $conf & kitty $conf" 
+    [[4] watch]="i3-msg append_layout $layouts/watch.json & brave-browser-nightly https://www.youtube.com/" 
+    [[5] stash]="i3-msg append_layout $layouts/stash.json & kitty nvim ~/Bus/Stash/links.md & brave-browser-nightly --incognito & brave-browser-nightly --incognito" 
 )
 
 menu_nrows=${#menu[@]}

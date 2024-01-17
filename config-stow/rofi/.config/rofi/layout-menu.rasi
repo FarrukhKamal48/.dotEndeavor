@@ -23,7 +23,7 @@ window {
     /*x-offset:       850;*/
 }
 listview {
-    lines:   3;
+    lines:   4;
     columns: 1;
 }
 element {
