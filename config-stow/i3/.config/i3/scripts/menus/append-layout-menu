@@ -99,7 +99,7 @@ menu=(
 menu_nrows=${#menu[@]}
 
 # Menu entries that may trigger a confirmation message
-menu_confirm="NONE 9:00"
+menu_confirm=""
 
 launcher_exe=""
 launcher_options=""

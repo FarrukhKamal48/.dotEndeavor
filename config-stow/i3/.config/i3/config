@@ -65,12 +65,12 @@ mode $wifi {
     bindsym i exec --no-startup-id nmcli radio wifi on; mode $normal
 
     # choose network
-    bindsym j exec --no-startup-id kitty -e nmtui; mode $normal
-    bindsym $mod+Shift+j exec --no-startup-id kitty -e nmtui; mode $normal
+    bindsym j exec --no-startup-id kitty nmtui; mode $normal
+    bindsym $mod+Shift+j exec --no-startup-id kitty nmtui; mode $normal
 
     # protonvpn connect
-    bindsym k exec --no-startup-id kitty -e protonvpn-cli c; mode $normal
-    bindsym $mod+Shift+k exec --no-startup-id kitty -e protonvpn-cli c; mode $normal
+    bindsym k exec --no-startup-id kitty protonvpn-cli c; mode $normal
+    bindsym $mod+Shift+k exec --no-startup-id kitty protonvpn-cli c; mode $normal
     # protonvpn disconnect
     bindsym l exec --no-startup-id protonvpn-cli d; mode $normal
     bindsym $mod+Shift+l exec --no-startup-id protonvpn-cli d; mode $normal
@@ -312,7 +312,7 @@ bindsym $mod+g exec --no-startup-id brave-browser-nightly
 bindsym $mod+Shift+g exec --no-startup-id brave-browser-nightly --incognito
 bindsym $mod+t exec --no-startup-id brave-browser-nightly web.whatsapp.com
 bindsym $mod+y exec --no-startup-id localsend
-bindsym $mod+e exec --no-startup-id kitty -e ranger 
+bindsym $mod+e exec --no-startup-id kitty ranger 
 bindsym $mod+w exec --no-startup-id code 
 bindsym $mod+Shift+equal exec --no-startup-id $scripts/tools/colorpicker
 
@@ -527,7 +527,7 @@ exec_always --no-startup-id nmcli radio wifi off
 exec_always --no-startup-id powerprofilesctl set balanced
 
 # shutdown timer
-exec_always --no-startup-id kitty -e zsh -c 'shutdown -P 20:30'
+exec_always --no-startup-id kitty zsh -c 'shutdown -P 17:30 & shutdown -P 18:00 & shutdown -P 20:30 & shutdown -P 21:00' 
 
 # set default mode
 # exec_always mode $normal

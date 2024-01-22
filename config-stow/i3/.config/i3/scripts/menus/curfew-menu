@@ -90,15 +90,18 @@ typeset -A menu
 # Menu with keys/commands
 
 menu=(
-  [[1] off]="alacritty -e zsh -c 'shutdown -c && sleep 1'" 
-  [[2] 8:30]="alacritty -e zsh -c 'shutdown -c && shutdown -P 20:30 && sleep 1'"
-  [[3] 9:00]="alacritty -e zsh -c 'shutdown -c && shutdown -P 21:00 && sleep 1'"
+    [[0] ON]="kitty zsh -c 'shutdown -P 17:30 & shutdown -P 18:00 & shutdown -P 20:30 & shutdown -P 21:00 & echo \[All Curfews ON\] & sleep 1'"
+    [[1] OFF]="kitty zsh -c 'shutdown -c & echo \[All Curfews OFF\] & sleep 1'" 
+    [[2] 5:30]="kitty zsh -c 'shutdown -P 17:30 && sleep 1'"
+    [[3] 6:00]="kitty zsh -c 'shutdown -P 18:00 && sleep 1'"
+    [[4] 8:30]="kitty zsh -c 'shutdown -P 20:30 && sleep 1'"
+    [[5] 9:00]="kitty zsh -c 'shutdown -P 21:00 && sleep 1'"
 )
 
 menu_nrows=${#menu[@]}
 
 # Menu entries that may trigger a confirmation message
-menu_confirm="NONE 9:00"
+menu_confirm="OFF"
 
 launcher_exe=""
 launcher_options=""
