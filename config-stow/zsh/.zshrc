@@ -11,18 +11,22 @@ alias ll='ls -lav -al'
 alias l='ls -lav --ignore=.?*'
 alias la='ls --color=auto -av'
 
+alias yay='yay --noconfirm'
+
+home='/home/farrukh/'
 
 # config file locations
-conf='/home/farrukh/.dotEndeavor/config-stow/'
-raw='/home/farrukh/.dotEndeavor/raw-backup/'
-i3='/home/farrukh/.dotEndeavor/config-stow/i3/.config/i3/config'
-zsh='/home/farrukh/.dotEndeavor/config-stow/zsh/.zshrc'
-alac='/home/farrukh/.dotEndeavor/config-stow/alacritty/.config/alacritty/alacritty.toml'
+nvim=$home'/.config/nvim/init.lua'
+conf=$home'/.dotEndeavor/config-stow/'
+raw=$home'/.dotEndeavor/raw-backup/'
+i3=$conf'/i3/.config/i3/config'
+zsh=$conf'/zsh/.zshrc'
+kitt=$conf'/kitty/.config/kitty/kitty.conf'
 
 # sync thing
-bus='/home/farrukh/Bus/'
-sync='/home/farrukh/Sync/'
-stash='/home/farrukh/Bus/Stash/'
+bus=$home'/Bus/'
+sync=$home'/Sync/'
+stash=$bus'/Stash/'
 
 # Use powerline
 USE_POWERLINE="false"
@@ -30,7 +34,7 @@ USE_POWERLINE="false"
 # export FrameworkPathOverride="/usr/lib/mono/4.8-api/"
 export PATH="$PATH:/bin/butler/"
 
-export TERMINAL=alacritty
+export TERMINAL=kitty
 export BROWSER=brave-browser-nightly=
 export EDITOR=nvim
 
