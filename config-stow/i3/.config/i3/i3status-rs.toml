@@ -255,16 +255,16 @@ merge_with_next = false
 block = "battery"
 
 # not full and unpluged format
-format = " $icon {$percentage} "
+format = " $icon {$percentage} {$time} "
 
 # full battery format
-full_format = "$icon {$percentage|} "
+full_format = "$icon {$percentage|} {$time} "
 # not full and pluged in format
 charging_format = "$icon {$percentage|} "
 # empty and not plugged in format
-empty_format = "$icon {$percentage|} "
+empty_format = "$icon {$percentage|} {$time} "
 # when full battery has reached
-not_charging_format = "$icon {$percentage|} "
+not_charging_format = "$icon {$percentage|} {$time} "
 
 full_threshold = 80
 empty_threshold = 60
