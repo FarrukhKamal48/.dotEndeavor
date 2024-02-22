@@ -45,9 +45,11 @@ mode $bluetooth {
 
     bindsym $mod+Shift+u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && bluetoothctl connect $soundPeats; mode $normal
     bindsym $mod+Shift+i exec --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth; mode $normal
+    bindsym $mod+Shift+b exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && blueman-manager; mode $normal
 
     bindsym u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && bluetoothctl connect $soundPeats; mode $normal 
     bindsym i exec --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth && pactl set-sink-volume @DEFAULT_SINK@ $systemVolume%; mode $normal
+    bindsym b exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && blueman-manager; mode $normal
 
     bindsym h exec --no-startup-id $scripts/tools/setAudioSink $sink_soundPeats; mode $normal
     bindsym l exec --no-startup-id $scripts/tools/setAudioSink $sink_system; mode $normal
@@ -254,11 +256,11 @@ bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
-# swap focused window with the one in direction
-bindsym ctrl+Shift+h exec --no-startup-id $scripts/tools/window-tool swap left
-bindsym ctrl+Shift+j exec --no-startup-id $scripts/tools/window-tool swap down
-bindsym ctrl+Shift+k exec --no-startup-id $scripts/tools/window-tool swap up
-bindsym ctrl+Shift+l exec --no-startup-id $scripts/tools/window-tool swap right
+# # swap focused window with the one in direction
+# bindsym ctrl+Shift+h exec --no-startup-id $scripts/tools/window-tool swap left
+# bindsym ctrl+Shift+j exec --no-startup-id $scripts/tools/window-tool swap down
+# bindsym ctrl+Shift+k exec --no-startup-id $scripts/tools/window-tool swap up
+# bindsym ctrl+Shift+l exec --no-startup-id $scripts/tools/window-tool swap right
 
 # focus the parent container
 bindsym $mod+u focus parent
@@ -527,7 +529,10 @@ exec_always --no-startup-id nmcli radio wifi off
 exec_always --no-startup-id powerprofilesctl set balanced
 
 # shutdown timer
-exec_always --no-startup-id kitty zsh -c 'shutdown -P 17:30 & shutdown -P 18:00 & shutdown -P 20:30 & shutdown -P 21:00' 
+exec_always --no-startup-id kitty shutdown -P 17:30
+# exec_always --no-startup-id kitty shutdown -P 18:00 
+# exec_always --no-startup-id kitty shutdown -P 20:30 
+# exec_always --no-startup-id kitty shutdown -P 21:00
 
 # set default mode
 # exec_always mode $normal
