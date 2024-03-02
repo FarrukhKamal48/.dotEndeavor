@@ -419,9 +419,10 @@ assign [class="unityhub"] $ws9
 assign [class="Unity"] $ws9
 assign [class="Localsend_app"] $ws7
 
-for_window [class="unityhub"] floating enable; resize 960 540
-for_window [class="Unity"] floating enable; resize 960 540
+for_window [class="unityhub"] floating enable; resize set 960 540
+for_window [class="Unity"] floating enable; resize set 960 540
 
+# for_window [title="nmtui"] floating enable; resize set 960 540
 for_window [class="Yad" instance="yad"] floating enable
 for_window [class="Galculator" instance="galculator"] floating enable
 for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
