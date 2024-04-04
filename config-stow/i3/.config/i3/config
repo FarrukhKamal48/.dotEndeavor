@@ -508,7 +508,7 @@ exec_always --no-startup-id xset r rate 200 50
 # set natural scroll
 exec_always --no-startup-id xinput set-prop 12 309 1 
 # set scroll speed (to 50)
-exec_always --no-startup-id xinput set-prop 12 361 10
+# exec_always --no-startup-id xinput set-prop 14 361 10
 
 # set display refresh rate
 exec_always --no-startup-id xrandr --output eDP-1 --mode 1920x1080 --refresh 60.32
