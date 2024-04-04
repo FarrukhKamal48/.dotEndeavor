@@ -11,8 +11,6 @@ alias ll='ls -lav -al'
 alias l='ls -lav --ignore=.?*'
 alias la='ls --color=auto -av'
 
-alias yay='yay --noconfirm'
-
 home='/home/farrukh/'
 
 # config file locations
