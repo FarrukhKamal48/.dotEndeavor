@@ -11,6 +11,8 @@ alias ll='ls -lav -al'
 alias l='ls -lav --ignore=.?*'
 alias la='ls --color=auto -av'
 
+# snake=(for file in *; do mv "$file" "$(echo $file | tr '_' ' ')" ; done)
+
 home='/home/farrukh/'
 
 # config file locations
