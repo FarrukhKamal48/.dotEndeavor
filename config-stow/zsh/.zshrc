@@ -28,6 +28,8 @@ bus=$home'/Bus/'
 sync=$home'/Sync/'
 stash=$bus'/Stash/'
 
+eval "$(zoxide init zsh)"
+
 # Use powerline
 USE_POWERLINE="false"
 
