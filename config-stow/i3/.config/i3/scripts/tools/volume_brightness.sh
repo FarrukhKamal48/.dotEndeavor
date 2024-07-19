@@ -6,7 +6,7 @@
 # See README.md for usage instructions
 bar_color="#7aa2f7"
 volume_step=5
-max_volume=100
+max_volume=150
 brightness_step=5
 brightness_min=480
 
