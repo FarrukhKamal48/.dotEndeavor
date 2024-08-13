@@ -517,7 +517,7 @@ exec_always --no-startup-id xrandr --output eDP-1 --mode 1920x1080 --refresh 60.
 exec_always --no-startup-id copyq && copyq hide
 
 # disable internet
-exec_always --no-startup-id nmcli radio wifi off
+exec_always --no-startup-id nmcli radio wifi on
 # diable bluetooth
 # exec_always --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth && pactl set-sink-volume @DEFAULT_SINK@ $systemVolume%
 
