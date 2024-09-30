@@ -28,6 +28,8 @@ display_quality = true
 # test = "test.DEFAULT"
 [mov-cli.plugins]
 films = "film-central"
+youtube = "mov-cli-youtube"
+anime = "otaku-watcher"
 
 [mov-cli.scrapers]
 vid1 = "films.vidsrcto"
