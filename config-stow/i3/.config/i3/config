@@ -532,7 +532,7 @@ exec_always --no-startup-id kitty shutdown -P 17:30
 # exec_always --no-startup-id kitty shutdown -P 20:30 
 # exec_always --no-startup-id kitty shutdown -P 21:00
 
-exec_always --no-startup-id kitty $scripts/tools/OpenPowerTop.sh 
+exec_always --no-startup-id kitty $scripts/tools/TunePowerTop.sh 
 
 # set default mode
 # exec_always mode $normal
