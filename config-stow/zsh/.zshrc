@@ -61,3 +61,6 @@ fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/farrukh/.lmstudio/bin"
