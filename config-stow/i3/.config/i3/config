@@ -196,7 +196,7 @@ bindsym $mod+Shift+a move container to workspace prev; workspace prev
 
 # # switch/iterate between workspaces
 bindsym $mod+Tab exec --no-startup-id $scripts/tools/workspace_tool.sh next
-bindsym $mod+Shift+Tab exec --no-startup-id $scripts/tools/workspace_tool.sh prev
+# bindsym $mod+Shift+Tab exec --no-startup-id $scripts/tools/workspace_tool.sh prev
 
 
 # switch to workspace
@@ -228,7 +228,7 @@ bindsym $mod+Shift+8  move container to workspace  $ws8; workspace $ws8
 bindsym $mod+Shift+9  move container to workspace  $ws9; workspace $ws9   
 bindsym $mod+Shift+0  move container to workspace  $ws10; workspace $ws10 
 
-bindsym $mod+Shift+w mode $winSendTo
+# bindsym $mod+Shift+w mode $winSendTo
 
 
 ######################################
@@ -312,6 +312,8 @@ bindsym $mod+y exec --no-startup-id localsend
 bindsym $mod+e exec --no-startup-id kitty ranger 
 bindsym $mod+w exec --no-startup-id code 
 bindsym $mod+Shift+equal exec --no-startup-id $scripts/tools/colorpicker
+bindsym $mod+Shift+w exec --no-startup-id maim -k -u --quality 10 --select --format jpg /dev/stdout | copyq write image/jpg -
+bindsym $mod+Shift+Tab exec --no-startup-id maim -u --quality 10 --select "/home/$USER/Downloads/Clip/tesseract" && tesseract "/home/$USER/Downloads/Clip/tesseract" stdout | copyq write -
 
 # Open copyq context menu
 bindsym $alt+c exec --no-startup-id copyq menu
