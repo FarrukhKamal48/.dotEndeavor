@@ -39,7 +39,7 @@ USE_POWERLINE="false"
 export PATH="$PATH:/bin/butler/"
 
 export TERMINAL=kitty
-export BROWSER=brave-browser-nightly=
+export BROWSER=google-chrome-stable=
 export EDITOR=nvim
 
 # zsh fuszzy search
