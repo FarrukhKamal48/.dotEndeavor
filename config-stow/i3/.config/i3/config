@@ -305,9 +305,9 @@ bindsym $mod+Shift+q [all] kill
 
 # start apps
 bindsym $mod+space exec --no-startup-id kitty
-bindsym $mod+g exec --no-startup-id brave-browser-nightly
-bindsym $mod+Shift+g exec --no-startup-id brave-browser-nightly --incognito
-bindsym $mod+t exec --no-startup-id brave-browser-nightly web.whatsapp.com
+bindsym $mod+g exec --no-startup-id google-chrome-stable
+bindsym $mod+Shift+g exec --no-startup-id google-chrome-stable --incognito
+bindsym $mod+t exec --no-startup-id google-chrome-stable web.whatsapp.com
 bindsym $mod+y exec --no-startup-id localsend
 bindsym $mod+e exec --no-startup-id kitty ranger 
 bindsym $mod+w exec --no-startup-id code 
@@ -541,7 +541,7 @@ exec_always --no-startup-id kitty $scripts/tools/TunePowerTop.sh
 
 # default apps
 set $wm_setting_app_terminal         kitty
-set $wm_setting_app_browser          brave-browser-nightly 
+set $wm_setting_app_browser          google-chrome-stable 
 
 # disable power saving (for example if using xscreensaver)
 #exec --no-startup-id xset -dpms
