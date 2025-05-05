@@ -14,7 +14,7 @@ configuration {
 
     kb-row-down:         "Alt+j";
     kb-row-up:           "Alt+k";
-    kb-accept-entry:     "Alt+l";
+    kb-accept-entry:     "Return";
 }
 
 @import "~/.config/rofi/arc_dark_transparent_colors.rasi"
