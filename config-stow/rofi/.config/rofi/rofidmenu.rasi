@@ -11,6 +11,10 @@ configuration {
     scroll-method:       0;
     disable-history:     false;
     sidebar-mode:        false;
+
+    kb-row-down:         "Alt+j";
+    kb-row-up:           "Alt+k";
+    kb-accept-entry:     "Alt+l";
 }
 
 @import "~/.config/rofi/arc_dark_transparent_colors.rasi"
