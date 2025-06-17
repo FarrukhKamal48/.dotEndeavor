@@ -538,7 +538,7 @@ exec_always --no-startup-id powerprofilesctl set balanced
 # exec_always --no-startup-id $terminal -e shutdown -P 20:30 
 # exec_always --no-startup-id $terminal -e shutdown -P 21:00
 
-exec_always --no-startup-id $terminal -e $scripts/tools/TunePowerTop.sh 
+exec --no-startup-id $terminal -e $scripts/tools/TunePowerTop.sh 
 
 # set default mode
 # exec_always mode $normal
