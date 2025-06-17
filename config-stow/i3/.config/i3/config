@@ -14,35 +14,16 @@ set $alt Mod1
 set $normal "default"
 set $bluetooth ":Blutooth"
 set $wifi ":Wifi"
+set $reshape ":ReShape"
 set $winSendTo ":Workspace Send"
-set $resize ":Resize"
-set $brightness ":Brightness"
-set $volume ":Volume"
-set $power_profiles ":Power Profiles"
-
-# program placeholders
-set $terminal alacritty
 
 # scripts
 set $scripts ~/.dotEndeavor/config-stow/i3/.config/i3/scripts
 
-# resize variables
-set $winResizeSpeed 20px
-set $winMoveSpeed 20px
 
-# sound variables  run: pactl list short sinks  to see all the sinks
-set $soundPeats 84:AC:60:31:89:58
-set $sink_system alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp__sink 
-set $sink_soundPeats bluez_output.84_AC_60_31_89_58.1 
-
-set $peatsVolume 50
-set $systemVolume 100
-
-set $shutdownMessage = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n                                                                             ShutDown at 8:30 pm" 
-
-######################################
-# *Neovim style---------------------------------------------------------------------------------------------------------------------------------------
-######################################
+####################################################################################################################################################################################################################################
+# Modes ############################################################################################################################################################################################################################
+####################################################################################################################################################################################################################################
 
 
 mode $bluetooth {
@@ -62,7 +43,9 @@ mode $bluetooth {
 
     bindsym Return mode $normal
     bindsym Escape mode $normal
+    
 }
+bindsym $mod+Shift+u mode $bluetooth
 
 mode $wifi {
 
@@ -78,7 +61,37 @@ mode $wifi {
 
     bindsym Return mode $normal
     bindsym Escape mode $normal
+    
 }
+bindsym $mod+Shift+i mode $wifi
+
+
+# resize variables
+set $winResizeSpeed 20px
+set $winMoveSpeed 20px
+
+mode $reshape {
+
+    bindsym h; exec --no-startup-id xset r rate 100 50; resize shrink width $winResizeSpeed 
+    bindsym j; exec --no-startup-id xset r rate 100 50; resize grow height $winResizeSpeed 
+    bindsym k; exec --no-startup-id xset r rate 100 50; resize shrink height $winResizeSpeed 
+    bindsym l; exec --no-startup-id xset r rate 100 50; resize grow width $winResizeSpeed
+
+    bindsym Shift+h move left $winMoveSpeed
+    bindsym Shift+j move down $winMoveSpeed
+    bindsym Shift+k move up $winMoveSpeed 
+    bindsym Shift+l move right $winMoveSpeed 
+
+    # orientaion
+    bindsym r exec --no-startup-id $scripts/tools/rotate.sh
+    bindsym $mod+r exec --no-startup-id $scripts/tools/rotate.sh
+
+    bindsym Return; exec --no-startup-id xset r rate 200 50; mode $normal
+    bindsym Escape; exec --no-startup-id xset r rate 200 50; mode $normal
+    
+}
+bindsym $mod+r mode $reshape
+
 
 mode $winSendTo {
 
@@ -100,76 +113,15 @@ mode $winSendTo {
 
     bindsym Return mode $normal
     bindsym Escape mode $normal
-}
-
-mode $resize {
-
-    bindsym h; exec --no-startup-id xset r rate 100 50; resize shrink width $winResizeSpeed 
-    bindsym j; exec --no-startup-id xset r rate 100 50; resize grow height $winResizeSpeed 
-    bindsym k; exec --no-startup-id xset r rate 100 50; resize shrink height $winResizeSpeed 
-    bindsym l; exec --no-startup-id xset r rate 100 50; resize grow width $winResizeSpeed
-
-    bindsym Shift+h move left $winMoveSpeed
-    bindsym Shift+j move down $winMoveSpeed
-    bindsym Shift+k move up $winMoveSpeed 
-    bindsym Shift+l move right $winMoveSpeed 
-
-    # orientaion
-    bindsym r exec --no-startup-id $scripts/tools/rotate.sh
-    bindsym $mod+r exec --no-startup-id $scripts/tools/rotate.sh
     
-    bindsym Return; exec --no-startup-id xset r rate 200 50; mode $normal
-    bindsym Escape; exec --no-startup-id xset r rate 200 50; mode $normal
 }
-
-mode $brightness {
-    bindsym a exec --no-startup-id brightnessctl -q set 5%; exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_notif  
-    bindsym s exec --no-startup-id brightnessctl -q set 25%; exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_notif  
-    bindsym d exec --no-startup-id brightnessctl -q set 50%; exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_notif  
-    bindsym f exec --no-startup-id brightnessctl -q set 75%; exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_notif  
-    bindsym g exec --no-startup-id brightnessctl -q set 100%; exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_notif;
- 
-    bindsym j exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_down
-    bindsym k exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_up
-
-    bindsym Return mode $normal
-    bindsym Escape mode $normal
-}
-
-mode $volume {
-    bindsym a exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ 20%; exec --no-startup-id $scripts/tools/volume_brightness.sh volume_notif 
-    bindsym s exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ 40%; exec --no-startup-id $scripts/tools/volume_brightness.sh volume_notif 
-    bindsym d exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ 50%; exec --no-startup-id $scripts/tools/volume_brightness.sh volume_notif 
-    bindsym f exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ 60%; exec --no-startup-id $scripts/tools/volume_brightness.sh volume_notif 
-    bindsym g exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ 100%; exec --no-startup-id $scripts/tools/volume_brightness.sh volume_notif 
- 
-    bindsym j exec --no-startup-id $scripts/tools/volume_brightness.sh volume_down
-    bindsym k exec --no-startup-id $scripts/tools/volume_brightness.sh volume_up
-
-    bindsym h exec --no-startup-id $scripts/tools/setAudioSink $sink_soundPeats; mode $normal
-    bindsym l exec --no-startup-id $scripts/tools/setAudioSink $sink_system; mode $normal
-
-    bindsym Return mode $normal
-    bindsym Escape mode $normal
-}
+# bindsym $mod+Shift+w mode $winSendTo
 
 
-mode $power_profiles {
-    bindsym p exec --no-startup-id echo "631225" | sudo -S auto-cpufreq --force=reset; mode $normal
-    bindsym o exec --no-startup-id echo "631225" | sudo -S auto-cpufreq --force=powersave; mode $normal
-    bindsym i exec --no-startup-id echo "631225" | sudo -S auto-cpufreq --force=performance; mode $normal
+####################################################################################################################################################################################################################################
+# extra options for windows ########################################################################################################################################################################################################
+####################################################################################################################################################################################################################################
 
-    bindsym $mod+Shift+p exec --no-startup-id echo "631225" | sudo -S auto-cpufreq --force=reset; mode $normal
-    bindsym $mod+Shift+o exec --no-startup-id echo "631225" | sudo -S auto-cpufreq --force=powersave; mode $normal
-    bindsym $mod+Shift+i exec --no-startup-id echo "631225" | sudo -S auto-cpufreq --force=performance; mode $normal
-
-    bindsym Return mode $normal
-    bindsym Escape mode $normal
-}
-
-##############################
-# extra options for windows: #
-##############################
 
 #border indicator on windows:
 new_window pixel 1
@@ -187,9 +139,11 @@ gaps outer 0
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-######################################
-# *workpace nav---------------------------------------------------------------------------------------------------------------------------------------
-######################################
+
+####################################################################################################################################################################################################################################
+# workpace nav #####################################################################################################################################################################################################################
+####################################################################################################################################################################################################################################
+
 
 # switch/iterate between open workspaces
 bindsym $mod+d workspace next
@@ -200,7 +154,7 @@ bindsym $mod+Shift+a move container to workspace prev; workspace prev
 
 # # switch/iterate between workspaces
 bindsym $mod+Tab exec --no-startup-id $scripts/tools/workspace_tool.sh next
-# bindsym $mod+Shift+Tab exec --no-startup-id $scripts/tools/workspace_tool.sh prev
+bindsym $mod+Shift+Tab exec --no-startup-id $scripts/tools/workspace_tool.sh prev
 
 
 # switch to workspace
@@ -220,7 +174,7 @@ bindsym $mod+Shift+n exec --no-startup-id $scripts/tools/workspace_tool.sh empty
 # take window to new empty workspace
 bindsym $mod+Shift+m exec --no-startup-id $scripts/tools/workspace_tool.sh take-empty
 
-# move container to workspace
+# take container to workspace
 bindsym $mod+Shift+1  move container to workspace  $ws1; workspace $ws1   
 bindsym $mod+Shift+2  move container to workspace  $ws2; workspace $ws2   
 bindsym $mod+Shift+3  move container to workspace  $ws3; workspace $ws3   
@@ -232,20 +186,19 @@ bindsym $mod+Shift+8  move container to workspace  $ws8; workspace $ws8
 bindsym $mod+Shift+9  move container to workspace  $ws9; workspace $ws9   
 bindsym $mod+Shift+0  move container to workspace  $ws10; workspace $ws10 
 
-# bindsym $mod+Shift+w mode $winSendTo
+
+####################################################################################################################################################################################################################################
+# container nav ####################################################################################################################################################################################################################
+####################################################################################################################################################################################################################################
 
 
-######################################
-# *window nav----------------------------------------------------------------------------------------------------------------------------------------
-######################################
-
-# change focus
+# vim-motion focus
 bindsym $mod+h exec --no-startup-id $scripts/tools/window-tool focus left
 bindsym $mod+j exec --no-startup-id $scripts/tools/window-tool focus down
 bindsym $mod+k exec --no-startup-id $scripts/tools/window-tool focus up
 bindsym $mod+l exec --no-startup-id $scripts/tools/window-tool focus right
 
-# focus windows
+# iterate focus windows
 bindsym $alt+Tab focus next
 bindsym $alt+Shift+Tab focus prev
 
@@ -285,21 +238,19 @@ bindsym $mod+n floating toggle; resize set 960 540; move position center
 bindsym $mod+Shift+space focus mode_toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+bracketleft layout stacking
-bindsym $mod+bracketright layout tabbed
-bindsym $mod+o layout toggle split
+# bindsym $mod+bracketleft layout stacking
+# bindsym $mod+bracketright layout tabbed
+# bindsym $mod+o layout toggle split
+#
+# bindsym $mod+b layout toggle splith splitv stacking tabbed
+# bindsym $mod+Up layout toggle stacking tabbed splith splitv
+# bindsym $mod+Down layout toggle splitv splith tabbed stacking  
 
-bindsym $mod+b layout toggle splith splitv stacking tabbed
-bindsym $mod+Up layout toggle stacking tabbed splith splitv
-bindsym $mod+Down layout toggle splitv splith tabbed stacking  
 
+####################################################################################################################################################################################################################################
+# app commands #####################################################################################################################################################################################################################
+####################################################################################################################################################################################################################################
 
-# resize window (you can also use the mouse for that):
-bindsym $mod+r mode $resize
-
-######################################
-# *App commands---------------------------------------------------------------------------------------------------------------------------------------
-######################################
 
 # kill focused window
 bindsym $mod+q kill
@@ -307,37 +258,53 @@ bindsym $mod+Shift+q [all] kill
 # bindsym $mod+Shift+c [class=".*"] kill
 # bindsym $mod+Shift+a focus parent,kill
 
+# program placeholders
+set $terminal   alacritty
+set $browser    google-chrome-stable
+
 # start apps
 bindsym $mod+space exec --no-startup-id $terminal
-bindsym $mod+g exec --no-startup-id google-chrome-stable
-bindsym $mod+Shift+g exec --no-startup-id google-chrome-stable --incognito
-bindsym $mod+t exec --no-startup-id google-chrome-stable web.whatsapp.com
+
+bindsym $mod+g exec --no-startup-id $browser 
+bindsym $mod+Shift+g exec --no-startup-id $browser --incognito
+bindsym $mod+t exec --no-startup-id $browser web.whatsapp.com
+
 bindsym $mod+y exec --no-startup-id localsend
+
 bindsym $mod+e exec --no-startup-id $terminal -e ranger 
+
 bindsym $mod+w exec --no-startup-id code 
-bindsym $mod+Shift+equal exec --no-startup-id $scripts/tools/colorpicker
-bindsym $mod+Shift+w exec --no-startup-id maim -k -u --quality 10 --select --format jpg /dev/stdout | copyq write image/jpg -
-bindsym $mod+Shift+Tab exec --no-startup-id maim -u --quality 10 --select "/home/$USER/Downloads/Clip/tesseract" && tesseract "/home/$USER/Downloads/Clip/tesseract" stdout | copyq write -
+
+bindsym $mod+Shift+p exec --no-startup-id maim -k -u --quality 10 --select --format jpg /dev/stdout | copyq write image/jpg -
+bindsym $mod+Shift+bracketleft exec --no-startup-id maim -u --quality 10 --select "/home/$USER/downl/Clip/tesseract" && tesseract "/home/$USER/downl/Clip/tesseract" stdout | copyq write -
+bindsym $mod+Shift+bracketright exec --no-startup-id $scripts/tools/colorpicker
 
 # Open copyq context menu
 bindsym $alt+c exec --no-startup-id copyq menu
 bindsym $alt+z exec --no-startup-id copyq next
 bindsym $alt+x exec --no-startup-id copyq previous
 
-bindsym Print exec --no-startup-id scrot ~/Media/Pictures/Screenshots/%Y-%m-%d-%T-screenshot.png && notify-send "Screenshot saved to ~/Media/Pictures/Screenshots/$(date +"%Y-%m-%d-%T")-screenshot.png"
+# screenshot
+# bindsym Print exec --no-startup-id scrot ~/Media/Pictures/Screenshots/%Y-%m-%d-%T-screenshot.png && notify-send "Screenshot saved to ~/Media/Pictures/Screenshots/$(date +"%Y-%m-%d-%T")-screenshot.png"
+
+
+####################################################################################################################################################################################################################################
+# system ###########################################################################################################################################################################################################################
+####################################################################################################################################################################################################################################
+
 
 # Power Profiles menu
-bindsym $mod+Shift+p exec --no-startup-id $scripts/menus/power-profiles
+# bindsym $mod+Shift+p exec --no-startup-id $scripts/menus/power-profiles
 # Shutdown, Reboot etc menu
-bindsym $mod+Shift+o exec --no-startup-id $scripts/menus/powermenu
+# bindsym $mod+Shift+o exec --no-startup-id $scripts/menus/powermenu
 # Change Curfew menu
-bindsym $mod+Shift+bracketleft exec --no-startup-id $scripts/menus/curfew-menu
+bindsym $mod+Shift+backslash exec --no-startup-id $scripts/menus/curfew-menu
 # Apend layout menu
-bindsym $mod+Shift+bracketright exec --no-startup-id $scripts/menus/append-layout-menu
+bindsym $mod+Shift+o exec --no-startup-id $scripts/menus/append-layout-menu
 
 bindsym $mod+Shift+BackSpace exec --no-startup-id protonvpn-cli d; exec --no-startup-id systemctl poweroff 
 bindsym $mod+Shift+Return exec --no-startup-id protonvpn-cli d; exec --no-startup-id systemctl reboot
-bindsym $mod+Shift+backslash exec --no-startup-id i3-msg exit 
+# bindsym $mod+Shift+backslash exec --no-startup-id i3-msg exit 
 # bindsym $mod+Shift+backslash exec $scripts/tools/blur-lock
 
 # reload the configuration file
@@ -346,20 +313,14 @@ bindsym $mod+Shift+e reload
 bindsym $mod+Shift+r restart
 
 
-######################################
-# *Multimedia Keys------------------------------------------------------------------------------------------------------------------------------------
-######################################
+####################################################################################################################################################################################################################################
+# multimeadia keys #################################################################################################################################################################################################################
+####################################################################################################################################################################################################################################
 
-
-# brightness mode
-bindsym $mod+Shift+b mode $brightness
 
 # Backlight setting using fn keys
 bindsym F10 exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_up
 bindsym F9 exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_down
-
-# Volume mode
-bindsym $mod+Shift+v mode $volume
 
 # use fn keys for volume
 bindsym F2 exec --no-startup-id $scripts/tools/volume_brightness.sh volume_down
@@ -383,23 +344,11 @@ bindsym XF86AudioPause exec --no-startup-id playerctl pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 
-# Redirect sound to headphones
-# bindsym $mod+p exec --no-startup-id /usr/local/bin/switch-audio-port
 
-######################################
-# *systemctl settings---------------------------------------------------------------------------------------------------------------------------------
-######################################
+####################################################################################################################################################################################################################################
+# workspace beahavior ##############################################################################################################################################################################################################
+####################################################################################################################################################################################################################################
 
-
-# Blutooth connection
-bindsym $mod+Shift+u mode $bluetooth
-
-# Wifi Control
-bindsym $mod+Shift+i mode $wifi
-
-######################################
-# *workspace behavior------------------------------------------------------------------------------------------------------------------------------------
-######################################
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -417,25 +366,19 @@ set $ws10 "ssh"
 
 # bind program to workspace and focus to them on startup: find class names using xprop
 assign [class="unityhub"] $ws9
-assign [class="Unity"] $ws9
-assign [class="Localsend_app"] $ws7
+for_window [class="unityhub"] floating enable
+for_window [class="unityhub"] resize set 960 540
 
-for_window [class="unityhub"] floating enable; resize set 960 540
-for_window [class="Unity"] floating enable; resize set 960 540
+assign [class="Unity"] $ws9
+for_window [class="Unity"] floating enable
+for_window [class="Unity"] resize set 960 540
+
 
 # for_window [title="nmtui"] floating enable; resize set 960 540
-for_window [class="Yad" instance="yad"] floating enable
-for_window [class="Galculator" instance="galculator"] floating enable
-for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
+for_window [class="Galculator"] floating enable
 
-# set floating (nontiling) for special apps
-for_window [class="Xsane" instance="xsane"] floating enable
-for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
-for_window [class="qt5ct" instance="qt5ct"] floating enable
-for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
-for_window [class="Bluetooth-sendto" instance="bluetooth-sendto"] floating enable
-for_window [class="Pamac-manager"] floating enable
-for_window [window_role="About"] floating enable
+for_window [class="pavucontrol"] floating enable
+for_window [class="pavucontrol"] resize set 1000 540
 
 
 # set border of floating window
@@ -452,9 +395,11 @@ for_window [class="urxvt"] border pixel 1
 # set position of floating window
 for_window [class=".*"] move position center
 
-##############
-# compositor #
-##############
+
+####################################################################################################################################################################################################################################
+# compositor #######################################################################################################################################################################################################################
+####################################################################################################################################################################################################################################
+
 
 # transparency
 # uncomment one of them to be used
@@ -481,9 +426,11 @@ for_window [class=".*"] move position center
 # for custom config:
 #exec_always --no-startup-id picom --config  ~/.config/picom.conf
 
-######################################
-# *startup commands-----------------------------------------------------------------------------------------------------------------------------------
-######################################
+
+####################################################################################################################################################################################################################################
+# startup commands #################################################################################################################################################################################################################
+####################################################################################################################################################################################################################################
+
 
 #get auth work with polkit-gnome
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -499,7 +446,7 @@ exec --no-startup-id numlockx on
 exec --no-startup-id ~/.screenlayout/monitor.sh
 
 # set default brightness
-exec_always --no-startup-id brightnessctl -q set 480
+exec --no-startup-id brightnessctl -q set 480
 
 # set wallpaper
 exec_always --no-startup-id sleep 1 && feh --bg-fill "/usr/share/endeavouros/backgrounds/Solid_Dark.png"
@@ -530,7 +477,7 @@ exec_always --no-startup-id nmcli radio wifi on
 # exec_always --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth && pactl set-sink-volume @DEFAULT_SINK@ $systemVolume%
 
 # default power-profiles
-exec_always --no-startup-id powerprofilesctl set balanced
+exec --no-startup-id powerprofilesctl set balanced
 
 # shutdown timer
 # exec_always --no-startup-id $terminal -e shutdown -P 17:30
@@ -538,14 +485,14 @@ exec_always --no-startup-id powerprofilesctl set balanced
 # exec_always --no-startup-id $terminal -e shutdown -P 20:30 
 # exec_always --no-startup-id $terminal -e shutdown -P 21:00
 
-exec --no-startup-id $terminal -e $scripts/tools/TunePowerTop.sh 
+# exec --no-startup-id $terminal -e $scripts/tools/TunePowerTop.sh 
 
 # set default mode
 # exec_always mode $normal
 
 # default apps
 set $wm_setting_app_terminal         $terminal
-set $wm_setting_app_browser          google-chrome-stable 
+set $wm_setting_app_browser          $browser 
 
 # disable power saving (for example if using xscreensaver)
 #exec --no-startup-id xset -dpms
@@ -574,9 +521,10 @@ exec --no-startup-id /usr/bin/dunst
 
 
 
-###########################################
-# *color customization for bar and windows------------------------------------------------------------------------------------------------------------
-###########################################
+####################################################################################################################################################################################################################################
+# colorshceme ######################################################################################################################################################################################################################
+####################################################################################################################################################################################################################################
+
 
 # Define colors variables:
 set $darkblue	            #08052b 
@@ -627,14 +575,12 @@ bar {
 }
 
 
-#####################################
-# *rofi menus-----------------------------------------------------------------------------------------------------------------------------------------
-#####################################
+####################################################################################################################################################################################################################################
+# rofi menus #######################################################################################################################################################################################################################
+####################################################################################################################################################################################################################################
 
 # keybinding in fancy rofi (automated):
 # bindsym F7 exec $scripts/tools/keyhint-2
-
-# bindsym $mod+Shift+p mode $power_profiles
 
 # rofi run menu
 bindsym $alt+space exec --no-startup-id rofi -modi drun -show drun \
