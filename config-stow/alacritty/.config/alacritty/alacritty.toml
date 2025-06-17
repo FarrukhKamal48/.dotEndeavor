@@ -1,5 +1,3 @@
-live_config_reload = true
-working_directory = "/home/farrukh/"
 
 [colors.bright]
 black = "#4C566A"
@@ -26,7 +24,7 @@ white = "#E5E9F0"
 yellow = "#EBCB8B"
 
 [colors.primary]
-background = "#1A1B26"
+background = "#1a1b26"
 foreground = "#D8DEE9"
 
 [cursor.style]
@@ -37,8 +35,36 @@ shape = "Block"
 TERM = "alacritty"
 
 [font]
-size = 9.0
+size = 10.0
 
+# [font.Otto.bright]
+# black = "#4C566A"
+# blue = "#81A1C1"
+# cyan = "#8FBCBB"
+# green = "#A3BE8C"
+# magenta = "#B48EAD"
+# red = "#BF616A"
+# white = "#ECEFF4"
+# yellow = "#EBCB8B"
+#
+# [font.Otto.cursor]
+# cursor = "#00CACA"
+# text = "#000000"
+#
+# [font.Otto.normal]
+# black = "#156BDC"
+# blue = "#F77067"
+# cyan = "#88C0D0"
+# green = "#2AACAA"
+# magenta = "#B48EAD"
+# red = "#F22C57"
+# white = "#E5E9F0"
+# yellow = "#EBCB8B"
+#
+# [font.Otto.primary]
+# background = "#1a1b26"
+# foreground = "#D8DEE9"
+#
 [font.bold]
 family = "Jetbrains Mono Nerd Font"
 style = "Bold"
@@ -56,12 +82,18 @@ family = "Jetbrains Mono Nerd Font"
 style = "Regular"
 
 [font.offset]
-y = 6
+y = 4
 
 [[keyboard.bindings]]
 action = "Paste"
 key = "V"
 mods = "Control|Shift"
+
+
+[[keyboard.bindings]]
+chars = "\u0012"
+key = "R"
+mods = "Alt"
 
 [[keyboard.bindings]]
 action = "Copy"
@@ -69,16 +101,45 @@ key = "C"
 mods = "Control|Shift"
 
 [[keyboard.bindings]]
+chars = "\u001BD"
+key = "Delete"
+mods = "Control"
+
+# [[keyboard.bindings]]
+# chars = "\u001BD"
+# key = "L"
+# mods = "Control"
+
+[[keyboard.bindings]]
 chars = "\u001B[D"
 key = "H"
 mode = "~Alt"
 mods = "Alt"
+
+
+[[keyboard.bindings]]
+chars = "0xff95"
+key = "H"
+mode = "~Alt"
+mods = "Alt|Control|Shift"
 
 [[keyboard.bindings]]
 chars = "\u001B[B"
 key = "J"
 mode = "~Alt"
 mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001Bf"
+key = "L"
+mode = "~Alt"
+mods = "Alt|Shift"
+
+[[keyboard.bindings]]
+chars = "\u001Bb"
+key = "H"
+mode = "~Alt"
+mods = "Alt|Shift"
 
 [[keyboard.bindings]]
 chars = "\u001B[A"
@@ -132,15 +193,15 @@ action = "Copy"
 key = "Copy"
 mods = "None"
 
-[[keyboard.bindings]]
-action = "ClearLogNotice"
-key = "L"
-mods = "Control"
+# [[keyboard.bindings]]
+# action = "ClearLogNotice"
+# key = "L"
+# mods = "Control"
 
-[[keyboard.bindings]]
-chars = "\f"
-key = "L"
-mods = "Control"
+# [[keyboard.bindings]]
+# chars = "\f"
+# key = "L"
+# mods = "Control"
 
 [[keyboard.bindings]]
 action = "ScrollLineUp"
@@ -178,22 +239,22 @@ key = "End"
 mode = "~Alt"
 mods = "Shift"
 
-[[keyboard.bindings]]
-action = "Quit"
-key = "W"
-mods = "Control"
+# [[keyboard.bindings]]
+# action = "Quit"
+# key = "W"
+# mods = "Control"
 
 # [mouse.double_click]
 # threshold = 300
 #
 # [mouse.triple_click]
 # threshold = 300
-
+#
 [scrolling]
 history = 10000
-multiplier = 3
+multiplier = 1
 
-[shell]
+[terminal.shell]
 program = "/bin/zsh"
 
 [window]
@@ -207,9 +268,15 @@ general = "Alacritty"
 instance = "Alacritty"
 
 [window.dimensions]
-columns = 148
-lines = 29
+columns = 140
+lines = 30
 
 [window.padding]
 x = 7
 y = 7
+
+[general]
+live_config_reload = true
+working_directory = "/home/infidel"
+
+[terminal]
