@@ -124,8 +124,8 @@ mode $winSendTo {
 
 
 #border indicator on windows:
-new_window pixel 1
 
+default_border pixel 2
 smart_borders on
 
 # thin borders
@@ -168,6 +168,7 @@ bindsym $mod+7    workspace  $ws7
 bindsym $mod+8    workspace  $ws8
 bindsym $mod+9    workspace  $ws9
 bindsym $mod+0    workspace  $ws10
+bindsym $mod+minus workspace $ws11
 
 # open new empty workspace
 bindsym $mod+Shift+n exec --no-startup-id $scripts/tools/workspace_tool.sh empty
@@ -362,6 +363,7 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "o_o"
+set $ws11 "steam"
 
 
 # bind program to workspace and focus to them on startup: find class names using xprop
@@ -373,13 +375,14 @@ assign [class="Unity"] $ws9
 for_window [class="Unity"] floating enable
 for_window [class="Unity"] resize set 960 540
 
-
-# for_window [title="nmtui"] floating enable; resize set 960 540
-for_window [class="Galculator"] floating enable
-
 for_window [class="pavucontrol"] floating enable
 for_window [class="pavucontrol"] resize set 1000 540
 
+assign [class="steam"] $ws11
+# for_window [class="steamwebhelper" class="steam"] floating enable
+
+# for_window [title="nmtui"] floating enable; resize set 960 540
+for_window [class="Galculator"] floating enable
 
 # set border of floating window
 for_window [class="urxvt"] border pixel 1
@@ -393,7 +396,7 @@ for_window [class="urxvt"] border pixel 1
 # for_window [floating] resize set 540 540 
 
 # set position of floating window
-for_window [class=".*"] move position center
+for_window [all] move position center
 
 
 ####################################################################################################################################################################################################################################
