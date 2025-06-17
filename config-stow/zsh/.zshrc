@@ -13,7 +13,7 @@ alias la='ls --color=auto -av'
 
 # snake=(for file in *; do mv "$file" "$(echo $file | tr '_' ' ')" ; done)
 
-home='/home/farrukh/'
+home='/home/'$USER
 
 # config file locations
 nvim=$home'/.config/nvim/init.lua'
@@ -21,12 +21,6 @@ conf=$home'/.dotEndeavor/config-stow/'
 raw=$home'/.dotEndeavor/raw-backup/'
 i3=$conf'/i3/.config/i3/config'
 zsh=$conf'/zsh/.zshrc'
-kitt=$conf'/kitty/.config/kitty/kitty.conf'
-
-# sync thing
-bus=$home'/Bus/'
-sync=$home'/Sync/'
-stash=$bus'/Stash/'
 
 # zoxide
 # _ZO_ECHO=1      # set to 1 to print matching directory
@@ -38,8 +32,8 @@ USE_POWERLINE="false"
 # export FrameworkPathOverride="/usr/lib/mono/4.8-api/"
 export PATH="$PATH:/bin/butler/"
 
-export TERMINAL=kitty
-export BROWSER=google-chrome-stable=
+export TERMINAL=alacritty
+export BROWSER=google-chrome-stable
 export EDITOR=nvim
 
 # zsh fuszzy search
@@ -60,7 +54,3 @@ fi
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/home/farrukh/.lmstudio/bin"
