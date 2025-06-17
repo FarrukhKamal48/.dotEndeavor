@@ -10,6 +10,7 @@ font pango: Jetbrains Mono Nerd Font 10
 set $mod Mod4
 set $alt Mod1
 
+# modes
 set $normal "default"
 set $bluetooth ":Blutooth"
 set $wifi ":Wifi"
@@ -18,6 +19,9 @@ set $resize ":Resize"
 set $brightness ":Brightness"
 set $volume ":Volume"
 set $power_profiles ":Power Profiles"
+
+# program placeholders
+set $terminal alacritty
 
 # scripts
 set $scripts ~/.dotEndeavor/config-stow/i3/.config/i3/scripts
@@ -69,8 +73,8 @@ mode $wifi {
     bindsym i exec --no-startup-id nmcli radio wifi on; mode $normal
 
     # choose network
-    bindsym j exec --no-startup-id kitty nmtui; mode $normal
-    bindsym $mod+Shift+j exec --no-startup-id kitty nmtui; mode $normal
+    bindsym j exec --no-startup-id $terminal -e nmtui; mode $normal
+    bindsym $mod+Shift+j exec --no-startup-id $terminal -e nmtui; mode $normal
 
     bindsym Return mode $normal
     bindsym Escape mode $normal
@@ -304,12 +308,12 @@ bindsym $mod+Shift+q [all] kill
 # bindsym $mod+Shift+a focus parent,kill
 
 # start apps
-bindsym $mod+space exec --no-startup-id kitty
+bindsym $mod+space exec --no-startup-id $terminal
 bindsym $mod+g exec --no-startup-id google-chrome-stable
 bindsym $mod+Shift+g exec --no-startup-id google-chrome-stable --incognito
 bindsym $mod+t exec --no-startup-id google-chrome-stable web.whatsapp.com
 bindsym $mod+y exec --no-startup-id localsend
-bindsym $mod+e exec --no-startup-id kitty ranger 
+bindsym $mod+e exec --no-startup-id $terminal -e ranger 
 bindsym $mod+w exec --no-startup-id code 
 bindsym $mod+Shift+equal exec --no-startup-id $scripts/tools/colorpicker
 bindsym $mod+Shift+w exec --no-startup-id maim -k -u --quality 10 --select --format jpg /dev/stdout | copyq write image/jpg -
@@ -529,18 +533,18 @@ exec_always --no-startup-id nmcli radio wifi on
 exec_always --no-startup-id powerprofilesctl set balanced
 
 # shutdown timer
-exec_always --no-startup-id kitty shutdown -P 17:30
-# exec_always --no-startup-id kitty shutdown -P 18:00 
-# exec_always --no-startup-id kitty shutdown -P 20:30 
-# exec_always --no-startup-id kitty shutdown -P 21:00
+# exec_always --no-startup-id $terminal -e shutdown -P 17:30
+# exec_always --no-startup-id $terminal -e shutdown -P 18:00 
+# exec_always --no-startup-id $terminal -e shutdown -P 20:30 
+# exec_always --no-startup-id $terminal -e shutdown -P 21:00
 
-exec_always --no-startup-id kitty $scripts/tools/TunePowerTop.sh 
+exec_always --no-startup-id $terminal -e $scripts/tools/TunePowerTop.sh 
 
 # set default mode
 # exec_always mode $normal
 
 # default apps
-set $wm_setting_app_terminal         kitty
+set $wm_setting_app_terminal         $terminal
 set $wm_setting_app_browser          google-chrome-stable 
 
 # disable power saving (for example if using xscreensaver)
