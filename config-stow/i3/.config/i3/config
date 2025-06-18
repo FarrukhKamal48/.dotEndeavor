@@ -17,8 +17,9 @@ set $wifi ":Wifi"
 set $reshape ":ReShape"
 set $winSendTo ":Workspace Send"
 
-# scripts
+# directories & files
 set $scripts ~/.dotEndeavor/config-stow/i3/.config/i3/scripts
+set $snip_dir /home/$USER/downl/Media/Snips/
 
 
 ####################################################################################################################################################################################################################################
@@ -37,9 +38,6 @@ mode $bluetooth {
     # blueman-manager
     bindsym $mod+Shift+j exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && blueman-manager; mode $normal
     bindsym j exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && blueman-manager; mode $normal
-    
-    bindsym h exec --no-startup-id $scripts/tools/setAudioSink $sink_soundPeats; mode $normal
-    bindsym l exec --no-startup-id $scripts/tools/setAudioSink $sink_system; mode $normal
 
     bindsym Return mode $normal
     bindsym Escape mode $normal
@@ -168,7 +166,6 @@ bindsym $mod+7    workspace  $ws7
 bindsym $mod+8    workspace  $ws8
 bindsym $mod+9    workspace  $ws9
 bindsym $mod+0    workspace  $ws10
-bindsym $mod+minus workspace $ws11
 
 # open new empty workspace
 bindsym $mod+Shift+n exec --no-startup-id $scripts/tools/workspace_tool.sh empty
@@ -276,17 +273,14 @@ bindsym $mod+e exec --no-startup-id $terminal -e ranger
 
 bindsym $mod+w exec --no-startup-id code 
 
-bindsym $mod+Shift+p exec --no-startup-id maim -k -u --quality 10 --select --format jpg /dev/stdout | copyq write image/jpg -
-bindsym $mod+Shift+bracketleft exec --no-startup-id maim -u --quality 10 --select "/home/$USER/downl/Clip/tesseract" && tesseract "/home/$USER/downl/Clip/tesseract" stdout | copyq write -
+bindsym $mod+Shift+p exec --no-startup-id $scripts/tools/screensnip.sh $snip_dir jpg
+
+bindsym $mod+Shift+bracketleft exec --no-startup-id $scripts/tools/screensnip.sh $snip_dir jpg tesseract \
+    && tesseract $snip_dir/tesseract.jpg stdout | copyq write -
+    
 bindsym $mod+Shift+bracketright exec --no-startup-id $scripts/tools/colorpicker
 
-# Open copyq context menu
-bindsym $alt+c exec --no-startup-id copyq menu
-bindsym $alt+z exec --no-startup-id copyq next
-bindsym $alt+x exec --no-startup-id copyq previous
-
-# screenshot
-# bindsym Print exec --no-startup-id scrot ~/Media/Pictures/Screenshots/%Y-%m-%d-%T-screenshot.png && notify-send "Screenshot saved to ~/Media/Pictures/Screenshots/$(date +"%Y-%m-%d-%T")-screenshot.png"
+bindsym $alt+c exec --no-startup-id copyq toggle
 
 
 ####################################################################################################################################################################################################################################
@@ -363,7 +357,6 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "o_o"
-set $ws11 "steam"
 
 
 # bind program to workspace and focus to them on startup: find class names using xprop
@@ -378,7 +371,10 @@ for_window [class="Unity"] resize set 960 540
 for_window [class="pavucontrol"] floating enable
 for_window [class="pavucontrol"] resize set 1000 540
 
-assign [class="steam"] $ws11
+for_window [class="copyq" instance="copyq" window_role="main"] floating enable
+for_window [class="copyq" instance="copyq" window_role="main"] resize set 500 400
+
+# assign [class="steam"] $ws11
 # for_window [class="steamwebhelper" class="steam"] floating enable
 
 # for_window [title="nmtui"] floating enable; resize set 960 540
@@ -472,7 +468,7 @@ exec_always --no-startup-id xinput set-prop 'ELAN0307:00 04F3:3282 Touchpad' 'li
 exec_always --no-startup-id xrandr --output eDP-1 --mode 1920x1080 --refresh 60.32
 
 # start copyq
-exec_always --no-startup-id copyq && copyq hide
+exec_always --no-startup-id copyq exit; copyq
 
 # disable internet
 exec_always --no-startup-id nmcli radio wifi on
