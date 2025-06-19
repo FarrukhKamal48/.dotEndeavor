@@ -6,9 +6,21 @@
 # font pango: DejaVu Sans Mono 10
 font pango: Jetbrains Mono Nerd Font 10
 
-# set the mod key to the winkey:
+# mod keys
 set $mod Mod4
 set $alt Mod1
+
+# workspaces
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "o_o"
 
 # modes
 set $normal "default"
@@ -20,6 +32,15 @@ set $winSendTo ":Workspace Send"
 # directories & files
 set $scripts ~/.dotEndeavor/config-stow/i3/.config/i3/scripts
 set $snip_dir /home/$USER/downl/Media/Snips/
+
+# values
+set $key_repeat_delay 50
+set $key_repeat_iterval_normal 200
+set $key_repeat_iterval_fast 100
+
+set $win_resize_amt 20px
+set $win_move_amt 20px
+
 
 
 ####################################################################################################################################################################################################################################
@@ -64,31 +85,27 @@ mode $wifi {
 bindsym $mod+Shift+i mode $wifi
 
 
-# resize variables
-set $winResizeSpeed 20px
-set $winMoveSpeed 20px
-
 mode $reshape {
 
-    bindsym h; exec --no-startup-id xset r rate 100 50; resize shrink width $winResizeSpeed 
-    bindsym j; exec --no-startup-id xset r rate 100 50; resize grow height $winResizeSpeed 
-    bindsym k; exec --no-startup-id xset r rate 100 50; resize shrink height $winResizeSpeed 
-    bindsym l; exec --no-startup-id xset r rate 100 50; resize grow width $winResizeSpeed
+    bindsym h resize shrink width   $win_resize_amt 
+    bindsym j resize grow height    $win_resize_amt 
+    bindsym k resize shrink height  $win_resize_amt 
+    bindsym l resize grow width     $win_resize_amt
 
-    bindsym Shift+h move left $winMoveSpeed
-    bindsym Shift+j move down $winMoveSpeed
-    bindsym Shift+k move up $winMoveSpeed 
-    bindsym Shift+l move right $winMoveSpeed 
+    bindsym Shift+h move left   $win_move_amt
+    bindsym Shift+j move down   $win_move_amt
+    bindsym Shift+k move up     $win_move_amt 
+    bindsym Shift+l move right  $win_move_amt 
 
     # orientaion
     bindsym r exec --no-startup-id $scripts/tools/rotate.sh
     bindsym $mod+r exec --no-startup-id $scripts/tools/rotate.sh
 
-    bindsym Return; exec --no-startup-id xset r rate 200 50; mode $normal
-    bindsym Escape; exec --no-startup-id xset r rate 200 50; mode $normal
+    bindsym Return; exec --no-startup-id xset r rate $key_repeat_iterval_normal $key_repeat_delay; mode $normal
+    bindsym Escape; exec --no-startup-id xset r rate $key_repeat_iterval_normal $key_repeat_delay; mode $normal
     
 }
-bindsym $mod+r mode $reshape
+bindsym $mod+r exec --no-startup-id xset r rate $key_repeat_iterval_fast $key_repeat_delay; mode $reshape 
 
 
 mode $winSendTo {
@@ -345,20 +362,6 @@ bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 ####################################################################################################################################################################################################################################
 # workspace beahavior ##############################################################################################################################################################################################################
 ####################################################################################################################################################################################################################################
-
-
-# Define names for default workspaces for which we configure key bindings later on.
-# We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "o_o"
 
 
 # bind program to workspace and focus to them on startup: find class names using xprop
