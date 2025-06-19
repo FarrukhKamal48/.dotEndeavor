@@ -459,7 +459,7 @@ exec_always --no-startup-id sleep 1 && feh --bg-fill "/usr/share/endeavouros/bac
 exec_always --no-startup-id xset s 480 dpms 600 600 600
 
 # set keyboard speed
-exec_always --no-startup-id xset r rate 200 50
+exec_always --no-startup-id xset r rate $key_repeat_iterval_normal $key_repeat_delay
 
 # run  xinput --list-props 12   to list all options for touchpad (12)
 # set natural scroll
