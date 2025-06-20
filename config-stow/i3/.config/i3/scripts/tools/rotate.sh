@@ -7,6 +7,8 @@ if [[ "$orientation" = "normal" ]]; then
 elif [[ "$orientation" = "left" ]]; then
     xrandr -o right
 elif [[ "$orientation" = "right" ]]; then
+    xrandr -o inverted
+elif [[ "$orientation" = "inverted" ]]; then
     xrandr -o normal
 fi
 

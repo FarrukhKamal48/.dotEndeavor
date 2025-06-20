@@ -23,24 +23,36 @@ set $ws9 "9"
 set $ws10 "o_o"
 
 # modes
-set $normal "default"
-set $bluetooth ":Blutooth"
-set $wifi ":Wifi"
-set $reshape ":ReShape"
-set $winSendTo ":Workspace Send"
+set $normal     "default"
+set $bluetooth  ":Blutooth"
+set $wifi       ":Wifi"
+set $reshape    ":ReShape"
+set $winSendTo  ":Workspace Send"
 
 # directories & files
-set $scripts ~/.dotEndeavor/config-stow/i3/.config/i3/scripts
-set $snip_dir /home/$USER/downl/Media/Snips/
+set $scripts    ~/.dotEndeavor/config-stow/i3/.config/i3/scripts
+set $snip_dir   /home/$USER/downl/Media/Snips/
 
-# values
-set $key_repeat_delay 50
-set $key_repeat_iterval_normal 200
-set $key_repeat_iterval_fast 100
+## variables
+set $key_repeat_rate            50
+set $key_repeat_delay_normal    200
+set $key_repeat_delay_fast      100
 
 set $win_resize_amt 20px
-set $win_move_amt 20px
+set $win_move_amt   20px
 
+set $win_float_size 960 540 
+set $win_copyq_size 500 400 
+
+set $win_tiled_border 2
+set $win_float_border 1
+
+set $default_brightness 480
+
+set $monitor_screensaver_timeout    480
+set $monitor_standby_timeout        600
+set $monitor_suspend_timeout        720
+set $monitor_off_timeout            840
 
 
 ####################################################################################################################################################################################################################################
@@ -51,10 +63,10 @@ set $win_move_amt 20px
 mode $bluetooth {
 
     # turn bluetooth on/off
-    bindsym $mod+Shift+u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && bluetoothctl connect $soundPeats; mode $normal
+    bindsym $mod+Shift+u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on; mode $normal
     bindsym $mod+Shift+i exec --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth; mode $normal
-    bindsym u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && bluetoothctl connect $soundPeats; mode $normal 
-    bindsym i exec --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth && pactl set-sink-volume @DEFAULT_SINK@ $systemVolume%; mode $normal
+    bindsym u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on; mode $normal 
+    bindsym i exec --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth; mode $normal  
 
     # blueman-manager
     bindsym $mod+Shift+j exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && blueman-manager; mode $normal
@@ -101,11 +113,11 @@ mode $reshape {
     bindsym r exec --no-startup-id $scripts/tools/rotate.sh
     bindsym $mod+r exec --no-startup-id $scripts/tools/rotate.sh
 
-    bindsym Return; exec --no-startup-id xset r rate $key_repeat_iterval_normal $key_repeat_delay; mode $normal
-    bindsym Escape; exec --no-startup-id xset r rate $key_repeat_iterval_normal $key_repeat_delay; mode $normal
+    bindsym Return; exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
+    bindsym Escape; exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
     
 }
-bindsym $mod+r exec --no-startup-id xset r rate $key_repeat_iterval_fast $key_repeat_delay; mode $reshape 
+bindsym $mod+r exec --no-startup-id xset r rate $key_repeat_delay_fast $key_repeat_rate; mode $reshape 
 
 
 mode $winSendTo {
@@ -140,7 +152,7 @@ mode $winSendTo {
 
 #border indicator on windows:
 
-default_border pixel 2
+default_border pixel $win_tiled_border
 smart_borders on
 
 # thin borders
@@ -247,7 +259,7 @@ bindsym $mod+f split v
 # enter fullscreen mode for the focused container
 bindsym $mod+m fullscreen toggle
 # toggle tiling / floating
-bindsym $mod+n floating toggle; resize set 960 540; move position center 
+bindsym $mod+n floating toggle; resize set $win_float_size; move position center 
 
 # change focus between tiling / floating windows
 bindsym $mod+Shift+space focus mode_toggle
@@ -316,8 +328,8 @@ bindsym $mod+Shift+backslash exec --no-startup-id $scripts/menus/curfew-menu
 # Apend layout menu
 bindsym $mod+Shift+o exec --no-startup-id $scripts/menus/append-layout-menu
 
-bindsym $mod+Shift+BackSpace exec --no-startup-id protonvpn-cli d; exec --no-startup-id systemctl poweroff 
-bindsym $mod+Shift+Return exec --no-startup-id protonvpn-cli d; exec --no-startup-id systemctl reboot
+bindsym $mod+Shift+BackSpace exec --no-startup-id exec --no-startup-id systemctl poweroff 
+bindsym $mod+Shift+Return exec --no-startup-id exec --no-startup-id systemctl reboot
 # bindsym $mod+Shift+backslash exec --no-startup-id i3-msg exit 
 # bindsym $mod+Shift+backslash exec $scripts/tools/blur-lock
 
@@ -339,10 +351,6 @@ bindsym F9 exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_d
 # use fn keys for volume
 bindsym F2 exec --no-startup-id $scripts/tools/volume_brightness.sh volume_down
 bindsym F3 exec --no-startup-id $scripts/tools/volume_brightness.sh volume_up
-
-# gradular volume control
-bindsym $mod+F2 exec --no-startup-id amixer -D pulse sset Master 1%+ && pkill -RTMIN+1 i3blocks
-bindsym $mod+F3 exec --no-startup-id amixer -D pulse sset Master 1%- && pkill -RTMIN+1 i3blocks
 
 # mute
 #bindsym XF86AudioMute exec amixer sset Master toggle && killall -USR1 i3blocks
@@ -367,26 +375,26 @@ bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 # bind program to workspace and focus to them on startup: find class names using xprop
 assign [class="unityhub"] $ws9
 for_window [class="unityhub"] floating enable
-for_window [class="unityhub"] resize set 960 540
+for_window [class="unityhub"] resize set $win_float_size 
 
 assign [class="Unity"] $ws9
 for_window [class="Unity"] floating enable
-for_window [class="Unity"] resize set 960 540
+for_window [class="Unity"] resize set $win_float_size 
 
 for_window [class="pavucontrol"] floating enable
-for_window [class="pavucontrol"] resize set 1000 540
+for_window [class="pavucontrol"] resize set $win_float_size 
 
 for_window [class="copyq" instance="copyq" window_role="main"] floating enable
-for_window [class="copyq" instance="copyq" window_role="main"] resize set 500 400
+for_window [class="copyq" instance="copyq" window_role="main"] resize set $win_copyq_size
 
 # assign [class="steam"] $ws11
 # for_window [class="steamwebhelper" class="steam"] floating enable
 
-# for_window [title="nmtui"] floating enable; resize set 960 540
+# for_window [title="nmtui"] floating enable; resize set $win_float_size 
 for_window [class="Galculator"] floating enable
 
 # set border of floating window
-for_window [class="urxvt"] border pixel 1
+for_window [class="urxvt"] border pixel $win_float_border
 
 # border of unfocused
 # for_window [all] border pixel none
@@ -441,7 +449,6 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 exec --no-startup-id dex --autostart --environment i3
 
-
 # num lock activated
 exec --no-startup-id numlockx on
 
@@ -450,24 +457,22 @@ exec --no-startup-id numlockx on
 exec --no-startup-id ~/.screenlayout/monitor.sh
 
 # set default brightness
-exec --no-startup-id brightnessctl -q set 480
+exec --no-startup-id brightnessctl -q set $default_brightness 
 
 # set wallpaper
 exec_always --no-startup-id sleep 1 && feh --bg-fill "/usr/share/endeavouros/backgrounds/Solid_Dark.png"
 
+# bell
+exec_always --no-startup-id xset -b
+
 # set powersavings for display:
-exec_always --no-startup-id xset s 480 dpms 600 600 600
+exec_always --no-startup-id xset s $monitor_screensaver_timeout dpms \
+                                            $monitor_standby_timeout \
+                                            $monitor_suspend_timeout \
+                                            $monitor_off_timeout 
 
 # set keyboard speed
-exec_always --no-startup-id xset r rate $key_repeat_iterval_normal $key_repeat_delay
-
-# run  xinput --list-props 12   to list all options for touchpad (12)
-# set natural scroll
-exec_always --no-startup-id xinput set-prop 'ELAN0307:00 04F3:3282 Touchpad' 'libinput Natural Scrolling Enabled' 1
-# no acceleratoin
-# exec_always --no-startup-id xinput set-prop 12 "libinput Accel Profile Enabled" 0 1 0
-# set scroll speed (to 50)
-# exec_always --no-startup-id xinput set-prop 14 361 10
+exec_always --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate
 
 # set display refresh rate
 exec_always --no-startup-id xrandr --output eDP-1 --mode 1920x1080 --refresh 60.32
@@ -485,10 +490,8 @@ exec --no-startup-id powerprofilesctl set balanced
 
 # shutdown timer
 # exec_always --no-startup-id $terminal -e shutdown -P 17:30
-# exec_always --no-startup-id $terminal -e shutdown -P 18:00 
-# exec_always --no-startup-id $terminal -e shutdown -P 20:30 
-# exec_always --no-startup-id $terminal -e shutdown -P 21:00
 
+# some extra power saving stuff
 # exec --no-startup-id $terminal -e $scripts/tools/TunePowerTop.sh 
 
 # set default mode
@@ -511,18 +514,9 @@ set $wm_setting_app_browser          $browser
 #exec --no-startup-id xscreensaver --no-splash
 
 # Desktop notifications
-# dunst config used ~/.config/dunst/dunstrc
-# set alternative config if needed:
-#exec --no-startup-id /usr/bin/dunst --config ~/.config/dunst/dunstrc
 # may yneed to run dbus-launch explicitly: 
 #exec --no-startup-id dbus-launch /usr/bin/dunst
 exec --no-startup-id /usr/bin/dunst
-
-# autotiling script
-# https://github.com/nwg-piotr/autotiling
-# `yay -S autotiling ;) (it is in AUR)
-#exec_always --no-startup-id autotiling
-
 
 
 ####################################################################################################################################################################################################################################
