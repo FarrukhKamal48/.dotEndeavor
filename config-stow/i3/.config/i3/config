@@ -21,6 +21,7 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "o_o"
+set $minecraft "Minecraft"
 
 # modes
 set $normal     "default"
@@ -28,6 +29,7 @@ set $bluetooth  ":Blutooth"
 set $wifi       ":Wifi"
 set $reshape    ":ReShape"
 set $winSendTo  ":Workspace Send"
+set $gamemode   ":Gamemode"
 
 # directories & files
 set $scripts    ~/.dotEndeavor/config-stow/i3/.config/i3/scripts
@@ -53,6 +55,10 @@ set $monitor_screensaver_timeout    480
 set $monitor_standby_timeout        600
 set $monitor_suspend_timeout        720
 set $monitor_off_timeout            840
+
+set $resolution     1920x1080
+# set $refresh_rate   60.32
+set $refresh_rate   144.42
 
 
 ####################################################################################################################################################################################################################################
@@ -143,6 +149,12 @@ mode $winSendTo {
     
 }
 # bindsym $mod+Shift+w mode $winSendTo
+
+mode $gamemode {
+    
+    bindsym $mod+Return mode $normal
+}
+bindsym $mod+Shift+w mode $gamemode 
 
 
 ####################################################################################################################################################################################################################################
@@ -328,8 +340,8 @@ bindsym $mod+Shift+backslash exec --no-startup-id $scripts/menus/curfew-menu
 # Apend layout menu
 bindsym $mod+Shift+o exec --no-startup-id $scripts/menus/append-layout-menu
 
-bindsym $mod+Shift+BackSpace exec --no-startup-id exec --no-startup-id systemctl poweroff 
-bindsym $mod+Shift+Return exec --no-startup-id exec --no-startup-id systemctl reboot
+bindsym $mod+Shift+BackSpace exec --no-startup-id systemctl poweroff 
+bindsym $mod+Shift+Return exec --no-startup-id systemctl reboot
 # bindsym $mod+Shift+backslash exec --no-startup-id i3-msg exit 
 # bindsym $mod+Shift+backslash exec $scripts/tools/blur-lock
 
@@ -390,6 +402,9 @@ for_window [class="copyq" instance="copyq" window_role="main"] resize set $win_c
 # assign [class="steam"] $ws11
 # for_window [class="steamwebhelper" class="steam"] floating enable
 
+assign [title="TLauncher*"] $minecraft
+assign [title="Minecraft*"] $minecraft
+
 # for_window [title="nmtui"] floating enable; resize set $win_float_size 
 for_window [class="Galculator"] floating enable
 
@@ -433,7 +448,7 @@ for_window [all] move position center
 # For modifications, it can be copied to ~/.config/picom/picom.conf or ~/.config/picom.conf
 # install picom package (yay -S picom)
 # start using default config 
-# exec_always --no-startup-id picom -b --config ~/.config/picom.conf
+exec_always --no-startup-id picom -b --config ~/.config/picom.conf
 #
 # for custom config:
 #exec_always --no-startup-id picom --config  ~/.config/picom.conf
@@ -475,7 +490,7 @@ exec_always --no-startup-id xset s $monitor_screensaver_timeout dpms \
 exec_always --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate
 
 # set display refresh rate
-exec_always --no-startup-id xrandr --output eDP-1 --mode 1920x1080 --refresh 60.32
+exec_always --no-startup-id xrandr --output eDP-1 --mode $resolution --refresh $refresh_rate
 
 # start copyq
 exec_always --no-startup-id copyq exit; copyq
