@@ -1,23 +1,13 @@
-/*******************************************************
- * ROFI configs i3 Apps menu for EndeavourOS
- * Maintainer: joekamprad [joekamprad //a_t// endeavouros.com]
- *******************************************************/
+@import "~/.config/rofi/rofi.rasi"
+
 configuration {
     font:                "Jetbrains Mono Nerd Font 12";
     show-icons:          true;
-    icon-theme:          "Qogir";
+    
     display-drun:        "Apps";
     drun-display-format: "{name}";
-    scroll-method:       0;
-    disable-history:     false;
-    sidebar-mode:        false;
 
-    kb-move-char-back:      "Alt+h";
-    kb-row-down:            "Alt+j";
-    kb-row-up:              "Alt+k";
-    kb-move-char-forward:   "Alt+l";
-    kb-accept-entry:        "Return";
-    kb-cancel:              "Alt+space";
+    kb-cancel:           "Alt+space,Escape";
 }
 
 @import "~/.config/rofi/arc_dark_transparent_colors.rasi"
