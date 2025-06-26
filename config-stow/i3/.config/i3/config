@@ -10,6 +10,32 @@ font pango: Jetbrains Mono Nerd Font 10
 set $mod Mod4
 set $alt Mod1
 
+
+## variables
+set $refresh_rate   60.32
+# set $refresh_rate   144.42
+set $resolution     1920x1080
+
+set $key_repeat_rate            50
+set $key_repeat_delay_normal    200
+set $key_repeat_delay_fast      100
+
+set $win_resize_amt 20px
+set $win_move_amt   20px
+
+set $win_float_size 960 540 
+set $win_copyq_size 500 400 
+
+set $win_tiled_border 2
+set $win_float_border 1
+
+set $default_brightness 480
+
+set $monitor_screensaver_timeout    480
+set $monitor_standby_timeout        600
+set $monitor_suspend_timeout        720
+set $monitor_off_timeout            840
+
 # workspaces
 set $ws1 "1"
 set $ws2 "2"
@@ -34,31 +60,6 @@ set $gamemode   ":Gamemode"
 # directories & files
 set $scripts    ~/.dotEndeavor/config-stow/i3/.config/i3/scripts
 set $snip_dir   /home/$USER/downl/Media/Snips/
-
-## variables
-set $key_repeat_rate            50
-set $key_repeat_delay_normal    200
-set $key_repeat_delay_fast      100
-
-set $win_resize_amt 20px
-set $win_move_amt   20px
-
-set $win_float_size 960 540 
-set $win_copyq_size 500 400 
-
-set $win_tiled_border 2
-set $win_float_border 1
-
-set $default_brightness 480
-
-set $monitor_screensaver_timeout    480
-set $monitor_standby_timeout        600
-set $monitor_suspend_timeout        720
-set $monitor_off_timeout            840
-
-set $resolution     1920x1080
-# set $refresh_rate   60.32
-set $refresh_rate   144.42
 
 
 ####################################################################################################################################################################################################################################
@@ -152,7 +153,7 @@ mode $winSendTo {
 
 mode $gamemode {
     
-    bindsym $mod+Return mode $normal
+    bindsym $mod+Shift+w mode $normal
 }
 bindsym $mod+Shift+w mode $gamemode 
 
