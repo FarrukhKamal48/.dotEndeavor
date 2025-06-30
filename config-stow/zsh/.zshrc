@@ -51,6 +51,10 @@ if [[ -e /usr/share/zsh/manjaro-zsh-prompt ]]; then
   source /usr/share/zsh/manjaro-zsh-prompt
 fi
 
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=blue,underline'; export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE
+
+# LS_COLORS=$LS_COLORS:'di=0;34:' ; export LS_COLORS
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
