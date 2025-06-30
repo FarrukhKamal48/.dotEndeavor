@@ -348,9 +348,9 @@ bindsym $mod+c focus child
 ######################################
 
 # split in horizontal orientation
-bindsym $mod+f split h
+bindsym $mod+e split h
 # split in vertical orientation
-bindsym $mod+e split v
+bindsym $mod+f split v
 
 
 # enter fullscreen mode for the focused container
