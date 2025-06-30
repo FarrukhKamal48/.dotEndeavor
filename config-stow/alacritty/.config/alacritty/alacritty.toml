@@ -1,70 +1,14 @@
 
-[colors.bright]
-black = "#4C566A"
-blue = "#81A1C1"
-cyan = "#8FBCBB"
-green = "#A3BE8C"
-magenta = "#B48EAD"
-red = "#BF616A"
-white = "#ECEFF4"
-yellow = "#EBCB8B"
-
-[colors.cursor]
-cursor = "#00CACA"
-text = "#000000"
-
-[colors.normal]
-black = "#156BDC"
-blue = "#F77067"
-cyan = "#88C0D0"
-green = "#2AACAA"
-magenta = "#B48EAD"
-red = "#F22C57"
-white = "#E5E9F0"
-yellow = "#EBCB8B"
-
-[colors.primary]
-background = "#1a1b26"
-foreground = "#D8DEE9"
-
 [cursor.style]
 blinking = "Off"
 shape = "Block"
 
 [env]
-TERM = "alacritty"
+TERM = "xterm-256color"
 
 [font]
 size = 10.0
 
-# [font.Otto.bright]
-# black = "#4C566A"
-# blue = "#81A1C1"
-# cyan = "#8FBCBB"
-# green = "#A3BE8C"
-# magenta = "#B48EAD"
-# red = "#BF616A"
-# white = "#ECEFF4"
-# yellow = "#EBCB8B"
-#
-# [font.Otto.cursor]
-# cursor = "#00CACA"
-# text = "#000000"
-#
-# [font.Otto.normal]
-# black = "#156BDC"
-# blue = "#F77067"
-# cyan = "#88C0D0"
-# green = "#2AACAA"
-# magenta = "#B48EAD"
-# red = "#F22C57"
-# white = "#E5E9F0"
-# yellow = "#EBCB8B"
-#
-# [font.Otto.primary]
-# background = "#1a1b26"
-# foreground = "#D8DEE9"
-#
 [font.bold]
 family = "Jetbrains Mono Nerd Font"
 style = "Bold"
@@ -277,6 +221,8 @@ y = 7
 
 [general]
 live_config_reload = true
-working_directory = "/home/infidel"
+working_directory = "$HOME"
+# import = [ "~/.config/alacritty/catppuccin-macchiato.toml" ]
+import = [ "~/.config/alacritty/tokyonigt.toml" ]
 
 [terminal]
