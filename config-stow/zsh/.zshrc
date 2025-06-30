@@ -13,12 +13,10 @@ alias la='ls --color=auto -av'
 
 # snake=(for file in *; do mv "$file" "$(echo $file | tr '_' ' ')" ; done)
 
-home='/home/'$USER
-
 # config file locations
-nvim=$home'/.config/nvim/init.lua'
-conf=$home'/.dotEndeavor/config-stow'
-raw=$home'/.dotEndeavor/raw-backup'
+nvim=$HOME'/.config/nvim/init.lua'
+conf=$HOME'/.dotEndeavor/config-stow'
+raw=$HOME'/.dotEndeavor/raw-backup'
 i3=$conf'/i3/.config/i3/config'
 zsh=$conf'/zsh/.zshrc'
 
@@ -32,7 +30,6 @@ eval "$(zoxide init zsh)"
 # Use powerline
 USE_POWERLINE="false"
 
-# export FrameworkPathOverride="/usr/lib/mono/4.8-api/"
 export PATH="$PATH:/bin/butler/"
 
 export TERMINAL=alacritty
