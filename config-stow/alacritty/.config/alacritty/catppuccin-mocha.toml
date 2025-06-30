@@ -6,23 +6,23 @@ bright_foreground = "#cdd6f4"
 
 [colors.cursor]
 text = "#1e1e2e"
-cursor = "#f5e0dc"
+cursor = "#e8849a"
 
 [colors.vi_mode_cursor]
 text = "#1e1e2e"
-cursor = "#b4befe"
+cursor = "#84e8d2"
 
 [colors.search.matches]
 foreground = "#1e1e2e"
-background = "#a6adc8"
+background = "#3e5767"
 
 [colors.search.focused_match]
 foreground = "#1e1e2e"
-background = "#a6e3a1"
+background = "#84e8d2"
 
 [colors.footer_bar]
 foreground = "#1e1e2e"
-background = "#a6adc8"
+background = "#84e8d2"
 
 [colors.hints.start]
 foreground = "#1e1e2e"
@@ -34,7 +34,7 @@ background = "#a6adc8"
 
 [colors.selection]
 text = "#1e1e2e"
-background = "#f5e0dc"
+background = "#5ea191"
 
 [colors.normal]
 black = "#45475a"

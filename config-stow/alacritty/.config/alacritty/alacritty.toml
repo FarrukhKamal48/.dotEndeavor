@@ -33,7 +33,6 @@ action = "Paste"
 key = "V"
 mods = "Control|Shift"
 
-
 [[keyboard.bindings]]
 chars = "\u0012"
 key = "R"
@@ -222,7 +221,7 @@ y = 7
 [general]
 live_config_reload = true
 working_directory = "$HOME"
-# import = [ "~/.config/alacritty/catppuccin-macchiato.toml" ]
-import = [ "~/.config/alacritty/tokyonigt.toml" ]
+import = [ "~/.config/alacritty/catppuccin-mocha.toml" ]
+# import = [ "~/.config/alacritty/tokyonigt.toml" ]
 
 [terminal]
