@@ -11,8 +11,9 @@ max_length=$(echo "${menu}" | awk '{ if (length > max) { max = length } } END { 
 
 ROFI_WIDTH=$((max_length + 2))
 ROFI_OPTIONS=(-no-fixed-num-lines \ 
+    -kb-cancel "Alt+i" \
     -theme ~/.config/rofi/custom-dmenu.rasi \
-    -theme-str "window { width: ${ROFI_WIDTH}ch;}")
+    -theme-str "window { width: ${ROFI_WIDTH}ch; }")
 
 launcher_exe="rofi"
 launcher_options=(-i -lines "${menu_nrows}" -p "${ROFI_PROMPT}" "${ROFI_OPTIONS[@]}" -dmenu)

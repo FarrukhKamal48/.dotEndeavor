@@ -19,6 +19,7 @@ max_length=$(echo "${menu_keys}" | awk '{ if (length > max) { max = length } } E
 
 ROFI_WIDTH=$((max_length + 2))
 ROFI_OPTIONS=(-no-fixed-num-lines \ 
+    -kb-cancel "Alt+o" \
     -theme ~/.config/rofi/custom-dmenu.rasi \
     -theme-str "window { width: ${ROFI_WIDTH}ch;}")
 
