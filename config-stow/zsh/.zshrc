@@ -51,7 +51,7 @@ if [[ -e /usr/share/zsh/manjaro-zsh-prompt ]]; then
   source /usr/share/zsh/manjaro-zsh-prompt
 fi
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=blue,underline'; export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=cyan,underline'; export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE
 
 # LS_COLORS=$LS_COLORS:'di=0;34:' ; export LS_COLORS
 
