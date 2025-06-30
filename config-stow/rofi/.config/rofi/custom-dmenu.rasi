@@ -1,9 +1,8 @@
 @import "~/.config/rofi/rofi.rasi"
 
 configuration {
-    font:             "Jetbrains Mono Nerd Font 10";
+    font:             "Jetbrains Mono Nerd Font 12";
     show-icons:       false;
-    kb-cancel:        "Alt+space,Escape";
 }
 
 @import "~/.config/rofi/arc_dark_transparent_colors.rasi" 
