@@ -51,10 +51,11 @@ set $minecraft "Minecraft"
 
 # modes
 set $normal     "default"
+set $apps       ":Apps"
+set $menus      ":Menus"
 set $bluetooth  ":Blutooth"
 set $wifi       ":Wifi"
 set $reshape    ":ReShape"
-set $winSendTo  ":Workspace Send"
 set $gamemode   ":Gamemode"
 
 # directories & files
@@ -66,42 +67,102 @@ set $snip_dir   /home/$USER/downl/Media/Snips/
 # Modes ############################################################################################################################################################################################################################
 ####################################################################################################################################################################################################################################
 
+mode $apps {
+    
+    bindsym $mod+space exec --no-startup-id $terminal; mode $normal
+    bindsym $mod+g exec --no-startup-id $browser; mode $normal
+    bindsym $mod+i exec --no-startup-id $browser --incognito; mode $normal
+    bindsym $mod+t exec --no-startup-id $browser web.whatsapp.com; mode $normal
+    bindsym $mod+y exec --no-startup-id localsend; mode $normal
+    bindsym $mod+e exec --no-startup-id $terminal -e ranger; mode $normal
+    bindsym $mod+b exec --no-startup-id $terminal -e btop; mode $normal
+    bindsym $mod+w exec --no-startup-id mcontrolcenter; mode $normal
+    bindsym $mod+p exec --no-startup-id $scripts/tools/screensnip.sh $snip_dir jpg                      ; mode $normal
+    bindsym $mod+bracketleft exec --no-startup-id $scripts/tools/screensnip.sh $snip_dir jpg tesseract \
+        && tesseract $snip_dir/tesseract.jpg stdout | copyq write -                                     ; mode $normal
+    bindsym $mod+bracketright exec --no-startup-id $scripts/tools/colorpicker   ; mode $normal
+    bindsym $mod+Return mode $normal
+    
+}
+bindsym $mod+space mode $apps
+
+mode $menus {
+    
+    # keybinding in fancy rofi (automated):
+    # bindsym F7 exec $scripts/tools/keyhint-2
+
+    # rofi run menu
+    bindsym $alt+space exec --no-startup-id rofi -modi drun -show drun \
+            -config ~/.config/rofi/rofidmenu.rasi \
+            ; mode $normal
+
+    bindsym $alt+c exec --no-startup-id copyq toggle; mode $normal
+
+    # Shutdown, Reboot etc menu
+    # bindsym $mod+Shift+o exec --no-startup-id $scripts/menus/powermenu
+    
+    # Power Profiles menu
+    bindsym $alt+i exec --no-startup-id $scripts/menus/power-profiles; mode $normal
+    
+    # Apend layout menu
+    bindsym $alt+o exec --no-startup-id $scripts/menus/append-layout-menu; mode $normal
+    
+    # Change Curfew menu
+    # bindsym $alt+bracketleft exec --no-startup-id $scripts/menus/curfew-menu; mode $normal
+
+    ## rofi bindings for window menu ($mod+t /F10 optional disabled)
+
+    # rofi show all windows
+    # bindsym $mod+Tab exec --no-startup-id rofi -show window \
+	# 		-config ~/.config/rofi/rofidmenu.rasi
+
+	# bindsym $mod+Shift+Tab rofi -show -run-shell-command "nmtui-connect && read"
+	## rofi bindings to manage clipboard (install rofi-greenclip from the AUR)
+
+	#exec --no-startup-id greenclip daemon>/dev/null
+	# bindsym $mod+x exec --no-startup-id rofi -show run nmtui \
+	# 	-config ~/.config/rofi/rofidmenu.rasi
+    
+    bindsym $alt+Return mode $normal
+    bindsym $mod+Return mode $normal
+    bindsym Escape mode $normal
+    
+}
+bindsym $alt+space mode $menus
 
 mode $bluetooth {
 
     # turn bluetooth on/off
-    bindsym $mod+Shift+u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on; mode $normal
-    bindsym $mod+Shift+i exec --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth; mode $normal
+    bindsym $mod+u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on; mode $normal
+    bindsym $mod+i exec --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth; mode $normal
     bindsym u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on; mode $normal 
     bindsym i exec --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth; mode $normal  
 
     # blueman-manager
-    bindsym $mod+Shift+j exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && blueman-manager; mode $normal
+    bindsym $mod+j exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && blueman-manager; mode $normal
     bindsym j exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && blueman-manager; mode $normal
 
-    bindsym Return mode $normal
-    bindsym Escape mode $normal
+    bindsym $mod+Return mode $normal
     
 }
-bindsym $mod+Shift+u mode $bluetooth
+bindsym $mod+u mode $bluetooth
 
 mode $wifi {
 
     # turn internet on/off
-    bindsym $mod+Shift+u exec --no-startup-id nmcli radio wifi off; mode $normal
-    bindsym $mod+Shift+i exec --no-startup-id nmcli radio wifi on; mode $normal
+    bindsym $mod+u exec --no-startup-id nmcli radio wifi off; mode $normal
+    bindsym $mod+i exec --no-startup-id nmcli radio wifi on; mode $normal
     bindsym u exec --no-startup-id nmcli radio wifi off; mode $normal
     bindsym i exec --no-startup-id nmcli radio wifi on; mode $normal
 
     # choose network
     bindsym j exec --no-startup-id $terminal -e nmtui; mode $normal
-    bindsym $mod+Shift+j exec --no-startup-id $terminal -e nmtui; mode $normal
+    bindsym $mod+j exec --no-startup-id $terminal -e nmtui; mode $normal
 
-    bindsym Return mode $normal
-    bindsym Escape mode $normal
+    bindsym $mod+Return mode $normal
     
 }
-bindsym $mod+Shift+i mode $wifi
+bindsym $mod+i mode $wifi
 
 
 mode $reshape {
@@ -120,42 +181,37 @@ mode $reshape {
     bindsym r exec --no-startup-id $scripts/tools/rotate.sh
     bindsym $mod+r exec --no-startup-id $scripts/tools/rotate.sh
 
-    bindsym Return; exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
-    bindsym Escape; exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
+    bindsym $mod+Return; exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
     
 }
 bindsym $mod+r exec --no-startup-id xset r rate $key_repeat_delay_fast $key_repeat_rate; mode $reshape 
 
 
-mode $winSendTo {
-
-    bindsym h focus left
-    bindsym j focus down
-    bindsym k focus up
-    bindsym l focus right
-
-    bindsym 1 move container to workspace $ws1 
-    bindsym 2 move container to workspace $ws2
-    bindsym 3 move container to workspace $ws3
-    bindsym 4 move container to workspace $ws4
-    bindsym 5 move container to workspace $ws5
-    bindsym 6 move container to workspace $ws6
-    bindsym 7 move container to workspace $ws7
-    bindsym 8 move container to workspace $ws8
-    bindsym 9 move container to workspace $ws9 
-    bindsym 10 move container to workspace $ws10 
-
-    bindsym Return mode $normal
-    bindsym Escape mode $normal
-    
-}
-# bindsym $mod+Shift+w mode $winSendTo
-
 mode $gamemode {
     
-    bindsym $mod+Shift+w mode $normal
+    # # Backlight setting using fn keys
+    # bindsym F10 exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_up
+    # bindsym F9 exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_down
+    #
+    # # use fn keys for volume
+    # bindsym F2 exec --no-startup-id $scripts/tools/volume_brightness.sh volume_down
+    # bindsym F3 exec --no-startup-id $scripts/tools/volume_brightness.sh volume_up
+    #
+    # # to find these keys run:
+    # # xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf "%-30s %s\n", $5, $8 }'
+    # bindsym XF86AudioPrev exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_up
+    # bindsym XF86Tools exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_down
+    #
+    # bindsym XF86HomePage exec --no-startup-id $scripts/tools/volume_brightness.sh volume_up
+    # bindsym XF86Back exec --no-startup-id $scripts/tools/volume_brightness.sh volume_down
+    #
+    # # mute
+    # bindsym F1 exec --no-startup-id $scripts/tools/volume_brightness.sh volume_mute
+    
+    bindsym $mod+g mode $normal
+    
 }
-bindsym $mod+Shift+w mode $gamemode 
+bindsym $mod+g mode $gamemode 
 
 
 ####################################################################################################################################################################################################################################
@@ -185,16 +241,20 @@ floating_modifier $mod
 ####################################################################################################################################################################################################################################
 
 
-# switch/iterate between open workspaces
+# # iterate through workspaces
+bindsym $mod+w exec --no-startup-id $scripts/tools/workspace_tool.sh next
+bindsym $mod+s exec --no-startup-id $scripts/tools/workspace_tool.sh prev
+# take focused container to open workspace
+bindsym $mod+Shift+w exec --no-startup-id $scripts/tools/workspace_tool.sh take-next
+bindsym $mod+Shift+s exec --no-startup-id $scripts/tools/workspace_tool.sh take-prev
+
+
+# switch between open workspaces
 bindsym $mod+d workspace next
 bindsym $mod+a workspace prev  
 # take focused container to open workspace
 bindsym $mod+Shift+d move container to workspace next; workspace next
 bindsym $mod+Shift+a move container to workspace prev; workspace prev
-
-# # switch/iterate between workspaces
-bindsym $mod+Tab exec --no-startup-id $scripts/tools/workspace_tool.sh next
-bindsym $mod+Shift+Tab exec --no-startup-id $scripts/tools/workspace_tool.sh prev
 
 
 # switch to workspace
@@ -209,10 +269,10 @@ bindsym $mod+8    workspace  $ws8
 bindsym $mod+9    workspace  $ws9
 bindsym $mod+0    workspace  $ws10
 
-# open new empty workspace
-bindsym $mod+Shift+n exec --no-startup-id $scripts/tools/workspace_tool.sh empty
-# take window to new empty workspace
-bindsym $mod+Shift+m exec --no-startup-id $scripts/tools/workspace_tool.sh take-empty
+# # open new empty workspace
+# bindsym $mod+Shift+n exec --no-startup-id $scripts/tools/workspace_tool.sh empty
+# # take window to new empty workspace
+# bindsym $mod+Shift+m exec --no-startup-id $scripts/tools/workspace_tool.sh take-empty
 
 # take container to workspace
 bindsym $mod+Shift+1  move container to workspace  $ws1; workspace $ws1   
@@ -255,8 +315,8 @@ bindsym $mod+Shift+l move right
 # bindsym ctrl+Shift+l exec --no-startup-id $scripts/tools/window-tool swap right
 
 # focus the parent container
-bindsym $mod+u focus parent
-bindsym $mod+i focus child
+bindsym $mod+p focus parent
+bindsym $mod+c focus child
 
 
 ######################################
@@ -264,9 +324,9 @@ bindsym $mod+i focus child
 ######################################
 
 # split in horizontal orientation
-bindsym $mod+s split h
+bindsym $mod+f split h
 # split in vertical orientation
-bindsym $mod+f split v
+bindsym $mod+e split v
 
 
 # enter fullscreen mode for the focused container
@@ -275,16 +335,7 @@ bindsym $mod+m fullscreen toggle
 bindsym $mod+n floating toggle; resize set $win_float_size; move position center 
 
 # change focus between tiling / floating windows
-bindsym $mod+Shift+space focus mode_toggle
-
-# change container layout (stacked, tabbed, toggle split)
-# bindsym $mod+bracketleft layout stacking
-# bindsym $mod+bracketright layout tabbed
-# bindsym $mod+o layout toggle split
-#
-# bindsym $mod+b layout toggle splith splitv stacking tabbed
-# bindsym $mod+Up layout toggle stacking tabbed splith splitv
-# bindsym $mod+Down layout toggle splitv splith tabbed stacking  
+bindsym $mod+b focus mode_toggle
 
 
 ####################################################################################################################################################################################################################################
@@ -302,44 +353,11 @@ bindsym $mod+Shift+q [all] kill
 set $terminal   alacritty
 set $browser    google-chrome-stable
 
-# start apps
-bindsym $mod+space exec --no-startup-id $terminal
-
-bindsym $mod+g exec --no-startup-id $browser 
-bindsym $mod+Shift+g exec --no-startup-id $browser --incognito
-bindsym $mod+t exec --no-startup-id $browser web.whatsapp.com
-
-bindsym $mod+y exec --no-startup-id localsend
-
-bindsym $mod+e exec --no-startup-id $terminal -e ranger 
-
-bindsym $mod+b exec --no-startup-id $terminal -e btop
-
-bindsym $mod+w exec --no-startup-id mcontrolcenter 
-
-bindsym $mod+Shift+p exec --no-startup-id $scripts/tools/screensnip.sh $snip_dir jpg
-
-bindsym $mod+Shift+bracketleft exec --no-startup-id $scripts/tools/screensnip.sh $snip_dir jpg tesseract \
-    && tesseract $snip_dir/tesseract.jpg stdout | copyq write -
-    
-bindsym $mod+Shift+bracketright exec --no-startup-id $scripts/tools/colorpicker
-
-bindsym $alt+c exec --no-startup-id copyq toggle
-
 
 ####################################################################################################################################################################################################################################
 # system ###########################################################################################################################################################################################################################
 ####################################################################################################################################################################################################################################
 
-
-# Power Profiles menu
-# bindsym $mod+Shift+p exec --no-startup-id $scripts/menus/power-profiles
-# Shutdown, Reboot etc menu
-# bindsym $mod+Shift+o exec --no-startup-id $scripts/menus/powermenu
-# Change Curfew menu
-bindsym $mod+Shift+backslash exec --no-startup-id $scripts/menus/curfew-menu
-# Apend layout menu
-bindsym $mod+Shift+o exec --no-startup-id $scripts/menus/append-layout-menu
 
 bindsym $mod+Shift+BackSpace exec --no-startup-id systemctl poweroff 
 bindsym $mod+Shift+Return exec --no-startup-id systemctl reboot
@@ -365,19 +383,27 @@ bindsym F9 exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_d
 bindsym F2 exec --no-startup-id $scripts/tools/volume_brightness.sh volume_down
 bindsym F3 exec --no-startup-id $scripts/tools/volume_brightness.sh volume_up
 
+# to find these keys run:
+# xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf "%-30s %s\n", $5, $8 }'
+bindsym XF86AudioPrev exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_up
+bindsym XF86Tools exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_down
+
+bindsym XF86HomePage exec --no-startup-id $scripts/tools/volume_brightness.sh volume_up
+bindsym XF86Back exec --no-startup-id $scripts/tools/volume_brightness.sh volume_down
+
 # mute
 #bindsym XF86AudioMute exec amixer sset Master toggle && killall -USR1 i3blocks
 # use meta keys showing osc using dunst
 bindsym F1 exec --no-startup-id $scripts/tools/volume_brightness.sh volume_mute
 
-# mic mute toggle
-bindsym XF86AudioMicMute exec --no-startup-id amixer sset Capture toggle
-
-# audio control
-bindsym XF86AudioPlay exec --no-startup-id playerctl play
-bindsym XF86AudioPause exec --no-startup-id playerctl pause
-bindsym XF86AudioNext exec --no-startup-id playerctl next
-bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+# # mic mute toggle
+# bindsym XF86AudioMicMute exec --no-startup-id amixer sset Capture toggle
+#
+# # audio control
+# bindsym XF86AudioPlay exec --no-startup-id playerctl play
+# bindsym XF86AudioPause exec --no-startup-id playerctl pause
+# bindsym XF86AudioNext exec --no-startup-id playerctl next
+# bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 
 
 ####################################################################################################################################################################################################################################
@@ -511,7 +537,7 @@ exec --no-startup-id powerprofilesctl set balanced
 # exec --no-startup-id $terminal -e $scripts/tools/TunePowerTop.sh 
 
 # set default mode
-# exec_always mode $normal
+exec_always mode $normal
 
 # default apps
 set $wm_setting_app_terminal         $terminal
@@ -589,26 +615,3 @@ bar {
 }
 
 
-####################################################################################################################################################################################################################################
-# rofi menus #######################################################################################################################################################################################################################
-####################################################################################################################################################################################################################################
-
-# keybinding in fancy rofi (automated):
-# bindsym F7 exec $scripts/tools/keyhint-2
-
-# rofi run menu
-bindsym $alt+space exec --no-startup-id rofi -modi drun -show drun \
-		-config ~/.config/rofi/rofidmenu.rasi
-
-## rofi bindings for window menu ($mod+t /F10 optional disabled)
-
-# rofi show all windows
-# bindsym $mod+Tab exec --no-startup-id rofi -show window \
-# 		-config ~/.config/rofi/rofidmenu.rasi
-
-# bindsym $mod+Shift+Tab rofi -show -run-shell-command "nmtui-connect && read"
-## rofi bindings to manage clipboard (install rofi-greenclip from the AUR)
-
-#exec --no-startup-id greenclip daemon>/dev/null
-# bindsym $mod+x exec --no-startup-id rofi -show run nmtui \
-# 	-config ~/.config/rofi/rofidmenu.rasi
