@@ -119,17 +119,23 @@ mode $menus {
     bindsym $alt+space exec --no-startup-id rofi -modi drun -show drun \
             -config ~/.config/rofi/rofidmenu.rasi \
             ; mode $normal
+    bindsym space exec --no-startup-id rofi -modi drun -show drun \
+            -config ~/.config/rofi/rofidmenu.rasi \
+            ; mode $normal
 
     bindsym $alt+c exec --no-startup-id copyq toggle; mode $normal
+    bindsym c exec --no-startup-id copyq toggle; mode $normal
 
     # Shutdown, Reboot etc menu
     # bindsym $mod+Shift+o exec --no-startup-id $scripts/menus/powermenu
     
     # Power Profiles menu
     bindsym $alt+i exec --no-startup-id $scripts/menus/power-profiles; mode $normal
+    bindsym i exec --no-startup-id $scripts/menus/power-profiles; mode $normal
     
     # Apend layout menu
     bindsym $alt+o exec --no-startup-id $scripts/menus/append-layout-menu; mode $normal
+    bindsym o exec --no-startup-id $scripts/menus/append-layout-menu; mode $normal
     
     # Change Curfew menu
     # bindsym $alt+bracketleft exec --no-startup-id $scripts/menus/curfew-menu; mode $normal
@@ -202,8 +208,8 @@ mode $reshape {
     bindsym Shift+l move right  $win_move_amt 
 
     # orientaion
-    bindsym r exec --no-startup-id $scripts/tools/rotate.sh
     bindsym $mod+r exec --no-startup-id $scripts/tools/rotate.sh
+    bindsym r exec --no-startup-id $scripts/tools/rotate.sh
 
     bindsym $mod+Return; exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
     
