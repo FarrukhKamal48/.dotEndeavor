@@ -60,7 +60,7 @@ set $gamemode   ":Gamemode"
 
 # directories & files
 set $scripts    ~/.dotEndeavor/config-stow/i3/.config/i3/scripts
-set $snip_dir   /home/$USER/downl/Media/Snips/
+set $snip_dir   $HOME/downl/Media/Snips/
 
 
 ####################################################################################################################################################################################################################################
@@ -70,18 +70,42 @@ set $snip_dir   /home/$USER/downl/Media/Snips/
 mode $apps {
     
     bindsym $mod+space exec --no-startup-id $terminal; mode $normal
+    bindsym space exec --no-startup-id $terminal; mode $normal
+    
     bindsym $mod+g exec --no-startup-id $browser; mode $normal
+    bindsym g exec --no-startup-id $browser; mode $normal
+    
     bindsym $mod+i exec --no-startup-id $browser --incognito; mode $normal
+    bindsym i exec --no-startup-id $browser --incognito; mode $normal
+    
     bindsym $mod+t exec --no-startup-id $browser web.whatsapp.com; mode $normal
+    bindsym t exec --no-startup-id $browser web.whatsapp.com; mode $normal
+    
     bindsym $mod+y exec --no-startup-id localsend; mode $normal
+    bindsym y exec --no-startup-id localsend; mode $normal
+    
     bindsym $mod+e exec --no-startup-id $terminal -e ranger; mode $normal
+    bindsym e exec --no-startup-id $terminal -e ranger; mode $normal
+    
     bindsym $mod+b exec --no-startup-id $terminal -e btop; mode $normal
+    bindsym b exec --no-startup-id $terminal -e btop; mode $normal
+    
     bindsym $mod+w exec --no-startup-id mcontrolcenter; mode $normal
-    bindsym $mod+p exec --no-startup-id $scripts/tools/screensnip.sh $snip_dir jpg                      ; mode $normal
+    bindsym w exec --no-startup-id mcontrolcenter; mode $normal
+    
+    bindsym $mod+p exec --no-startup-id $scripts/tools/screensnip.sh $snip_dir jpg; mode $normal
+    bindsym p exec --no-startup-id $scripts/tools/screensnip.sh $snip_dir jpg; mode $normal
+    
     bindsym $mod+bracketleft exec --no-startup-id $scripts/tools/screensnip.sh $snip_dir jpg tesseract \
-        && tesseract $snip_dir/tesseract.jpg stdout | copyq write -                                     ; mode $normal
-    bindsym $mod+bracketright exec --no-startup-id $scripts/tools/colorpicker   ; mode $normal
+        && tesseract $snip_dir/tesseract.jpg stdout | copyq write -; mode $normal
+    bindsym bracketleft exec --no-startup-id $scripts/tools/screensnip.sh $snip_dir jpg tesseract \
+        && tesseract $snip_dir/tesseract.jpg stdout | copyq write -; mode $normal
+    
+    bindsym $mod+bracketright exec --no-startup-id $scripts/tools/colorpicker; mode $normal
+    bindsym bracketright exec --no-startup-id $scripts/tools/colorpicker; mode $normal
+    
     bindsym $mod+Return mode $normal
+    bindsym Return mode $normal
     
 }
 bindsym $mod+space mode $apps
