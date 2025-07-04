@@ -29,12 +29,14 @@ function get_brightness {
 function get_volume_icon {
     volume=$(get_volume)
     mute=$(get_mute)
-    if [ "$volume" -eq 0 ] || [ "$mute" == "yes" ] ; then
-        volume_icon=" "
+    if [ "$mute" == "yes" ]; then
+        volume_icon=" "
+    elif [ "$volume" -eq 0 ] ; then
+        volume_icon="   "
     elif [ "$volume" -lt 50 ]; then
-        volume_icon=" "
+        volume_icon="   "
     else
-        volume_icon="  "
+        volume_icon="   "
     fi
 }
 
@@ -49,7 +51,11 @@ function get_brightness_icon {
 function show_volume_notif {
     volume=$(get_mute)
     get_volume_icon
-    dunstify -t 1000 -r 2593 -u normal "$volume_icon $volume%" -h int:value:$volume -h string:hlcolor:$bar_color
+    # dunstify -t 1000 -r 2593 -u normal "$volume_icon $volume%" -h int:value:$volume
+    dunstify -h int:value:"$volume" \
+           -i "$volume_icon" \
+           -r 2593 \
+           "$volume_icon ${volume}%"
 }
 
 # Displays a brightness notification using dunstify

@@ -589,8 +589,8 @@ set $wm_setting_app_browser          $browser
 
 # Desktop notifications
 # may yneed to run dbus-launch explicitly: 
-#exec --no-startup-id dbus-launch /usr/bin/dunst
-exec --no-startup-id /usr/bin/dunst
+# exec --no-startup-id dbus-launch /usr/bin/dunst
+exec_always --no-startup-id ~/.config/dunst/launch.sh
 
 
 ####################################################################################################################################################################################################################################
@@ -631,8 +631,8 @@ exec_always --no-startup-id ~/.config/polybar/launch.sh
 #     status_command i3status-rs ~/.config/i3/i3status-rs.toml
 #
 #     position bottom
-#     # tray_output primary
-#     tray_padding 4
+#     tray_output secondary
+#     # tray_padding 4
 #
 #     strip_workspace_numbers no
 #
