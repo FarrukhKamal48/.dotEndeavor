@@ -59,6 +59,9 @@ set $reshape    ":ReShape"
 set $gamemode   ":Gamemode"
 
 # directories & files
+set $dots_stow  ~/.dotEndeavor/config-stow
+set $dots_sys   ~/.dotEndeavor/config-sys
+set $dots_raw   ~/.dotEndeavor/raw-backup
 set $scripts    ~/.dotEndeavor/config-stow/i3/.config/i3/scripts
 set $snip_dir   $HOME/downl/Media/Snips/
 
@@ -534,7 +537,7 @@ exec --no-startup-id ~/.screenlayout/monitor.sh
 exec --no-startup-id brightnessctl -q set $default_brightness 
 
 # set wallpaper
-exec_always --no-startup-id sleep 1 && feh --bg-fill "/usr/share/endeavouros/backgrounds/Solid_Dark.png"
+exec_always --no-startup-id sleep 1 && feh --bg-fill $dots_raw/Pictures/Wallpapers/background-format.png
 
 # bell
 exec_always --no-startup-id xset -b
@@ -590,7 +593,8 @@ set $wm_setting_app_browser          $browser
 # Desktop notifications
 # may yneed to run dbus-launch explicitly: 
 # exec --no-startup-id dbus-launch /usr/bin/dunst
-exec_always --no-startup-id ~/.config/dunst/launch.sh
+exec --no-startup-id dunst
+exec_always --no-startup-id dunstctl reload 
 
 
 ####################################################################################################################################################################################################################################
