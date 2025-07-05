@@ -1,80 +1,71 @@
 #!/bin/bash
-# original source: https://gitlab.com/Nmoleo/i3-volume-brightness-indicator
 
-# taken from here: https://gitlab.com/Nmoleo/i3-volume-brightness-indicator
-
-# See README.md for usage instructions
-bar_color="#7aa2f7"
+bar_height=30
 volume_step=5
 max_volume=150
 brightness_step=5
-brightness_min=480
 
-# Uses regex to get volume from pactl
 function get_volume {
     pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '[0-9]{1,3}(?=%)' | head -1
 }
 
-# Uses regex to get mute status from pactl
 function get_mute {
     pactl get-sink-mute @DEFAULT_SINK@ | grep -Po '(?<=Mute: )(yes|no)'
 }
 
-# Uses regex to get brightness from xbacklight
 function get_brightness {
-    brightnessctl get
+    brightnessctl i | grep -o '(.*%)' | sed 's/[()%]//g'
 }
 
-# Returns a mute icon, a volume-low icon, or a volume-high icon, depending on the volume
-function get_volume_icon {
+function set_volume_icon {
     volume=$(get_volume)
     mute=$(get_mute)
-    if [ "$mute" == "yes" ]; then
-        volume_icon=" "
-    elif [ "$volume" -eq 0 ] ; then
-        volume_icon="   "
-    elif [ "$volume" -lt 50 ]; then
-        volume_icon="   "
+    if [[ "$mute" == "yes" ]]; then
+        volume_icon=volume-mute
+    elif (( $volume <= 35 )); then
+        volume_icon=volume-low 
+    elif (( $volume >= 36 && $volume <= 70 )); then
+        volume_icon=volume-medium
+    elif (( $volume >= 71 && $volume <= 100 )); then
+        volume_icon=volume-high 
     else
-        volume_icon="   "
+        volume_icon=volume-ultra
     fi
 }
 
-#; dunstify -t 1000 -r 2593 -u normal "" -h brightnessctl get -h "#41a7fc"
-
-# Always returns the same icon - I couldn't get the brightness-low icon to work with fontawesome
-function get_brightness_icon {
-    brightness_icon=""
+function set_brightness_icon {
+    # brightness=$(awk "BEGIN { print ($(get_brightness)/96000)*100; }")
+    brightness=$(get_brightness)
+    if (( $brightness <= 20 )) ; then
+        brightness_icon=brightness-low
+    elif (( $brightness >= 21 && $brightness <= 40 )); then
+        brightness_icon=brightness-medium
+    elif (( $brightness >= 41 && $brightness <= 60 )); then
+        brightness_icon=brightness-half
+    else
+        brightness_icon=brightness-high
+    fi
 }
 
-# Displays a volume notification using dunstify
 function show_volume_notif {
     volume=$(get_mute)
-    get_volume_icon
-    # dunstify -t 1000 -r 2593 -u normal "$volume_icon $volume%" -h int:value:$volume
-    dunstify -h int:value:"$volume" \
-           -i "$volume_icon" \
-           -r 2593 \
-           "$volume_icon ${volume}%"
+    set_volume_icon
+    dunstify -a "volume_brightness" -u low -i $volume_icon -r 2594 -h int:value:"$volume" "${volume}%"
+    
+    # # bartxt=$(~/.dotEndeavor/config-stow/i3/.config/i3/scripts/tools/ascii-bar.sh \
+    # #     $volume $bar_height $max_volume)
+    # # dunstify -a "volume_bar" -r 2593 "$bartxt"
 }
 
-# Displays a brightness notification using dunstify
 function show_brightness_notif {
     brightness=$(awk "BEGIN { print ($(get_brightness)/96000)*100; }")
-    get_brightness_icon
-    dunstify -t 1000 -r 2593 -u normal "$brightness_icon   $brightness%" -h int:value:$brightness -h string:hlcolor:$bar_color
+    set_brightness_icon
+    dunstify -a "volume_brightness" -u low -i $brightness_icon -r 2593 -h int:value:"$brightness" "${brightness}%"
 }
-# function show_brightness_notif {
-#     brightness=$(get_brightness)
-#     get_brightness_icon
-#     # -h int:value:$brightness -h string:hlcolor:$bar_color
-#     dunstify -t 1000 -r 2593 -u normal "$brightness_icon    $brightness"  
-# }
 
-# Main function - Takes user input, "volume_up", "volume_down", "brightness_up", or "brightness_down"
 case $1 in
     volume_up)
-    # Unmutes and increases volume, then displays the notification
+    # Unmutes and increases volume by percentage
     pactl set-sink-mute @DEFAULT_SINK@ 0
     volume=$(get_volume)
     if [ $(( "$volume" + "$volume_step" )) -gt $max_volume ]; then
@@ -86,41 +77,35 @@ case $1 in
     ;;
 
     volume_down)
-    # Raises volume and displays the notification
+    # Decreases volume by percentage
     pactl set-sink-volume @DEFAULT_SINK@ -$volume_step%
     show_volume_notif
     ;;
 
     volume_mute)
-    # Toggles mute and displays the notification
+    # Toggles mute
     pactl set-sink-mute @DEFAULT_SINK@ toggle
     show_volume_notif
     ;;
 
     brightness_up)
-    # Increases brightness and displays the notification
+    # Increases brightness by percentage
     currentBrightness=$(get_brightness)
-    if [ "$currentBrightness" -eq 480 ]; then
-        brightnessctl -q set $brightness_step%
-    else
-        brightnessctl -q set $brightness_step%+ 
-    fi
+    brightnessctl -q set $brightness_step%+ 
     show_brightness_notif
     ;;
 
     brightness_down)
-    # Decreases brightness and displays the notification
-    brightnessctl --min-value=$brightness_min -q set $brightness_step%- 
+    # Decreases brightness by percentage
+    brightnessctl -q set $brightness_step%- 
     show_brightness_notif
     ;;
     
     brightness_notif)
-    # show current brightness
     show_brightness_notif
     ;;
 
     volume_notif)
-    # show current brightness
     show_volume_notif
     ;;
 esac
