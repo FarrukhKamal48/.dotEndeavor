@@ -59,10 +59,10 @@ set $reshape    ":ReShape"
 set $gamemode   ":Gamemode"
 
 # directories & files
-set $dots_stow  ~/.dotEndeavor/config-stow
-set $dots_sys   ~/.dotEndeavor/config-sys
-set $dots_raw   ~/.dotEndeavor/raw-backup
-set $scripts    ~/.dotEndeavor/config-stow/i3/.config/i3/scripts
+set $dots_stow  ~/.dotEndeavor/stow
+set $dots_sys   ~/.dotEndeavor/sys
+set $dots_raw   ~/.dotEndeavor/raw
+set $scripts    ~/.dotEndeavor/stow/i3/.config/i3/scripts
 set $snip_dir   $HOME/downl/Media/Snips/
 
 
