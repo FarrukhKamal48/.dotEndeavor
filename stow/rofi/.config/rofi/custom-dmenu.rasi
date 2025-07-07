@@ -5,8 +5,6 @@ configuration {
     show-icons:       false;
 }
 
-@import "~/.config/rofi/arc_dark_transparent_colors.rasi" 
-
 window {
     background-color: @background;
     border:           2;

@@ -20,3 +20,6 @@ configuration {
 // Run 
 // xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf "%-30s %s\n", $5, $8 }'
 // A small white window will appear. Click on it and press any key and its name will be printed
+
+
+@import "~/.config/rofi/catppuccin-mocha.rasi" 
