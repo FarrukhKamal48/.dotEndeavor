@@ -1,0 +1,22 @@
+// global rofi configuration
+
+configuration {
+    icon-theme:          "Qogir";
+    scroll-method:       0;
+    fullscreen:       false;
+    disable-history:     false;
+    sidebar-mode:        false;
+    hide-scrollbar:   true;
+    
+    kb-move-char-back:      "Alt+h,Left";
+    kb-row-down:            "Alt+j,Down";
+    kb-row-up:              "Alt+k,Up";
+    kb-move-char-forward:   "Alt+l,Right";
+    kb-accept-entry:        "Return";
+    
+}
+
+// to find out what a particular key is called
+// Run 
+// xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf "%-30s %s\n", $5, $8 }'
+// A small white window will appear. Click on it and press any key and its name will be printed
