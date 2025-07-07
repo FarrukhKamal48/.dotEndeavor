@@ -15,8 +15,8 @@ alias la='ls --color=auto -av'
 
 # config file locations
 nvim=$HOME'/.config/nvim/init.lua'
-conf=$HOME'/.dotEndeavor/config-stow'
-raw=$HOME'/.dotEndeavor/raw-backup'
+conf=$HOME'/.dotEndeavor/stow'
+raw=$HOME'/.dotEndeavor/raw'
 i3=$conf'/i3/.config/i3/config'
 zsh=$conf'/zsh/.zshrc'
 
