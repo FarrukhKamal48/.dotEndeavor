@@ -13,13 +13,20 @@ configuration {
 window {
     background-color: @background;
     border:           2;
+    border-color:     @selected-normal-background;
     padding:          10;
-    width:            700px;
+    width:            600px;
     location:         north;
 }
 listview {
-    lines:   5;
-    columns: 1;
+    lines:          5;
+    columns:        1;
+    fixed-height:   0;
+    border:         8px 0px 0px;
+    border-color:   @separatorcolor;
+    spacing:        5px;
+    scrollbar:      true;
+    padding:        2px 0px 0px 0px;
 }
 mainbox {
     border:  0;
@@ -33,64 +40,22 @@ message {
 textbox {
     text-color: @foreground;
 }
-listview {
-    fixed-height: 0;
-    border:       8px 0px 0px;
-    border-color: @separatorcolor;
-    spacing:      10px;
-    scrollbar:    false;
-    padding:      2px 0px 0px;
-}
 element {
     border:  0;
+    border-color : @surface0;
     padding: 5px;
 }
 element-text {
     background-color: inherit;
     text-color:       inherit;
 }
-element.normal.normal {
-    background-color: @normal-background;
-    text-color:       @normal-foreground;
-}
-element.normal.urgent {
-    background-color: @urgent-background;
-    text-color:       @urgent-foreground;
-}
-element.normal.active {
-    background-color: @active-background;
-    text-color:       @active-foreground;
-}
-element.selected.normal {
-    background-color: @selected-normal-background;
-    text-color:       @selected-normal-foreground;
-}
-element.selected.urgent {
-    background-color: @selected-urgent-background;
-    text-color:       @selected-urgent-foreground;
-}
-element.selected.active {
-    background-color: @selected-active-background;
-    text-color:       @selected-active-foreground;
-}
-element.alternate.normal {
-    background-color: @alternate-normal-background;
-    text-color:       @alternate-normal-foreground;
-}
-element.alternate.urgent {
-    background-color: @alternate-urgent-background;
-    text-color:       @alternate-urgent-foreground;
-}
-element.alternate.active {
-    background-color: @alternate-active-background;
-    text-color:       @alternate-active-foreground;
-}
 scrollbar {
-    width:        4px;
-    border:       0;
-    handle-color: @normal-foreground;
-    handle-width: 8px;
-    padding:      0;
+    width:              4px;
+    border:             0px;
+    handle-color:       @selected-normal-background;
+    background-color:   @border-color;
+    handle-width:       10px;
+    padding:            2px;
 }
 mode-switcher {
     border:       2px 0px 0px;
@@ -114,12 +79,15 @@ case-indicator {
     text-color: @normal-foreground;
 }
 entry {
-    spacing:    0;
-    text-color: @normal-foreground;
+    text-color:        @separatorcolor;
+    cursor:            text;
+    spacing:           0;
+    placeholder-color: @surface2;
+    placeholder:       "Type to filter";
 }
 prompt {
     spacing:    0;
-    text-color: @normal-foreground;
+    text-color: @separatorcolor;
 }
 inputbar {
     children:   [ prompt,textbox-prompt-colon,entry,case-indicator ];
@@ -128,5 +96,5 @@ textbox-prompt-colon {
     expand:     false;
     str:        ":";
     margin:     0px 0.3em 0em 0em;
-    text-color: @normal-foreground;
+    text-color: @separatorcolor;
 }

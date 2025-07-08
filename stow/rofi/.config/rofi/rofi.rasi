@@ -23,3 +23,4 @@ configuration {
 
 
 @import "~/.config/rofi/catppuccin-mocha.rasi" 
+// @import "~/.config/rofi/arc_dark_transparent_colors.rasi" 

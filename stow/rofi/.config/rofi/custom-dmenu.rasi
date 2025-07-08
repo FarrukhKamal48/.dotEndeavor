@@ -8,6 +8,7 @@ configuration {
 window {
     background-color: @background;
     border:           2;
+    border-color:     @selected-normal-background;
     padding:          5;
     transparency:     "real";
     width:            90px;
@@ -22,42 +23,6 @@ element {
 element-text {
     background-color: inherit;
     text-color:       inherit;
-}
-element.normal.normal {
-    background-color: @normal-background;
-    text-color:       @normal-foreground;
-}
-element.normal.urgent {
-    background-color: @urgent-background;
-    text-color:       @urgent-foreground;
-}
-element.normal.active {
-    background-color: @active-background;
-    text-color:       @active-foreground;
-}
-element.selected.normal {
-    background-color: @selected-normal-background;
-    text-color:       @selected-normal-foreground;
-}
-element.selected.urgent {
-    background-color: @selected-urgent-background;
-    text-color:       @selected-urgent-foreground;
-}
-element.selected.active {
-    background-color: @selected-active-background;
-    text-color:       @selected-active-foreground;
-}
-element.alternate.normal {
-    background-color: @alternate-normal-background;
-    text-color:       @alternate-normal-foreground;
-}
-element.alternate.urgent {
-    background-color: @alternate-urgent-background;
-    text-color:       @alternate-urgent-foreground;
-}
-element.alternate.active {
-    background-color: @alternate-active-background;
-    text-color:       @alternate-active-foreground;
 }
 scrollbar {
     width:        4px;
@@ -93,7 +58,7 @@ entry {
 }
 prompt {
     spacing:    0;
-    text-color: @normal-foreground;
+    text-color: @selected-normal-background;
 }
 inputbar {
     children:   [ prompt,textbox-prompt-colon,entry,case-indicator ];
@@ -102,5 +67,5 @@ textbox-prompt-colon {
     expand:     false;
     // str:        "Layout:";
     margin:     0px 0.3em 0em 0em;
-    text-color: @normal-foreground;
+    text-color: @selected-normal-background;
 }
