@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 ROFI_PROMPT="Profile:"
+ROFI_CANCEL="Alt+i,Alt+space"
 
 # use of parenthesis instead of quotations means this is an array (white space seperated)
 menu=($(powerprofilesctl list | grep ':$' | sed 's/[* :]//g'))
@@ -11,7 +12,7 @@ max_length=$(echo "${menu}" | awk '{ if (length > max) { max = length } } END { 
 
 ROFI_WIDTH=$((max_length + 2))
 ROFI_OPTIONS=(-no-fixed-num-lines \ 
-    -kb-cancel "Alt+i" \
+    -kb-cancel ${ROFI_CANCEL} \
     -theme ~/.config/rofi/custom-dmenu.rasi \
     -theme-str "window { width: ${ROFI_WIDTH}ch; }")
 

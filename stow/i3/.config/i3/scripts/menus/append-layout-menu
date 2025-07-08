@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 ROFI_PROMPT="Layout:"
+ROFI_CANCEL="Alt+o,Alt+space"
 
 # menu defined as an associative array
 typeset -A menu
@@ -19,7 +20,7 @@ max_length=$(echo "${menu_keys}" | awk '{ if (length > max) { max = length } } E
 
 ROFI_WIDTH=$((max_length + 2))
 ROFI_OPTIONS=(-no-fixed-num-lines \ 
-    -kb-cancel "Alt+o" \
+    -kb-cancel ${ROFI_CANCEL} \
     -theme ~/.config/rofi/custom-dmenu.rasi \
     -theme-str "window { width: ${ROFI_WIDTH}ch;}")
 
