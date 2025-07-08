@@ -1,0 +1,23 @@
+# Define colors variables:
+set $darkblue	            #08052b 
+set $lightblue	            #5294e2 
+set $urgentred	            #e53935 
+set $white	                #ffffff 
+set $black	                #16161e 
+set $purple	                #e345ff 
+set $darkgrey		        #383c4a 
+set $grey	            	#b0b5bd 
+set $mediumgrey	        	#8b8b8b 
+set $yellowbrown            #e1b700	
+set $barBG                  #1a1b26 
+set $workspaceFocusBG       #7aa2f7 
+set $workspaceUnfocusBG     #16161e 
+set $focusWindowBorder      #7aa2f7 
+set $urgentColor	        #e0af68	
+
+# define colors for windows:
+#class		        	    border		        bground		            text		            indicator	    child_border
+client.focused		    	$focusWindowBorder	$focusWindowBorder		#0f0f0f	                $mediumgrey  
+client.unfocused	    	$darkblue	        $darkblue           	$workspaceUnfocusBG		$black          $black	
+client.focused_inactive		$darkblue	        $darkblue           	$workspaceUnfocusBG	    $black		    $black
+client.urgent		    	$urgentred	        $urgentred	            $white	    	        $yellowbrown	$yellowbrown
