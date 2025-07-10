@@ -42,16 +42,19 @@ update_brightness() {
     brightness=$(get_brightness)
     if (( $brightness <= 20 )) ; then
         brightness_icon=brightness-low
-        brightness_glyph=󰃞
+        brightness_glyph=󰽤
     elif (( $brightness >= 21 && $brightness <= 40 )); then
         brightness_icon=brightness-medium
-        brightness_glyph=󰃝
+        brightness_glyph=󰽥
     elif (( $brightness >= 41 && $brightness <= 60 )); then
         brightness_icon=brightness-half
-        brightness_glyph=󰃟 
-    else
+        brightness_glyph=󰽣
+    elif (( $brightness >= 61 && $brightness <= 80)); then
         brightness_icon=brightness-high
-        brightness_glyph=󰃠 
+        brightness_glyph=󰽦
+    else
+        brightness_icon=brightness-full
+        brightness_glyph=󰽢
     fi
 }
 
