@@ -4,6 +4,7 @@ bar_height=30
 volume_step=5
 max_volume=150
 brightness_step=5
+brightness_exp=2.5
 
 get_volume() {
     pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '[0-9]{1,3}(?=%)' | head -1
@@ -14,7 +15,7 @@ get_mute() {
 }
 
 get_brightness() {
-    brightnessctl i | grep -Po '[0-9]{1,3}(?=%)'
+    brightnessctl --exponent=${brightness_exp} | grep -Po '[0-9]{1,3}(?=%)'
 }
 
 update_volume() {
@@ -105,13 +106,13 @@ case $1 in
 
     brightness_up)
     # Increases brightness by percentage
-    brightnessctl -q set $brightness_step%+ 
+    brightnessctl -q --exponent=${brightness_exp} set ${brightness_step}%+ 
     show_brightness_notif
     ;;
 
     brightness_down)
     # Decreases brightness by percentage
-    brightnessctl -q set $brightness_step%- 
+    brightnessctl -q --exponent=${brightness_exp} set ${brightness_step}%- 
     show_brightness_notif
     ;;
     
