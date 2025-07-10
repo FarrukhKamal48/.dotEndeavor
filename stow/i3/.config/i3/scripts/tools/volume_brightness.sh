@@ -5,62 +5,74 @@ volume_step=5
 max_volume=150
 brightness_step=5
 
-function get_volume {
+get_volume() {
     pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '[0-9]{1,3}(?=%)' | head -1
 }
 
-function get_mute {
+get_mute() {
     pactl get-sink-mute @DEFAULT_SINK@ | grep -Po '(?<=Mute: )(yes|no)'
 }
 
-function get_brightness {
-    brightnessctl i | grep -o '(.*%)' | sed 's/[()%]//g'
+get_brightness() {
+    brightnessctl i | grep -Po '[0-9]{1,3}(?=%)'
 }
 
-function set_volume_icon {
+update_volume() {
     volume=$(get_volume)
     mute=$(get_mute)
     if [[ "$mute" == "yes" ]]; then
         volume_icon=volume-mute
+        volume_glyph=󰝟
     elif (( $volume <= 35 )); then
         volume_icon=volume-low 
+        volume_glyph=󰕿
     elif (( $volume >= 36 && $volume <= 70 )); then
         volume_icon=volume-medium
+        volume_glyph=󰖀
     elif (( $volume >= 71 && $volume <= 100 )); then
         volume_icon=volume-high 
+        volume_glyph=󰕾
     else
         volume_icon=volume-ultra
+        volume_glyph=󰝝
     fi
 }
 
-function set_brightness_icon {
-    # brightness=$(awk "BEGIN { print ($(get_brightness)/96000)*100; }")
+update_brightness() {
     brightness=$(get_brightness)
     if (( $brightness <= 20 )) ; then
         brightness_icon=brightness-low
+        brightness_glyph=󰃞
     elif (( $brightness >= 21 && $brightness <= 40 )); then
         brightness_icon=brightness-medium
+        brightness_glyph=󰃝
     elif (( $brightness >= 41 && $brightness <= 60 )); then
         brightness_icon=brightness-half
+        brightness_glyph=󰃟 
     else
         brightness_icon=brightness-high
+        brightness_glyph=󰃠 
     fi
 }
 
-function show_volume_notif {
-    volume=$(get_mute)
-    set_volume_icon
+show_volume_notif() {
+    update_volume
     dunstify -a "volume_brightness" -u low -i $volume_icon -r 2594 -h int:value:"$volume" "${volume}%"
+    
+    polybar-msg action "#volume.hook.0"
+    polybar-msg action "#volume-icon.hook.0"
     
     # # bartxt=$(~/.dotEndeavor/config-stow/i3/.config/i3/scripts/tools/ascii-bar.sh \
     # #     $volume $bar_height $max_volume)
     # # dunstify -a "volume_bar" -r 2593 "$bartxt"
 }
 
-function show_brightness_notif {
-    brightness=$(awk "BEGIN { print ($(get_brightness)/96000)*100; }")
-    set_brightness_icon
+show_brightness_notif() {
+    update_brightness
     dunstify -a "volume_brightness" -u low -i $brightness_icon -r 2593 -h int:value:"$brightness" "${brightness}%"
+    
+    polybar-msg action "#brightness.hook.0"
+    polybar-msg action "#brightness-icon.hook.0"
 }
 
 case $1 in
@@ -90,7 +102,6 @@ case $1 in
 
     brightness_up)
     # Increases brightness by percentage
-    currentBrightness=$(get_brightness)
     brightnessctl -q set $brightness_step%+ 
     show_brightness_notif
     ;;
@@ -101,11 +112,37 @@ case $1 in
     show_brightness_notif
     ;;
     
+    brightness_off)
+    # Decreases brightness by percentage
+    brightnessctl -q set 0
+    show_brightness_notif
+    ;;
+    
     brightness_notif)
     show_brightness_notif
     ;;
 
     volume_notif)
     show_volume_notif
+    ;;
+
+    echo_volume_glyph)
+    update_volume
+    echo $volume_glyph
+    ;;
+    
+    echo_volume_percent)
+    update_volume
+    echo $volume
+    ;;
+    
+    echo_brightness_glyph)
+    update_brightness
+    echo $brightness_glyph
+    ;;
+    
+    echo_brightness_percent)
+    update_brightness
+    echo $brightness
     ;;
 esac
