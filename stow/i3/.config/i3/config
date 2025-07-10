@@ -29,8 +29,6 @@ set $win_copyq_size 500 400
 set $win_tiled_border 2
 set $win_float_border 1
 
-set $default_brightness 4800
-
 set $monitor_screensaver_timeout    480
 set $monitor_standby_timeout        600
 set $monitor_suspend_timeout        720
@@ -534,7 +532,7 @@ exec --no-startup-id numlockx on
 exec --no-startup-id ~/.screenlayout/monitor.sh
 
 # set default brightness
-exec --no-startup-id brightnessctl -q set $default_brightness
+exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_setup
 
 # set wallpaper
 exec_always --no-startup-id sleep 1 && feh --bg-fill $dots_raw/Pictures/Wallpapers/background-format.png

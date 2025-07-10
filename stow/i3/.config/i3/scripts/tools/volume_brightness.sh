@@ -5,6 +5,7 @@ volume_step=5
 max_volume=150
 brightness_step=5
 brightness_exp=2.5
+brightness_default=30
 
 get_volume() {
     pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '[0-9]{1,3}(?=%)' | head -1
@@ -115,11 +116,22 @@ case $1 in
     brightnessctl -q --exponent=${brightness_exp} set ${brightness_step}%- 
     show_brightness_notif
     ;;
-    
-    brightness_off)
-    # Decreases brightness by percentage
-    brightnessctl -q set 0
-    show_brightness_notif
+
+    brightness_toggle)
+        prev_brightness=$(brightnessctl --exponent=${brightness_exp} -r -p | grep -Po '[0-9]{1,3}(?=%)') # >&/dev/null
+        curr_brightness=$(get_brightness)
+        brightnessctl -q --exponent=${brightness_exp} -s
+        if (( $curr_brightness == 0 )); then
+            brightnessctl -q --exponent=${brightness_exp} set ${prev_brightness}% 
+        else
+            brightnessctl -q --exponent=${brightness_exp} set 0%
+        fi
+    ;;
+
+    brightness_setup)
+        brightnessctl -q --exponent=${brightness_exp} set 0%
+        brightnessctl -q --exponent=${brightness_exp} -s
+        brightnessctl -q --exponent=${brightness_exp} set ${brightness_default}%
     ;;
     
     brightness_notif)
