@@ -12,8 +12,9 @@ polybar mainbar 2>&1 | tee -a /tmp/polybar-mainbar.log & disown
 
 echo "Bars launched..."
 
-sleep 0.1s
-polybar-msg action "#volume.hook.0"
+sleep 0.5s
 polybar-msg action "#volume-icon.hook.0"
-polybar-msg action "#brightness.hook.0"
 polybar-msg action "#brightness-icon.hook.0"
+polybar-msg action "#brightness.hook.0"
+polybar-msg action "#volume.hook.0"
+polybar-msg action "#internet-alt.module_toggle"
