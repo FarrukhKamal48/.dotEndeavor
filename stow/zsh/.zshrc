@@ -20,9 +20,6 @@ raw=$HOME'/.dotEndeavor/raw'
 i3=$conf'/i3/.config/i3/config'
 zsh=$conf'/zsh/.zshrc'
 
-# script location
-scripts=$conf'/i3/.config/i3/scripts'
-
 # zoxide
 # _ZO_ECHO=1      # set to 1 to print matching directory
 eval "$(zoxide init zsh)"

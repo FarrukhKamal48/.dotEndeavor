@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 
 ROFI_PROMPT="Layout:"
-ROFI_CANCEL="Alt+o,Alt+space"
+ROFI_CANCEL="Alt+o,Alt+space,Escape"
 
 # menu defined as an associative array
 typeset -A menu
 
-layouts=~/.dotEndeavor/config-stow/i3/.config/i3/layouts
+layouts=~/.dotEndeavor/stow/i3/.config/i3/layouts
 
 # Menu with keys/commands
 menu=(
-    [[1] code]="i3-msg workspace 'Code' & i3-msg append_layout $layouts/coding.json" 
-    [[2] term]="i3-msg append_layout $layouts/terminal.json" 
+    [code]="i3-msg append_layout $layouts/coding.json" 
+    [term]="i3-msg append_layout $layouts/terminal.json" 
 )
 menu_nrows=${#menu[@]}
 

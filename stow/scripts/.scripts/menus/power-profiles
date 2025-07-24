@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ROFI_PROMPT="Profile:"
-ROFI_CANCEL="Alt+i,Alt+space"
+ROFI_CANCEL="Alt+i,Alt+space,Escape"
 
 # use of parenthesis instead of quotations means this is an array (white space seperated)
 menu=($(powerprofilesctl list | grep ':$' | sed 's/[* :]//g'))

@@ -45,7 +45,7 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "o_o"
-set $minecraft "Minecraft"
+set $wsG "G"
 
 # modes
 set $normal     "default"
@@ -60,7 +60,7 @@ set $gamemode   ":Gamemode"
 set $dots_stow  ~/.dotEndeavor/stow
 set $dots_sys   ~/.dotEndeavor/sys
 set $dots_raw   ~/.dotEndeavor/raw
-set $scripts    ~/.dotEndeavor/stow/i3/.config/i3/scripts
+set $scripts    ~/.dotEndeavor/stow/scripts/.scripts
 set $snip_dir   $HOME/downl/Media/Snips/
 
 
@@ -156,6 +156,7 @@ mode $menus {
     
     bindsym $alt+Return mode $normal
     bindsym $mod+Return mode $normal
+    bindsym Return mode $normal
     bindsym Escape mode $normal
     
 }
@@ -174,6 +175,7 @@ mode $bluetooth {
     bindsym j exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && blueman-manager; mode $normal
 
     bindsym $mod+Return mode $normal
+    bindsym Return mode $normal
     
 }
 bindsym $mod+u mode $bluetooth
@@ -191,6 +193,7 @@ mode $wifi {
     bindsym $mod+j exec --no-startup-id $terminal -e nmtui; mode $normal
 
     bindsym $mod+Return mode $normal
+    bindsym Return mode $normal
     
 }
 bindsym $mod+i mode $wifi
@@ -213,6 +216,7 @@ mode $reshape {
     bindsym r exec --no-startup-id $scripts/tools/rotate.sh
 
     bindsym $mod+Return; exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
+    bindsym Return mode $normal
     
 }
 bindsym $mod+r exec --no-startup-id xset r rate $key_repeat_delay_fast $key_repeat_rate; mode $reshape 
@@ -460,8 +464,8 @@ for_window [class="copyq" instance="copyq" window_role="main"] resize set $win_c
 # assign [class="steam"] $ws11
 # for_window [class="steamwebhelper" class="steam"] floating enable
 
-assign [title="TLauncher*"] $minecraft
-assign [title="Minecraft*"] $minecraft
+assign [title="TLauncher*"] $wsG
+assign [title="Minecraft*"] $wsG
 
 # for_window [title="nmtui"] floating enable; resize set $win_float_size 
 for_window [class="Galculator"] floating enable
