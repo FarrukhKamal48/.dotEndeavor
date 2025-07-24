@@ -7,7 +7,7 @@ configuration {
     display-drun:        "Apps";
     drun-display-format: "{name}";
 
-    kb-cancel:           "Alt+space";
+    kb-cancel:           "Alt+space,Escape";
 }
 
 window {

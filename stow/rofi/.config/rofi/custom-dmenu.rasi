@@ -44,6 +44,7 @@ button.selected {
     text-color:       @selected-normal-foreground;
 }
 inputbar {
+    enabled:    false;
     spacing:    0;
     text-color: @normal-foreground;
     padding:    1px;
