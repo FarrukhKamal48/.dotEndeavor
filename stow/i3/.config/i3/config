@@ -35,6 +35,7 @@ set $monitor_suspend_timeout        720
 set $monitor_off_timeout            840
 
 # workspaces
+set $ws0 "0"
 set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"
@@ -304,6 +305,7 @@ bindsym $mod+Shift+a move container to workspace prev; workspace prev
 
 
 # switch to workspace
+bindsym $mod+grave    workspace  $ws0
 bindsym $mod+1    workspace  $ws1
 bindsym $mod+2    workspace  $ws2
 bindsym $mod+3    workspace  $ws3
@@ -314,6 +316,7 @@ bindsym $mod+7    workspace  $ws7
 bindsym $mod+8    workspace  $ws8
 bindsym $mod+9    workspace  $ws9
 bindsym $mod+0    workspace  $ws10
+bindsym $mod+minus    workspace  $wsG
 
 # # open new empty workspace
 # bindsym $mod+Shift+n exec --no-startup-id $scripts/tools/workspace_tool.sh empty
@@ -436,6 +439,11 @@ bindsym XF86Tools exec --no-startup-id $scripts/tools/volume_brightness.sh brigh
 
 bindsym XF86HomePage exec --no-startup-id $scripts/tools/volume_brightness.sh volume_up
 bindsym XF86Back exec --no-startup-id $scripts/tools/volume_brightness.sh volume_down
+
+bindsym XF86AudioLowerVolume exec --no-startup-id $scripts/tools/volume_brightness.sh volume_down
+bindsym XF86AudioRaiseVolume exec --no-startup-id $scripts/tools/volume_brightness.sh volume_up
+bindsym XF86AudioMute exec --no-startup-id $scripts/tools/volume_brightness.sh volume_mute
+
 
 # mute
 #bindsym XF86AudioMute exec amixer sset Master toggle && killall -USR1 i3blocks
@@ -630,15 +638,4 @@ exec_always --no-startup-id sleep 1s && ~/.config/polybar/launch.sh
 #
 #     strip_workspace_numbers no
 #
-#     colors {
-#         separator         $barBG 
-#         background         $barBG
-#         statusline        $barBG 
-#
-#         #            		border 		            bg		                txt		    indicator
-# 		focused_workspace	$workspaceFocusBG	    $workspaceFocusBG	    $barBG      $purple
-# 		active_workspace	$lightblue      	    $mediumgrey 	        $barBG      $purple
-# 		inactive_workspace	$workspaceUnfocusBG   	$workspaceUnfocusBG   	#888888     $purple
-# 		urgent_workspace	$urgentColor	    	$urgentColor  	        $barBG      $purple
-# 	}
 # }
