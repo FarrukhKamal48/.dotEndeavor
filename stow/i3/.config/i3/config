@@ -88,6 +88,9 @@ mode $apps {
     bindsym $mod+e exec --no-startup-id $terminal -e ranger; mode $normal
     bindsym e exec --no-startup-id $terminal -e ranger; mode $normal
     
+    bindsym $mod+r exec --no-startup-id thunar; mode $normal
+    bindsym r exec --no-startup-id thunar; mode $normal
+    
     bindsym $mod+b exec --no-startup-id $terminal -e btop; mode $normal
     bindsym b exec --no-startup-id $terminal -e btop; mode $normal
     
@@ -107,6 +110,7 @@ mode $apps {
     
     bindsym $mod+Return mode $normal
     bindsym Return mode $normal
+    bindsym Escape mode $normal
     
 }
 bindsym $mod+space mode $apps
@@ -137,6 +141,10 @@ mode $menus {
     # Apend layout menu
     bindsym $alt+o exec --no-startup-id $scripts/menus/append-layout-menu; mode $normal
     bindsym o exec --no-startup-id $scripts/menus/append-layout-menu; mode $normal
+
+    # System Power menu
+    bindsym $alt+p exec --no-startup-id $scripts/menus/system-power; mode $normal
+    bindsym p exec --no-startup-id $scripts/menus/system-power; mode $normal
     
     # Change Curfew menu
     # bindsym $alt+bracketleft exec --no-startup-id $scripts/menus/curfew-menu; mode $normal
@@ -176,6 +184,7 @@ mode $bluetooth {
 
     bindsym $mod+Return mode $normal
     bindsym Return mode $normal
+    bindsym Escape mode $normal
     
 }
 bindsym $mod+u mode $bluetooth
@@ -194,6 +203,7 @@ mode $wifi {
 
     bindsym $mod+Return mode $normal
     bindsym Return mode $normal
+    bindsym Escape mode $normal
     
 }
 bindsym $mod+i mode $wifi
@@ -217,6 +227,7 @@ mode $reshape {
 
     bindsym $mod+Return; exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
     bindsym Return mode $normal
+    bindsym Escape mode $normal
     
 }
 bindsym $mod+r exec --no-startup-id xset r rate $key_repeat_delay_fast $key_repeat_rate; mode $reshape 
