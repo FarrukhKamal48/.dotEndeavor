@@ -19,7 +19,7 @@ case $1 in
     fi
     ;;
 
-    status)
+    format)
     powered=$(bluetoothctl show | grep 'Powered:' | sed 's/.*: //g')
     connected=$(bluetoothctl info | grep 'Connected:' | sed 's/.*: //g')
 
