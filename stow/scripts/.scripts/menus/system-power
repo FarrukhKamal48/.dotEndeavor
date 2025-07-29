@@ -9,7 +9,7 @@ typeset -A menu
 menu[ Reboot]="systemctl reboot"
 menu[ PowerOff]="systemctl poweroff" 
 menu[󱞓 Suspend]="systemctl suspend" 
-menu[󰍃 Logout]="killall -u $USER"
+menu[󰍃 Logout]="i3-msg exit"
 
 menu_keys=$(printf '%s\n' "${!menu[@]}")
 max_length=$(echo "${menu_keys}" | awk '{ if (length > max) { max = length } } END { print max }')
