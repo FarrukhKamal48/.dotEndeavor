@@ -35,7 +35,6 @@ set $monitor_suspend_timeout        720
 set $monitor_off_timeout            840
 
 # workspaces
-set $ws0 "0"
 set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"
@@ -79,6 +78,9 @@ mode $apps {
     
     bindsym $mod+i exec --no-startup-id $browser --incognito; mode $normal
     bindsym i exec --no-startup-id $browser --incognito; mode $normal
+
+    bindsym $mod+h exec --no-startup-id brave; mode $normal
+    bindsym h exec --no-startup-id brave; mode $normal
     
     bindsym $mod+t exec --no-startup-id $browser web.whatsapp.com; mode $normal
     bindsym t exec --no-startup-id $browser web.whatsapp.com; mode $normal
@@ -305,7 +307,6 @@ bindsym $mod+Shift+a move container to workspace prev; workspace prev
 
 
 # switch to workspace
-bindsym $mod+grave    workspace  $ws0
 bindsym $mod+1    workspace  $ws1
 bindsym $mod+2    workspace  $ws2
 bindsym $mod+3    workspace  $ws3
