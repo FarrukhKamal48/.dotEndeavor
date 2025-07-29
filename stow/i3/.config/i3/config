@@ -410,9 +410,9 @@ set $browser    google-chrome-stable
 
 
 bindsym $mod+Shift+BackSpace exec --no-startup-id systemctl poweroff 
+bindsym $mod+Shift+backslash exec --no-startup-id i3-msg exit 
 bindsym $mod+Shift+Return exec --no-startup-id systemctl reboot
-# bindsym $mod+Shift+backslash exec --no-startup-id i3-msg exit 
-# bindsym $mod+Shift+backslash exec $scripts/tools/blur-lock
+bindsym $mod+backslash exec --no-startup-id $scripts/tools/volume_brightness.sh brightness_toggle
 
 # reload the configuration file
 bindsym $mod+Shift+e reload
