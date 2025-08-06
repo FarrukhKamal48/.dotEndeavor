@@ -29,6 +29,8 @@ set $win_copyq_size 500 400
 set $win_tiled_border 2
 set $win_float_border 1
 
+set $mouse_move_amt 20
+
 set $monitor_screensaver_timeout    480
 set $monitor_standby_timeout        600
 set $monitor_suspend_timeout        720
@@ -54,6 +56,7 @@ set $menus      ":Menus"
 set $bluetooth  ":Blutooth"
 set $wifi       ":Wifi"
 set $reshape    ":ReShape"
+set $keymode    ":KeyMode"
 set $gamemode   ":Gamemode"
 
 # directories & files
@@ -234,6 +237,29 @@ mode $reshape {
     
 }
 bindsym $mod+r exec --no-startup-id xset r rate $key_repeat_delay_fast $key_repeat_rate; mode $reshape 
+
+
+mode $keymode {
+
+    bindsym h exec --no-startup-id xdotool mousemove_relative -- -$mouse_move_amt 0
+    bindsym $mod+h exec --no-startup-id xdotool mousemove_relative -- -$mouse_move_amt 0
+    
+    bindsym j exec --no-startup-id xdotool mousemove_relative -- 0 $mouse_move_amt
+    bindsym $mod+j exec --no-startup-id xdotool mousemove_relative -- 0 $mouse_move_amt
+    
+    bindsym k exec --no-startup-id xdotool mousemove_relative -- 0 -$mouse_move_amt 
+    bindsym $mod+k exec --no-startup-id xdotool mousemove_relative -- 0 -$mouse_move_amt 
+    
+    bindsym l exec --no-startup-id xdotool mousemove_relative -- $mouse_move_amt 0 
+    bindsym $mod+l exec --no-startup-id xdotool mousemove_relative -- $mouse_move_amt 0 
+    
+    bindsym space exec --no-startup-id xdotool click 1
+    
+    bindsym $mod+o mode $normal
+    bindsym Escape mode $normal
+    
+}
+bindsym $mod+o mode $keymode 
 
 
 mode $gamemode {
