@@ -50,7 +50,7 @@ case $1 in
         text="${device} ${battery}"
     fi
 
-    echo "%{T7}${icon_color}${icon} %{T1}${text_color}${text}"
+    echo "%{T7}${icon_color}${icon}%{T1} ${text_color}${text}"
     ;;
 
 esac
