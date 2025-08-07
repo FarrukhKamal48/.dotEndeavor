@@ -44,20 +44,20 @@ fi
 
 ramp_icon+=%{T1}%{F${full_color}}
 
-time_remaining=$(acpi | awk '{print $5}' | cut -c -5)
+time_remaining=$(acpi | tail -1 | awk '{print $5}' | cut -c -5)
 if [[ -n "${time_remaining}" ]]; then
     time_remaining=" ${time_remaining}"
 fi
 
 case ${bat_status} in
-    "Not charging")
-        printf '%s%s%s' "${ramp_icon}" "${icon_spacer}" "${bat_level}%"
-        ;;
     "Charging")
         printf '%s%s%s%s' "${charging_icon}" "${icon_spacer}" "${bat_level}%" "${time_remaining}"
         ;;
     "Discharging")
         printf '%s%s%s%s' "${ramp_icon}" "${icon_spacer}" "${bat_level}%" "${time_remaining}"
+        ;;
+    * )
+        printf '%s%s%s' "${ramp_icon}" "${icon_spacer}" "${bat_level}%"
         ;;
 esac
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 thresh=("3.0" "7.0" "16")
-colors=("#a6e3a1" "#f9e2af" "#f38ba8")
+colors=("#a6e3a1" "#fab387" "#f38ba8")
 text_color="%{F#a6e3a1}"
 
 glyph="%{T5}󰍛"
