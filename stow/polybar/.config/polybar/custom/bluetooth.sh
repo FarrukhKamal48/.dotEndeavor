@@ -34,7 +34,7 @@ case $1 in
 
     if [[ "$powered" == "yes" ]]; then
         icon=${on_glyph}
-        icon_color="${glyph_color_alert}"
+        icon_color="${glyph_color_normal}"
         text=${on_text}
     else
         icon=${off_glyph}

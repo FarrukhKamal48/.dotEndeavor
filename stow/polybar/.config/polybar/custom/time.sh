@@ -1,8 +1,8 @@
 #!/bin/bash
 
-icons=( 󱐿 󱑀 󱑁 󱑂 󱑃 󱑄 󱑅 󱑆 󱑇 󱑈 󱑉 󱑊 )
+ramp=( 󱐿 󱑀 󱑁 󱑂 󱑃 󱑄 󱑅 󱑆 󱑇 󱑈 󱑉 󱑊 )
 
-hour=$(($(date +%I)-1))
+hour=$(($(date "+%l")-1))
 time=$(date "+%I:%M %P")
 
-printf '%s\n' "%{T11}${icons[${hour}]}%{T1} ${time}"
+printf '%s\n' "%{T11}${ramp[${hour}]}%{T1} ${time}"
