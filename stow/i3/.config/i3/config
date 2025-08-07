@@ -30,6 +30,7 @@ set $win_tiled_border 2
 set $win_float_border 1
 
 set $mouse_move_amt 20
+set $mouse_fast_move_amt 40
 
 set $monitor_screensaver_timeout    480
 set $monitor_standby_timeout        600
@@ -232,8 +233,8 @@ mode $reshape {
     bindsym r exec --no-startup-id $scripts/tools/rotate.sh
 
     bindsym $mod+Return; exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
-    bindsym Return mode $normal
-    bindsym Escape mode $normal
+    bindsym Return; exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
+    bindsym Escape; exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
     
 }
 bindsym $mod+r exec --no-startup-id xset r rate $key_repeat_delay_fast $key_repeat_rate; mode $reshape 
@@ -242,24 +243,24 @@ bindsym $mod+r exec --no-startup-id xset r rate $key_repeat_delay_fast $key_repe
 mode $keymode {
 
     bindsym h exec --no-startup-id xdotool mousemove_relative -- -$mouse_move_amt 0
-    bindsym $mod+h exec --no-startup-id xdotool mousemove_relative -- -$mouse_move_amt 0
+    bindsym $alt+h exec --no-startup-id xdotool mousemove_relative -- -$mouse_fast_move_amt 0
     
     bindsym j exec --no-startup-id xdotool mousemove_relative -- 0 $mouse_move_amt
-    bindsym $mod+j exec --no-startup-id xdotool mousemove_relative -- 0 $mouse_move_amt
+    bindsym $alt+j exec --no-startup-id xdotool mousemove_relative -- 0 $mouse_fast_move_amt
     
     bindsym k exec --no-startup-id xdotool mousemove_relative -- 0 -$mouse_move_amt 
-    bindsym $mod+k exec --no-startup-id xdotool mousemove_relative -- 0 -$mouse_move_amt 
+    bindsym $alt+k exec --no-startup-id xdotool mousemove_relative -- 0 -$mouse_fast_move_amt 
     
     bindsym l exec --no-startup-id xdotool mousemove_relative -- $mouse_move_amt 0 
-    bindsym $mod+l exec --no-startup-id xdotool mousemove_relative -- $mouse_move_amt 0 
+    bindsym $alt+l exec --no-startup-id xdotool mousemove_relative -- $mouse_fast_move_amt 0 
     
     bindsym space exec --no-startup-id xdotool click 1
     
-    bindsym $mod+o mode $normal
+    bindsym $alt+o mode $normal
     bindsym Escape mode $normal
     
 }
-bindsym $mod+o mode $keymode 
+bindsym $alt+o mode $keymode 
 
 
 mode $gamemode {
