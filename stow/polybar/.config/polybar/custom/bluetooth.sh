@@ -27,6 +27,11 @@ case $1 in
         ;;
 
     format)
+        case $2 in
+            "compact")  COMPACT=1 ;;
+            * )         COMPACT=0 ;;
+        esac
+
         OUTPUT=${GLYPH_FONT}${GLYPH_COLOR}
         
         # bluetooth controller status
@@ -40,6 +45,11 @@ case $1 in
             OUTPUT+=${GLYPH_SEPERATOR}
             OUTPUT+=${TEXT_FONT}${GLYPH_COLOR}
             OUTPUT+="OFF" 
+            
+            if (( ${COMPACT} )); then
+                printf '%s\n' "${OUTPUT}"
+                exit 0
+            fi
         fi
 
         # bluetooth devices
