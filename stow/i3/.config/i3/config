@@ -85,6 +85,9 @@ mode $apps {
 
     bindsym $mod+h exec --no-startup-id brave; mode $normal
     bindsym h exec --no-startup-id brave; mode $normal
+
+    bindsym $mod+d exec --no-startup-id discord; mode $normal
+    bindsym d exec --no-startup-id discord; mode $normal
     
     bindsym $mod+t exec --no-startup-id $browser web.whatsapp.com; mode $normal
     bindsym t exec --no-startup-id $browser web.whatsapp.com; mode $normal
