@@ -183,14 +183,14 @@ bindsym $alt+space mode $menus
 mode $bluetooth {
 
     # turn bluetooth on/off
-    bindsym $mod+u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on; mode $normal
-    bindsym $mod+i exec --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth; mode $normal
-    bindsym u exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on; mode $normal 
-    bindsym i exec --no-startup-id bluetoothctl power off && sleep 1 && rfkill block bluetooth; mode $normal  
+    bindsym $mod+u exec --no-startup-id $scripts/tools/bluetooth.sh power_on; mode $normal
+    bindsym $mod+i exec --no-startup-id $scripts/tools/bluetooth.sh power_off; mode $normal
+    bindsym u exec --no-startup-id $scripts/tools/bluetooth.sh power_on; mode $normal
+    bindsym i exec --no-startup-id $scripts/tools/bluetooth.sh power_off; mode $normal
 
     # blueman-manager
-    bindsym $mod+j exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && blueman-manager; mode $normal
-    bindsym j exec --no-startup-id rfkill unblock bluetooth && sleep 1 && bluetoothctl power on && blueman-manager; mode $normal
+    bindsym $mod+j exec --no-startup-id $scripts/tools/bluetooth.sh power_on && blueman-manager; mode $normal
+    bindsym j exec --no-startup-id $scripts/tools/bluetooth.sh power_on && blueman-manager; mode $normal
 
     bindsym $mod+Return mode $normal
     bindsym Return mode $normal
