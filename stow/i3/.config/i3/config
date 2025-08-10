@@ -127,9 +127,6 @@ bindsym $mod+space mode $apps
 
 mode $menus {
     
-    # keybinding in fancy rofi (automated):
-    # bindsym F7 exec $scripts/tools/keyhint-2
-
     # rofi run menu
     bindsym $alt+space exec --no-startup-id rofi -modi drun -show drun \
             -config ~/.config/rofi/rofidmenu.rasi -no-fixed-num-lines \
@@ -137,13 +134,16 @@ mode $menus {
     bindsym space exec --no-startup-id rofi -modi drun -show drun \
             -config ~/.config/rofi/rofidmenu.rasi -no-fixed-num-lines \
             ; mode $normal
-
+    
+    bindsym $alt+k exec --no-startup-id dunstctl close-all; mode $normal
+    bindsym k exec --no-startup-id dunstctl close-all; mode $normal
+    
+    bindsym $alt+h exec --no-startup-id dunstctl history-pop; mode $normal
+    bindsym h exec --no-startup-id dunstctl history-pop; mode $normal
+    
     bindsym $alt+c exec --no-startup-id copyq toggle; mode $normal
     bindsym c exec --no-startup-id copyq toggle; mode $normal
 
-    # Shutdown, Reboot etc menu
-    # bindsym $mod+Shift+o exec --no-startup-id $scripts/menus/powermenu
-    
     # Power Profiles menu
     bindsym $alt+i exec --no-startup-id $scripts/menus/power-profiles; mode $normal
     bindsym i exec --no-startup-id $scripts/menus/power-profiles; mode $normal
@@ -167,10 +167,6 @@ mode $menus {
 
 	# bindsym $mod+Shift+Tab rofi -show -run-shell-command "nmtui-connect && read"
 	## rofi bindings to manage clipboard (install rofi-greenclip from the AUR)
-
-	#exec --no-startup-id greenclip daemon>/dev/null
-	# bindsym $mod+x exec --no-startup-id rofi -show run nmtui \
-	# 	-config ~/.config/rofi/rofidmenu.rasi
     
     bindsym $alt+Return mode $normal
     bindsym $mod+Return mode $normal
