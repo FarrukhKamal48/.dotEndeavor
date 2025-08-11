@@ -1,15 +1,19 @@
 #!/bin/bash
 
-GLYPH_FONT=%{T7}
-TEXT_FONT=%{T1}
-GLYPH_COLOR=%{F#eba0ac}
-TEXT_COLOR=%{F#89dceb}
+BIG_FONT=%{T7}
+NORMAL_FONT=%{T1}
+ALERT_COLOR=%{F#eba0ac}
+NORMAL_COLOR=%{F#89dceb}
 
-POWER_OFF_GLYPH="󰂲"
-POWER_ON_GLYPH="󰂯"
+FORMAT_GLYPH=${BIG_FONT}${ALERT_COLOR}
+FORMAT_TEXT_OFF=${NORMAL_FONT}${ALERT_COLOR}
+FORMAT_TEXT_ON=${NORMAL_FONT}${NORMAL_COLOR}
 
 GLYPH_SEPERATOR=%{O5}
 DEVICE_SEPERATOR=%{O10}
+
+POWER_OFF_GLYPH="󰂲"
+POWER_ON_GLYPH="󰂯"
 
 declare -A devices
 devices["84:AC:60:31:89:58"]="󰋋 PEATS"
@@ -27,23 +31,20 @@ case $1 in
         ;;
 
     format)
-        case $2 in
-            "compact")  COMPACT=1 ;;
-            * )         COMPACT=0 ;;
-        esac
+        COMPACT=$(echo ${2} | grep -c "compact")
 
-        OUTPUT=${GLYPH_FONT}${GLYPH_COLOR}
+        OUTPUT=${FORMAT_GLYPH}
         
         # bluetooth controller status
         if (( ${POWERED} )); then
             OUTPUT+=${POWER_ON_GLYPH}
             OUTPUT+=${GLYPH_SEPERATOR}
-            OUTPUT+=${TEXT_FONT}${TEXT_COLOR}
+            OUTPUT+=${FORMAT_TEXT_ON}
             OUTPUT+="ON" 
         else
             OUTPUT+=${POWER_OFF_GLYPH}
             OUTPUT+=${GLYPH_SEPERATOR}
-            OUTPUT+=${TEXT_FONT}${GLYPH_COLOR}
+            OUTPUT+=${FORMAT_TEXT_OFF}
             OUTPUT+="OFF" 
             
             if (( ${COMPACT} )); then
@@ -60,21 +61,21 @@ case $1 in
             dev_texts=(${devices["${dev_adr}"]})
 
             OUTPUT+=${DEVICE_SEPERATOR}
-            OUTPUT+=${GLYPH_FONT}${GLYPH_COLOR}
+            OUTPUT+=${FORMAT_GLYPH}
 
             # add glyph for device
             OUTPUT+=${dev_texts[0]}
             unset dev_texts[0]
 
             # add device name
-            OUTPUT+=${TEXT_FONT}
             OUTPUT+=${GLYPH_SEPERATOR}
             OUTPUT+=${GLYPH_SEPERATOR}
             
             if (( ${connected} )); then
-                OUTPUT+=${TEXT_COLOR}
+                OUTPUT+=${FORMAT_TEXT_ON}
                 OUTPUT+="${dev_texts[@]}"
             else
+                OUTPUT+=${FORMAT_TEXT_OFF}
                 OUTPUT+="OFF"
             fi
             
