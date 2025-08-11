@@ -1,31 +1,49 @@
+
 #!/bin/bash
 
-thresh=("3.0" "7.0" "16")
-colors=("#a6e3a1" "#fab387" "#f38ba8")
-text_color="%{F#a6e3a1}"
+BIG_FONT=%{T7}
+NORMAL_FONT=%{T1}
 
-glyph="%{T5}󰍛"
-unit="%{O1}g"
-used=$(free -h | awk '{print $3}' | head -n 2 | tail -n 1 | sed 's/Gi//')
+THRESH=("3.0" "7.0" "16")
+COLOR=("#a6e3a1" "#fab387" "#f38ba8")
 
-for i in ${!thresh[@]}; do
-    if (( $(echo "${used} <= ${thresh[$i]}" | bc -l) )); then
-        color="%{F${colors[$i]}}"
+GLYPH_SEPERATOR=%{O8}
+UNIT=%{O1}g
+GLYPH="󰍛"
+
+TEXT_COLOR="%{F#a6e3a1}"
+declare glyph_color
+
+declare OUTPUT
+
+usage=$(free -h | grep "Mem" | awk '{print $3}' | grep -Po "[0-9.]{1,}")
+
+for i in ${!THRESH[@]}; do
+    if (( $(echo "${usage} <= ${THRESH[$i]}" | bc -l) )); then
+        color="%{F${COLOR[$i]}}"
         break
     fi
 done
 
+OUTPUT+=${BIG_FONT}${color}
+OUTPUT+=${GLYPH}
+OUTPUT+=${GLYPH_SEPERATOR}
+OUTPUT+=${NORMAL_FONT}${TEXT_COLOR}
 
 case $1 in
     
     format)
-    printf '%s\n' "${color}${glyph}%{T1} ${text_color}${used}${unit}" 
+        OUTPUT+=${usage}
+        OUTPUT+=${UNIT}
     ;;
     
     format-alt)
-    total=$(free -h | awk '{print $2}' | head -n 2 | tail -n 1 | sed 's/Gi//')
-    printf '%s\n' "${color}${glyph}%{T1} ${text_color}${used}/${total}${unit}" 
+        total=$(free -h | awk '{print $2}' | head -n 2 | tail -n 1 | sed 's/Gi//')
+        OUTPUT+=${usage}/${total}
+        OUTPUT+=${UNIT}
     ;;
     
 esac
+
+printf '%s\n' "${OUTPUT}"
 
