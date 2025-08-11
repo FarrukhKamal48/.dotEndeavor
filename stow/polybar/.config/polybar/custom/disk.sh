@@ -1,31 +1,42 @@
 #!/bin/bash
 
-declare -A mnt_points
-mnt_points["/mnt/HomeWork"]="%{T5}󰑹"
-mnt_points["/"]="%{T5}󰆼"
+BIG_FONT=%{T7}
+NORMAL_FONT=%{T1}
 
-declare out
+GLYPH_SEPERATOR=%{O5}
+MOUNT_SEPERATOR=%{O10}
 
-unit="%{O1}g"
+declare -A MOUNTS
+MOUNTS["/mnt/HomeWork"]="󰑹"
+MOUNTS["/"]="󰆼"
 
-for mount in "${!mnt_points[@]}"; do
-    glyph=${mnt_points[$mount]}
-    usage=$(df -h ${mount} | awk '{print $4}' | tail -n 1 | sed 's/G//')
+declare OUTPUT
 
+UNIT="%{O1}g"
+
+for mount in "${!MOUNTS[@]}"; do
+    glyph=${MOUNTS[$mount]}
+    usage=$(df -h ${mount} | awk '{print $4}' | grep -Po '[0-9]{1,}')
+
+    OUTPUT+=${MOUNT_SEPERATOR}
+    OUTPUT+=${BIG_FONT}
+    OUTPUT+=${glyph}
+    OUTPUT+=${GLYPH_SEPERATOR}
+    OUTPUT+=${NORMAL_FONT}
+    
     case $1 in
-        
         format)
-        out+=("${glyph}%{T1} ${usage}${unit}")
+            OUTPUT+=${usage}
+            OUTPUT+=${UNIT}
         ;;
         
         format-alt)
-        total=$(df -h ${mount} | awk '{print $2}' | tail -n 1 | sed 's/G//')
-
-        out+=("${glyph}%{T1} ${usage}/${total}${unit}")
+            total=$(df -h ${mount} | awk '{print $2}' | grep -Po '[0-9]{1,}')
+            OUTPUT+=${usage}/${total}
+            OUTPUT+=${UNIT}
         ;;
-        
     esac
 done
 
-echo ${out[@]}
+printf '%s\n' "${OUTPUT}"
 
