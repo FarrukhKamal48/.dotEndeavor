@@ -18,7 +18,6 @@ for mount in "${!MOUNTS[@]}"; do
     glyph=${MOUNTS[$mount]}
     usage=$(df -h ${mount} | awk '{print $4}' | grep -Po '[0-9]{1,}')
 
-    OUTPUT+=${MOUNT_SEPERATOR}
     OUTPUT+=${BIG_FONT}
     OUTPUT+=${glyph}
     OUTPUT+=${GLYPH_SEPERATOR}
@@ -36,7 +35,12 @@ for mount in "${!MOUNTS[@]}"; do
             OUTPUT+=${UNIT}
         ;;
     esac
+    
+    OUTPUT+=${MOUNT_SEPERATOR}
 done
+
+# remove the extra sperator from the end
+OUTPUT=${OUTPUT%${MOUNT_SEPERATOR}}
 
 printf '%s\n' "${OUTPUT}"
 
