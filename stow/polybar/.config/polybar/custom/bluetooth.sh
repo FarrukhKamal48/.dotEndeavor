@@ -18,42 +18,61 @@ POWER_ON_GLYPH="󰂯"
 declare -A devices
 devices["84:AC:60:31:89:58"]="󰋋 PEATS"
 
-POWERED=$(bluetoothctl show | grep -c "Powered: yes")
+declare OUTPUT
 
-case $1 in
+declare -A args
+args["format"]=0
+args["compact"]=0
+args["smart"]=0
+
+powered=$(bluetoothctl show | grep -c "Powered: yes")
+
+while [[ ${#@} -gt 0 ]]; do
+    case ${1} in 
+        power_toggle)
+            if (( ${powered} )); then
+                ~/.scripts/tools/bluetooth.sh power_off
+            else
+                ~/.scripts/tools/bluetooth.sh power_on
+            fi
+            powered=$(bluetoothctl show | grep -c "Powered: yes")
+            ;;
+
+        compact)    args["compact"]=1 ;;
+        smart)      args["smart"]=1 ;;
+        format)     args["format"]=1 ;;
+        format-alt) args["format"]=2 ;;
+        
+        *) echo "Unkown Argument: ${1}" ;;
+    esac
     
-    power_toggle)
-        if (( ${POWERED} )); then
-            ~/.scripts/tools/bluetooth.sh power_off
-        else
-            ~/.scripts/tools/bluetooth.sh power_on
-        fi
-        ;;
+    shift
+done
 
-    format)
-        COMPACT=$(echo ${2} | grep -c "compact")
-
-        OUTPUT=${FORMAT_GLYPH}
+case ${args["format"]} in
+    
+    1)
+        CONTROLLER=${FORMAT_GLYPH}
         
         # bluetooth controller status
-        if (( ${POWERED} )); then
-            OUTPUT+=${POWER_ON_GLYPH}
-            OUTPUT+=${GLYPH_SEPERATOR}
-            OUTPUT+=${FORMAT_TEXT_ON}
-            OUTPUT+="ON" 
+        if (( ${powered} )); then
+            CONTROLLER+=${POWER_ON_GLYPH}
+            CONTROLLER+=${GLYPH_SEPERATOR}
+            CONTROLLER+=${FORMAT_TEXT_ON}
+            CONTROLLER+="ON" 
         else
-            OUTPUT+=${POWER_OFF_GLYPH}
-            OUTPUT+=${GLYPH_SEPERATOR}
-            OUTPUT+=${FORMAT_TEXT_OFF}
-            OUTPUT+="OFF" 
+            CONTROLLER+=${POWER_OFF_GLYPH}
+            CONTROLLER+=${GLYPH_SEPERATOR}
+            CONTROLLER+=${FORMAT_TEXT_OFF}
+            CONTROLLER+="OFF" 
             
-            if (( ${COMPACT} )); then
-                printf '%s\n' "${OUTPUT}"
+            if (( ${args["compact"]} )); then
+                printf '%s\n' "${CONTROLLER}"
                 exit 0
             fi
         fi
 
-        # bluetooth devices
+        connected_n=0
         for dev_adr in ${!devices[@]}; do
             dev_info=$(bluetoothctl info ${dev_adr})
             connected=$(echo ${dev_info} | grep -c "Connected: yes")
@@ -72,6 +91,7 @@ case $1 in
             OUTPUT+=${GLYPH_SEPERATOR}
             
             if (( ${connected} )); then
+                connected_n=$((${connected_n}+1))
                 OUTPUT+=${FORMAT_TEXT_ON}
                 OUTPUT+="${dev_texts[@]}"
             else
@@ -80,8 +100,18 @@ case $1 in
             fi
             
         done
+
+        if (( ${args["smart"]} == 0 )); then
+            printf '%s\n' "${CONTROLLER}${OUTPUT}"
+            exit 0
+        fi
+
+        if [[ ${connected_n} -gt 0 ]]; then
+            printf '%s\n' "${OUTPUT#${DEVICE_SEPERATOR}}"
+        else
+            printf '%s\n' "${CONTROLLER}"
+        fi
         
-        printf '%s\n' "${OUTPUT}"
     ;;
 
 esac
