@@ -1,5 +1,7 @@
 #!/bin/bash
 
+STATUS_FILE="/tmp/media/bluetooth.polybar"
+
 BIG_FONT=%{T7}
 NORMAL_FONT=%{T1}
 ALERT_COLOR=%{F#eba0ac}
@@ -38,12 +40,19 @@ while [[ ${#@} -gt 0 ]]; do
             powered=$(bluetoothctl show | grep -c "Powered: yes")
             ;;
 
-        compact)    args["compact"]=1 ;;
-        smart)      args["smart"]=1 ;;
-        format)     args["format"]=1 ;;
-        format-alt) args["format"]=2 ;;
+        --compact)    args["compact"]=1 ;;
+        --smart)      args["smart"]=1 ;;
+        --format)     
+            shift
+            args["format"]=${1} 
+            echo "format=${format}" > ${STATUS_FILE}
+            ;;
         
-        *) echo "Unkown Argument: ${1}" ;;
+        *) 
+            echo "Unkown Argument: ${1}" 
+            exit 1
+            ;;
+        
     esac
     
     shift
@@ -51,7 +60,7 @@ done
 
 case ${args["format"]} in
     
-    1)
+    0)
         CONTROLLER=${FORMAT_GLYPH}
         
         # bluetooth controller status
@@ -72,7 +81,7 @@ case ${args["format"]} in
             fi
         fi
 
-        connected_n=0
+        device_connected=0
         for dev_adr in ${!devices[@]}; do
             dev_info=$(bluetoothctl info ${dev_adr})
             connected=$(echo ${dev_info} | grep -c "Connected: yes")
@@ -91,7 +100,7 @@ case ${args["format"]} in
             OUTPUT+=${GLYPH_SEPERATOR}
             
             if (( ${connected} )); then
-                connected_n=$((${connected_n}+1))
+                device_connected=1
                 OUTPUT+=${FORMAT_TEXT_ON}
                 OUTPUT+="${dev_texts[@]}"
             else
@@ -103,16 +112,20 @@ case ${args["format"]} in
 
         if (( ${args["smart"]} == 0 )); then
             printf '%s\n' "${CONTROLLER}${OUTPUT}"
-            exit 0
-        fi
-
-        if [[ ${connected_n} -gt 0 ]]; then
-            printf '%s\n' "${OUTPUT#${DEVICE_SEPERATOR}}"
         else
-            printf '%s\n' "${CONTROLLER}"
+            if (( ${device_connected} )); then
+                printf '%s\n' "${OUTPUT#${DEVICE_SEPERATOR}}"
+            else
+                printf '%s\n' "${CONTROLLER}"
+            fi
         fi
-        
-    ;;
-
+            
+        ;;
+    
+    *) 
+        echo "Invalid Format: ${args["format"]}" 
+        exit 1
+        ;;
+    
 esac
 

@@ -1,5 +1,6 @@
-
 #!/bin/bash
+
+STATUS_FILE="/tmp/media/memory.polybar"
 
 BIG_FONT=%{T7}
 NORMAL_FONT=%{T1}
@@ -30,20 +31,55 @@ OUTPUT+=${GLYPH}
 OUTPUT+=${GLYPH_SEPERATOR}
 OUTPUT+=${NORMAL_FONT}${TEXT_COLOR}
 
-case $1 in
+format=0
+
+while [[ ${#@} -gt 0 ]]; do
+    case ${1} in 
+        
+        toggle)  
+            format=$(cat ${STATUS_FILE} | grep -Po "[0-9]")
+            format=$(( (${format}+1) % 2))
+            ;;
+            
+        update)  
+            format=$(cat ${STATUS_FILE} | grep -Po "[0-9]")
+            ;;
+
+        --format)
+            shift
+            format=${1}
+            ;;
+
+        *)
+            echo "Unkown Argument: ${1}" 
+            exit 1
+            ;;
+    esac
+    echo "format=${format}" > ${STATUS_FILE}
+    shift 
+done
+
+
+case "${format}" in
     
-    format)
+    0)
         OUTPUT+=${usage}
         OUTPUT+=${UNIT}
     ;;
     
-    format-alt)
+    1)
         total=$(free -h | grep "Mem" | awk '{print $2}' | grep -Po "[0-9.]{1,}")
         OUTPUT+=${usage}/${total}
         OUTPUT+=${UNIT}
     ;;
+
+    *) 
+        echo "Invalid Format: ${format}" 
+        exit 1
+        ;;
     
 esac
 
 printf '%s\n' "${OUTPUT}"
 
+echo "format=${format}" > ${STATUS_FILE}
