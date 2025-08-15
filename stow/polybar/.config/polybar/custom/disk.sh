@@ -1,6 +1,11 @@
 #!/bin/bash
 
-STATUS_FILE="/tmp/media/disk.polybar"
+format=0
+STATUS_FILE="/mnt/media/disk.polybar"
+
+if [[ ! -s ${STATUS_FILE} ]]; then
+    echo "format=${format}" > ${STATUS_FILE}
+fi
 
 BIG_FONT=%{T7}
 NORMAL_FONT=%{T1}
@@ -16,14 +21,12 @@ declare OUTPUT
 
 UNIT="%{O1}g"
 
-format=0
-
 while [[ ${#@} -gt 0 ]]; do
     case ${1} in 
         
         toggle)  
             format=$(cat ${STATUS_FILE} | grep -Po "[0-9]")
-            format=$(( (${format_S}+1) % 2))
+            format=$(( (${format}+1) % 2))
             ;;
             
         update) 

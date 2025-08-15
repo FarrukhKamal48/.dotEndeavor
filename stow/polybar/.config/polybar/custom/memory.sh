@@ -1,6 +1,11 @@
 #!/bin/bash
 
-STATUS_FILE="/tmp/media/memory.polybar"
+format=0
+STATUS_FILE="/mnt/media/memory.polybar"
+
+if [[ ! -s ${STATUS_FILE} ]]; then
+    echo "format=${format}" > ${STATUS_FILE}
+fi
 
 BIG_FONT=%{T7}
 NORMAL_FONT=%{T1}
@@ -30,8 +35,6 @@ OUTPUT+=${BIG_FONT}${glyph_color}
 OUTPUT+=${GLYPH}
 OUTPUT+=${GLYPH_SEPERATOR}
 OUTPUT+=${NORMAL_FONT}${TEXT_COLOR}
-
-format=0
 
 while [[ ${#@} -gt 0 ]]; do
     case ${1} in 

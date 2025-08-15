@@ -1,6 +1,14 @@
 #!/bin/bash
 
-STATUS_FILE="/tmp/media/bluetooth.polybar"
+declare -A args
+args["format"]=0
+args["compact"]=0
+args["smart"]=0
+STATUS_FILE="/mnt/media/bluetooth.polybar"
+
+if [[ ! -s ${STATUS_FILE} ]]; then
+    echo "format=${args["format"]}" > ${STATUS_FILE}
+fi
 
 BIG_FONT=%{T7}
 NORMAL_FONT=%{T1}
@@ -22,11 +30,6 @@ devices["84:AC:60:31:89:58"]="󰋋 PEATS"
 
 declare OUTPUT
 
-declare -A args
-args["format"]=0
-args["compact"]=0
-args["smart"]=0
-
 powered=$(bluetoothctl show | grep -c "Powered: yes")
 
 while [[ ${#@} -gt 0 ]]; do
@@ -45,7 +48,7 @@ while [[ ${#@} -gt 0 ]]; do
         --format)     
             shift
             args["format"]=${1} 
-            echo "format=${format}" > ${STATUS_FILE}
+            echo "format=${args["format"]}" > ${STATUS_FILE}
             ;;
         
         *) 
