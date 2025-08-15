@@ -20,7 +20,8 @@ FORMAT_TEXT_OFF=${NORMAL_FONT}${ALERT_COLOR}
 FORMAT_TEXT_ON=${NORMAL_FONT}${NORMAL_COLOR}
 
 GLYPH_SEPERATOR=%{O5}
-DEVICE_SEPERATOR=%{O10}
+DEVICE_SEPERATOR=%{O7}
+BAR_SEPERATOR=${ALERT_COLOR}%{O7}%{T11}▌%{T1}%{O2}
 
 POWER_OFF_GLYPH="󰂲"
 POWER_ON_GLYPH="󰂯"
@@ -91,7 +92,6 @@ case ${args["format"]} in
 
             dev_texts=(${devices["${dev_adr}"]})
 
-            OUTPUT+=${DEVICE_SEPERATOR}
             OUTPUT+=${FORMAT_GLYPH}
 
             # add glyph for device
@@ -111,13 +111,16 @@ case ${args["format"]} in
                 OUTPUT+="OFF"
             fi
             
+            OUTPUT+=${DEVICE_SEPERATOR}
         done
 
+        OUTPUT=${OUTPUT%${DEVICE_SEPERATOR}}
+
         if (( ${args["smart"]} == 0 )); then
-            printf '%s\n' "${CONTROLLER}${OUTPUT}"
+            printf '%s\n' "${CONTROLLER}${BAR_SEPERATOR}${OUTPUT}"
         else
             if (( ${device_connected} )); then
-                printf '%s\n' "${OUTPUT#${DEVICE_SEPERATOR}}"
+                printf '%s\n' "${OUTPUT}}"
             else
                 printf '%s\n' "${CONTROLLER}"
             fi
