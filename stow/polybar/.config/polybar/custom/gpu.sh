@@ -20,8 +20,9 @@ GPU_MEMORY_GLYPH="󰝤%{O3}"
 
 declare OUTPUT
 
-USAGE_UNIT="%{O1}%"
+PERCENT_UNIT="%{O1}%"
 TEMP_UNIT="%{O1}C"
+VRAM_UNIT="%{O1}m"
 
 while [[ ${#@} -gt 0 ]]; do
     case ${1} in 
@@ -65,7 +66,7 @@ case ${format} in
         
         OUTPUT+=${BIG_FONT}${GPU_USAGE_GLYPH}${NORMAL_FONT}
         OUTPUT+=${GLYPH_SEPERATOR}
-        OUTPUT+=${gpu_usage}${USAGE_UNIT}
+        OUTPUT+=${gpu_usage}${PERCENT_UNIT}
         ;;
         
     1)
@@ -77,13 +78,13 @@ case ${format} in
         
         OUTPUT+=${BIG_FONT}${GPU_USAGE_GLYPH}${NORMAL_FONT}
         OUTPUT+=${GLYPH_SEPERATOR}
-        OUTPUT+=${gpu_usage}${USAGE_UNIT}
+        OUTPUT+=${gpu_usage}${PERCENT_UNIT}
         
         OUTPUT+=${SECTION_SEPERATOR}
         
         OUTPUT+=${BIG_FONT}${GPU_MEMORY_GLYPH}${NORMAL_FONT}
         OUTPUT+=${GLYPH_SEPERATOR}
-        OUTPUT+=${vram_usage}${USAGE_UNIT}
+        OUTPUT+=${vram_usage}${VRAM_UNIT}
         ;;
 
     *)
