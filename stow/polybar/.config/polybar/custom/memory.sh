@@ -2,12 +2,13 @@
 
 format=0
 STATUS_FILE="/mnt/media/memory.polybar"
+FORMAT_COUNT=2
 
 if [[ ! -s ${STATUS_FILE} ]]; then
     echo "format=${format}" > ${STATUS_FILE}
 fi
 
-BIG_FONT=%{T7}
+BIG_FONT=%{T5}
 NORMAL_FONT=%{T1}
 
 THRESH=("3.0" "7.0" "16")
@@ -15,7 +16,7 @@ COLOR=("#a6e3a1" "#fab387" "#f38ba8")
 
 GLYPH_SEPERATOR=%{O8}
 UNIT=%{O1}g
-GLYPH="󰍛"
+GLYPH="󰝤"
 
 TEXT_COLOR="%{F#a6e3a1}"
 declare glyph_color
@@ -41,7 +42,7 @@ while [[ ${#@} -gt 0 ]]; do
         
         toggle)  
             format=$(cat ${STATUS_FILE} | grep -Po "[0-9]")
-            format=$(( (${format}+1) % 2))
+            format=$(( (${format}+1) % ${FORMAT_COUNT}))
             ;;
             
         update)  

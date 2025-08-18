@@ -2,6 +2,7 @@
 
 format=0
 STATUS_FILE="/mnt/media/disk.polybar"
+FORMAT_COUNT=2
 
 if [[ ! -s ${STATUS_FILE} ]]; then
     echo "format=${format}" > ${STATUS_FILE}
@@ -26,7 +27,7 @@ while [[ ${#@} -gt 0 ]]; do
         
         toggle)  
             format=$(cat ${STATUS_FILE} | grep -Po "[0-9]")
-            format=$(( (${format}+1) % 2))
+            format=$(( (${format}+1) % ${FORMAT_COUNT}))
             ;;
             
         update) 

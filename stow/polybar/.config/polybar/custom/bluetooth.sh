@@ -5,6 +5,7 @@ args["format"]=0
 args["compact"]=0
 args["smart"]=0
 STATUS_FILE="/mnt/media/bluetooth.polybar"
+FORMAT_COUNT=2
 
 if [[ ! -s ${STATUS_FILE} ]]; then
     echo "format=${args["format"]}" > ${STATUS_FILE}

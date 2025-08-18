@@ -1,16 +1,10 @@
 #!/usr/bin/env bash
 
-# Terminate already running bar instances
-# If all your bars have ipc enabled, you can use 
-polybar-msg cmd quit
-# Otherwise you can use the nuclear option:
-# killall -q polybar
+if (( ! $(killall -v -q polybar | grep -c "Killed") )); then
+    killall -s KILL polybar
+fi
 
-# Launch bars
 echo "---" | tee -a /tmp/polybar-mainbar.log 
 polybar mainbar 2>&1 | tee -a /tmp/polybar-mainbar.log & disown
 
 echo "Bars launched..."
-
-sleep 0.5s
-polybar-msg action "#internet-alt.module_toggle"
