@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep "state:" | awk '{print $2}'
+
 charging_color=#a6e3a1
 discharging_color=#fab387
 full_color=#89b4fa

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 format=0
-STATUS_FILE="/mnt/media/cpu.polybar"
-FORMAT_COUNT=4
+STATUS_FILE="/mnt/media/gpu.polybar"
+FORMAT_COUNT=2
 
 if [[ ! -s ${STATUS_FILE} ]]; then
     echo "format=${format}" > ${STATUS_FILE}
@@ -14,8 +14,9 @@ NORMAL_FONT=%{T1}
 GLYPH_SEPERATOR=%{O5}
 SECTION_SEPERATOR=${ALERT_COLOR}%{O7}%{T11}▍%{T1}
 
-CPU_USAGE_GLYPH="󰍛${NORMAL_FONT}%{O2}"
-CPU_TEMP_GLYPH=""
+GPU_USAGE_GLYPH="󰢮${NORMAL_FONT}%{O4}"
+GPU_TEMP_GLYPH=""
+GPU_MEMORY_GLYPH="󰝤%{O3}"
 
 declare OUTPUT
 
@@ -49,51 +50,40 @@ while [[ ${#@} -gt 0 ]]; do
     shift
 done
 
-usages=(0 1 2 3 4)
-temps=($(sensors -j \
-    | jq '.[] | select(.Adapter=="ISA adapter") | .[] | select(type=="object") | to_entries[] | select(.key|test("^temp.*_input$")) | .value' \
-    | xargs printf '%.0f\n'))
+smi_query=$(nvidia-smi -q -d TEMPERATURE,UTILIZATION,MEMORY)
+gpu_temp=$(echo "${smi_query}" | grep -E "Temprature|GPU Current Temp" | awk '{print $5}')
+gpu_usage=$(echo "${smi_query}" | grep "GPU.*:.*%" | awk '{print $3}')
+vram_usage=$(echo "${smi_query}" | grep "Used" | awk '{print $3}' | head -1)
 
 case ${format} in 
     0)
-        OUTPUT+=${BIG_FONT}${CPU_TEMP_GLYPH}${NORMAL_FONT}
+        OUTPUT+=${BIG_FONT}${GPU_TEMP_GLYPH}${NORMAL_FONT}
         OUTPUT+=${GLYPH_SEPERATOR}
-        OUTPUT+=${temps[0]}${TEMP_UNIT}
+        OUTPUT+=${gpu_temp}${TEMP_UNIT}
         
         OUTPUT+=${SECTION_SEPERATOR}
         
-        OUTPUT+=${BIG_FONT}${CPU_USAGE_GLYPH}${NORMAL_FONT}
+        OUTPUT+=${BIG_FONT}${GPU_USAGE_GLYPH}${NORMAL_FONT}
         OUTPUT+=${GLYPH_SEPERATOR}
-        OUTPUT+=${usages[0]}${USAGE_UNIT}
+        OUTPUT+=${gpu_usage}${USAGE_UNIT}
         ;;
-
-    1|2|3)
-        OUTPUT+=${BIG_FONT}${CPU_TEMP_GLYPH}${NORMAL_FONT}
+        
+    1)
+        OUTPUT+=${BIG_FONT}${GPU_TEMP_GLYPH}${NORMAL_FONT}
         OUTPUT+=${GLYPH_SEPERATOR}
-
-        OUTPUT+=${temps[0]}${GLYPH_SEPERATOR}
-        unset temps[0]
-        if [[ ${format} -eq 2 ]] || [[ ${format} -eq 3 ]]; then
-            for T in ${temps[@]}; do
-                OUTPUT+=${T}${GLYPH_SEPERATOR}
-            done
-        fi
-        OUTPUT+=${TEMP_UNIT}
+        OUTPUT+=${gpu_temp}${TEMP_UNIT}
         
         OUTPUT+=${SECTION_SEPERATOR}
         
-        OUTPUT+=${BIG_FONT}${CPU_USAGE_GLYPH}${NORMAL_FONT}
+        OUTPUT+=${BIG_FONT}${GPU_USAGE_GLYPH}${NORMAL_FONT}
         OUTPUT+=${GLYPH_SEPERATOR}
+        OUTPUT+=${gpu_usage}${USAGE_UNIT}
         
-        OUTPUT+=${usages[0]}${GLYPH_SEPERATOR}
-        unset usages[0]
-        if [[ ${format} -eq 1 ]] || [[ ${format} -eq 3 ]]; then
-            for U in ${usages[@]}; do
-                OUTPUT+=${U}${GLYPH_SEPERATOR}
-            done
-        fi
-        OUTPUT+=${USAGE_UNIT}
+        OUTPUT+=${SECTION_SEPERATOR}
         
+        OUTPUT+=${BIG_FONT}${GPU_MEMORY_GLYPH}${NORMAL_FONT}
+        OUTPUT+=${GLYPH_SEPERATOR}
+        OUTPUT+=${vram_usage}${USAGE_UNIT}
         ;;
 
     *)

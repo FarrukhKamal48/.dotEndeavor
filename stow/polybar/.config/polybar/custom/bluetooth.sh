@@ -3,7 +3,7 @@
 declare -A args
 args["format"]=0
 args["compact"]=0
-args["smart"]=0
+args["smart"]=1
 STATUS_FILE="/mnt/media/bluetooth.polybar"
 FORMAT_COUNT=2
 
@@ -45,8 +45,16 @@ while [[ ${#@} -gt 0 ]]; do
             powered=$(bluetoothctl show | grep -c "Powered: yes")
             ;;
 
-        --compact)    args["compact"]=1 ;;
-        --smart)      args["smart"]=1 ;;
+        --compact)    
+            shift
+            args["compact"]=${1} 
+            ;;
+            
+        --smart)      
+            shift
+            args["smart"]=${1} 
+            ;;
+            
         --format)     
             shift
             args["format"]=${1} 
@@ -121,7 +129,7 @@ case ${args["format"]} in
             printf '%s\n' "${CONTROLLER}${BAR_SEPERATOR}${OUTPUT}"
         else
             if (( ${device_connected} )); then
-                printf '%s\n' "${OUTPUT}}"
+                printf '%s\n' "${OUTPUT}"
             else
                 printf '%s\n' "${CONTROLLER}"
             fi
