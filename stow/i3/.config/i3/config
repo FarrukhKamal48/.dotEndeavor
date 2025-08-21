@@ -59,6 +59,7 @@ set $wifi       ":Wifi"
 set $reshape    ":ReShape"
 set $keymode    ":KeyMode"
 set $gamemode   ":Gamemode"
+set $bar        ":Polybar"
 
 # directories & files
 set $dots_stow  ~/.dotEndeavor/stow
@@ -231,9 +232,9 @@ mode $reshape {
     bindsym $mod+r exec --no-startup-id $scripts/tools/rotate.sh
     bindsym r exec --no-startup-id $scripts/tools/rotate.sh
 
-    bindsym $mod+Return; exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
-    bindsym Return; exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
-    bindsym Escape; exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
+    bindsym $mod+Return exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
+    bindsym Return exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
+    bindsym Escape exec --no-startup-id xset r rate $key_repeat_delay_normal $key_repeat_rate; mode $normal
     
 }
 bindsym $mod+r exec --no-startup-id xset r rate $key_repeat_delay_fast $key_repeat_rate; mode $reshape 
@@ -289,8 +290,20 @@ mode $gamemode {
 bindsym $mod+g mode $gamemode 
 
 
+mode $bar {
+
+    bindsym $mod+r exec --no-startup-id ~/.config/polybar/polybar.sh --update; mode $normal
+    bindsym r exec --no-startup-id ~/.config/polybar/polybar.sh --update; mode $normal
+    
+    bindsym $mod+p mode $normal
+    bindsym Escape mode $normal
+    
+}
+bindsym $mod+p mode $bar 
+
+
 ####################################################################################################################################################################################################################################
-# extra options for windows ########################################################################################################################################################################################################
+# extra options for windows ########################################################################################################################################################################################################; mode $normal
 ####################################################################################################################################################################################################################################
 
 
@@ -391,7 +404,7 @@ bindsym $mod+Shift+l move right
 # bindsym ctrl+Shift+l exec --no-startup-id $scripts/tools/window-tool swap right
 
 # focus the parent container
-bindsym $mod+p focus parent
+bindsym $mod+v focus parent
 bindsym $mod+c focus child
 
 
@@ -653,7 +666,7 @@ include ~/.config/i3/themes/catppuccin-mocha
 
 
 # launch polybar(s)
-exec_always --no-startup-id sleep 1s && ~/.config/polybar/launch.sh
+exec_always --no-startup-id sleep 1s && ~/.config/polybar/polybar.sh --launch --update
 
 # bar {
 #     font pango: JetBrains Mono Nerd Font 10
