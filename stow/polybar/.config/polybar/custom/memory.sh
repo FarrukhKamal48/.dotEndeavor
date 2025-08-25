@@ -16,7 +16,7 @@ COLOR=("#a6e3a1" "#fab387" "#f38ba8")
 
 GLYPH_SEPERATOR=%{O8}
 UNIT=%{O1}g
-GLYPH="󰝤"
+GLYPH=""
 
 TEXT_COLOR="%{F#a6e3a1}"
 declare glyph_color
