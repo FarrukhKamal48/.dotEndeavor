@@ -45,17 +45,17 @@ while [[ ${#@} -gt 0 ]]; do
             powered=$(bluetoothctl show | grep -c "Powered: yes")
             ;;
 
-        --compact)    
+        --compact|-c)    
             shift
             args["compact"]=${1} 
             ;;
             
-        --smart)      
+        --smart|-s)      
             shift
             args["smart"]=${1} 
             ;;
             
-        --format)     
+        --format|-f)     
             shift
             args["format"]=${1} 
             echo "format=${args["format"]}" > ${STATUS_FILE}

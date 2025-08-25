@@ -40,16 +40,16 @@ OUTPUT+=${NORMAL_FONT}${TEXT_COLOR}
 while [[ ${#@} -gt 0 ]]; do
     case ${1} in 
         
-        toggle)  
+        --toggle|-t)
             format=$(cat ${STATUS_FILE} | grep -Po "[0-9]")
             format=$(( (${format}+1) % ${FORMAT_COUNT}))
             ;;
             
-        update)  
+        --update|-u)
             format=$(cat ${STATUS_FILE} | grep -Po "[0-9]")
             ;;
 
-        --format)
+        --format|-f)
             shift
             format=${1}
             ;;
