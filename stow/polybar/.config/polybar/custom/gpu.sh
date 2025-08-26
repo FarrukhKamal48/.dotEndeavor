@@ -16,7 +16,7 @@ SECTION_SEPERATOR=${ALERT_COLOR}%{O7}%{T11}▍%{T1}
 
 GPU_USAGE_GLYPH="󰢮${NORMAL_FONT}%{O4}"
 GPU_TEMP_GLYPH=""
-GPU_MEMORY_GLYPH="󰝤%{O3}"
+GPU_MEMORY_GLYPH="%{O5}"
 
 declare OUTPUT
 
@@ -54,7 +54,11 @@ done
 smi_query=$(nvidia-smi -q -d TEMPERATURE,UTILIZATION,MEMORY)
 gpu_temp=$(echo "${smi_query}" | grep -E "Temprature|GPU Current Temp" | awk '{print $5}')
 gpu_usage=$(echo "${smi_query}" | grep "GPU.*:.*%" | awk '{print $3}')
-vram_usage=$(echo "${smi_query}" | grep "Used" | awk '{print $3}' | head -1)
+
+vram_info=$(echo "${smi_query}" | head -14)
+vram_total=$(echo "${vram_info}" | grep "Total" | awk '{print $3}')
+vram_free=$(echo "${vram_info}" | grep "Free" | awk '{print $3}')
+vram_usage=$(( ${vram_total} - ${vram_free} ))
 
 case ${format} in 
     0)
