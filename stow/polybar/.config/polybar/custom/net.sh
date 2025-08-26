@@ -32,7 +32,7 @@ SPEED_UNIT="%{O1}k"
 
 declare -A NETWORKS
 NETWORKS["TP-Link_6E36_5G"]="TP-5G"
-# NETWORKS["StormFiber-13C0"]="Storm"
+NETWORKS["StormFiber-13C0"]="Storm"
 NETWORKS["StormFiber-13C0-5G"]="Storm-5G"
 
 INTERVAL=2
