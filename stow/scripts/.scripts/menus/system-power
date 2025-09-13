@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
+MOD="Control"
 ROFI_PROMPT="Power:"
-ROFI_CANCEL="Alt+p,Alt+space,Escape"
+ROFI_CANCEL="${MOD}+p,${MOD}+space,Escape"
 
 # menu defined as an associative array
 typeset -A menu

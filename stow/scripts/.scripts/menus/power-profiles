@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
+MOD="Control"
 ROFI_PROMPT="Profile:"
-ROFI_CANCEL="Alt+i,Alt+space,Escape"
+ROFI_CANCEL="${MOD}+i,${MOD}+space,Escape"
 
 # use of parenthesis instead of quotations means this is an array (white space seperated)
 menu=($(powerprofilesctl list | grep ':$' | sed 's/[* :]//g'))
