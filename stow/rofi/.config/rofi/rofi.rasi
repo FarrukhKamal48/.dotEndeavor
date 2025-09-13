@@ -7,11 +7,17 @@ configuration {
     disable-history:     false;
     sidebar-mode:        false;
     hide-scrollbar:   true;
+
+    kb-mode-complete:       "";
+    kb-remove-to-eol:       "";
+    kb-mode-complete:       "";
+    kb-remove-char-back:    "";
+    kb-row-select:          "";
     
-    kb-move-char-back:      "Alt+h,Left";
-    kb-row-down:            "Alt+j,Down";
-    kb-row-up:              "Alt+k,Up";
-    kb-move-char-forward:   "Alt+l,Right";
+    kb-move-char-back:      "Control+h,Left";
+    kb-row-down:            "Control+j,Down";
+    kb-row-up:              "Control+k,Up";
+    kb-move-char-forward:   "Control+l,Right";
     kb-accept-entry:        "Return";
     
 }
