@@ -1,15 +1,21 @@
 #!/bin/bash
 
+powered=$(bluetoothctl show | grep -c "Powered: yes")
+
 case $1 in
     
     power_on)
-    rfkill unblock bluetooth && sleep 1s && bluetoothctl power on
-    dunstify -a "bluetooth.sh" -u low -i bluetooth -r 2595 "Bluetooth" "Power On"
+        if (( ! ${powered} )); then
+            dunstify -a "bluetooth.sh" -u low -i bluetooth -r 2595 "Bluetooth" "Power On"
+        fi
+        rfkill unblock bluetooth && sleep 1s && bluetoothctl power on
     ;;
     
     power_off)
-    bluetoothctl power off && sleep 1s && rfkill block bluetooth
-    dunstify -a "bluetooth.sh" -u low -i bluetooth-off -r 2595 "Bluetooth" "Power Off"
+        if (( ${powered} )); then
+            dunstify -a "bluetooth.sh" -u low -i bluetooth-off -r 2595 "Bluetooth" "Power Off"
+        fi
+        bluetoothctl power off && sleep 1s && rfkill block bluetooth
     ;;
     
     list_connected)
