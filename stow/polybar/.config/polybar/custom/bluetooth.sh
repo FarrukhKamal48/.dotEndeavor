@@ -27,6 +27,8 @@ BAR_SEPERATOR=${ALERT_COLOR}%{O7}%{T11}▍%{T1}
 POWER_OFF_GLYPH="󰂲"
 POWER_ON_GLYPH="󰂯"
 
+PERCENT_UNIT="%{O1}%"
+
 declare -A devices
 devices["84:AC:60:31:89:58"]="󰋋 PEATS"
 
@@ -96,8 +98,8 @@ case ${args["format"]} in
 
         device_connected=0
         for dev_adr in ${!devices[@]}; do
-            dev_info=$(bluetoothctl info ${dev_adr})
-            connected=$(echo ${dev_info} | grep -c "Connected: yes")
+            dev_info="$(bluetoothctl info ${dev_adr})"
+            connected=$(echo "${dev_info}" | grep -c "Connected: yes")
 
             dev_texts=(${devices["${dev_adr}"]})
 
@@ -115,6 +117,12 @@ case ${args["format"]} in
                 device_connected=1
                 OUTPUT+=${FORMAT_TEXT_ON}
                 OUTPUT+="${dev_texts[@]}"
+
+                battery=$(echo "${dev_info}" | grep "Battery Percentage" | grep -Po "[0-9]{1,3}(?=\))")
+                if [[ -n ${battery} ]]; then
+                    OUTPUT+=${GLYPH_SEPERATOR}
+                    OUTPUT+=${battery}${PERCENT_UNIT}
+                fi
             else
                 OUTPUT+=${FORMAT_TEXT_OFF}
                 OUTPUT+="OFF"

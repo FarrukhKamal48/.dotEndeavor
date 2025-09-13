@@ -14,7 +14,7 @@ NORMAL_FONT=%{T1}
 THRESH=("3.0" "7.0" "16")
 COLOR=("#a6e3a1" "#fab387" "#f38ba8")
 
-GLYPH_SEPERATOR=%{O10}
+GLYPH_SEPERATOR=%{O12}
 UNIT=%{O1}g
 GLYPH=""
 
