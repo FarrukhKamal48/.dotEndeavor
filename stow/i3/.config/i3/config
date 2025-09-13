@@ -8,7 +8,7 @@ font pango: Jetbrains Mono Nerd Font 10
 
 # mod keys
 set $mod Mod4
-set $alt Mod1
+set $alt Ctrl
 
 
 ## variables
@@ -78,14 +78,14 @@ mode $apps {
     bindsym $mod+space exec --no-startup-id $terminal; mode $normal
     bindsym space exec --no-startup-id $terminal; mode $normal
     
-    bindsym $mod+g exec --no-startup-id $browser; mode $normal
-    bindsym g exec --no-startup-id $browser; mode $normal
+    bindsym $mod+h exec --no-startup-id $browser; mode $normal
+    bindsym h exec --no-startup-id $browser; mode $normal
     
     bindsym $mod+i exec --no-startup-id $browser --incognito; mode $normal
     bindsym i exec --no-startup-id $browser --incognito; mode $normal
 
-    bindsym $mod+h exec --no-startup-id brave; mode $normal
-    bindsym h exec --no-startup-id brave; mode $normal
+    bindsym $mod+g exec --no-startup-id google-chrome-stable; mode $normal
+    bindsym g exec --no-startup-id google-chrome-stable; mode $normal
 
     bindsym $mod+d exec --no-startup-id discord; mode $normal
     bindsym d exec --no-startup-id discord; mode $normal
@@ -108,6 +108,9 @@ mode $apps {
     bindsym $mod+w exec --no-startup-id mcontrolcenter; mode $normal
     bindsym w exec --no-startup-id mcontrolcenter; mode $normal
     
+    bindsym $mod+f exec --no-startup-id pavucontrol; mode $normal
+    bindsym f exec --no-startup-id pavucontrol; mode $normal
+    
     bindsym $mod+p exec --no-startup-id $scripts/tools/screensnip.sh $snip_dir jpg; mode $normal
     bindsym p exec --no-startup-id $scripts/tools/screensnip.sh $snip_dir jpg; mode $normal
     
@@ -116,8 +119,8 @@ mode $apps {
     bindsym bracketleft exec --no-startup-id $scripts/tools/screensnip.sh $snip_dir jpg tesseract \
         && tesseract $snip_dir/tesseract.jpg stdout | copyq write -; mode $normal
     
-    bindsym $mod+bracketright exec --no-startup-id $scripts/tools/colorpicker; mode $normal
-    bindsym bracketright exec --no-startup-id $scripts/tools/colorpicker; mode $normal
+    bindsym $mod+o exec --no-startup-id $scripts/tools/colorpicker; mode $normal
+    bindsym o exec --no-startup-id $scripts/tools/colorpicker; mode $normal
     
     bindsym $mod+Return mode $normal
     bindsym Return mode $normal
@@ -243,24 +246,24 @@ bindsym $mod+r exec --no-startup-id xset r rate $key_repeat_delay_fast $key_repe
 mode $keymode {
 
     bindsym h exec --no-startup-id xdotool mousemove_relative -- -$mouse_move_amt 0
-    bindsym $alt+h exec --no-startup-id xdotool mousemove_relative -- -$mouse_fast_move_amt 0
+    bindsym $mod+h exec --no-startup-id xdotool mousemove_relative -- -$mouse_fast_move_amt 0
     
     bindsym j exec --no-startup-id xdotool mousemove_relative -- 0 $mouse_move_amt
-    bindsym $alt+j exec --no-startup-id xdotool mousemove_relative -- 0 $mouse_fast_move_amt
+    bindsym $mod+j exec --no-startup-id xdotool mousemove_relative -- 0 $mouse_fast_move_amt
     
     bindsym k exec --no-startup-id xdotool mousemove_relative -- 0 -$mouse_move_amt 
-    bindsym $alt+k exec --no-startup-id xdotool mousemove_relative -- 0 -$mouse_fast_move_amt 
+    bindsym $mod+k exec --no-startup-id xdotool mousemove_relative -- 0 -$mouse_fast_move_amt 
     
     bindsym l exec --no-startup-id xdotool mousemove_relative -- $mouse_move_amt 0 
-    bindsym $alt+l exec --no-startup-id xdotool mousemove_relative -- $mouse_fast_move_amt 0 
+    bindsym $mod+l exec --no-startup-id xdotool mousemove_relative -- $mouse_fast_move_amt 0 
     
     bindsym space exec --no-startup-id xdotool click 1
     
-    bindsym $alt+o mode $normal
+    bindsym $mod+o mode $normal
     bindsym Escape mode $normal
     
 }
-bindsym $alt+o mode $keymode 
+bindsym $mod+o mode $keymode 
 
 
 mode $gamemode {
