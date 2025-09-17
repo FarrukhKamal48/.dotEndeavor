@@ -37,6 +37,10 @@ set $monitor_standby_timeout        600
 set $monitor_suspend_timeout        720
 set $monitor_off_timeout            840
 
+
+# devices
+set $bluetooth_headphone 84:AC:60:31:89:58
+
 # workspaces
 set $ws1 "1"
 set $ws2 "2"
@@ -187,6 +191,9 @@ mode $bluetooth {
     bindsym $mod+i exec --no-startup-id $scripts/tools/bluetooth.sh power_off; mode $normal
     bindsym u exec --no-startup-id $scripts/tools/bluetooth.sh power_on; mode $normal
     bindsym i exec --no-startup-id $scripts/tools/bluetooth.sh power_off; mode $normal
+
+    bindsym $mod+h exec --no-startup-id bluetoothctl connect $bluetooth_headphone; mode $normal
+    bindsym h exec --no-startup-id bluetoothctl connect $bluetooth_headphone; mode $normal
 
     # blueman-manager
     bindsym $mod+j exec --no-startup-id $scripts/tools/bluetooth.sh power_on && blueman-manager; mode $normal
