@@ -11,7 +11,7 @@ configuration {
     kb-mode-complete:       "";
     kb-remove-to-eol:       "";
     kb-mode-complete:       "";
-    kb-remove-char-back:    "";
+    kb-remove-char-back:    "BackSpace";
     kb-row-select:          "";
     
     kb-move-char-back:      "Control+h,Left";
