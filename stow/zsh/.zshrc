@@ -30,7 +30,7 @@ USE_POWERLINE="false"
 export PATH="$PATH:/bin/butler/"
 
 export TERMINAL=alacritty
-export BROWSER=google-chrome-stable
+export BROWSER=firefox
 export EDITOR=nvim
 
 # zsh fuszzy search

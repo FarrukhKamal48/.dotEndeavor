@@ -286,6 +286,7 @@ def main():
 
 
 if __name__ == "__main__":
+	os.chdir("/home/infidel/imp/Copyparty/")
 	main()
 
 
