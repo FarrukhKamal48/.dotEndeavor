@@ -1,0 +1,330 @@
+{
+    "layer": "top",
+    "position": "bottom",
+    "height": 30,
+    "spacing": -5,
+    "margin": 0,
+    "modules-left": ["niri/workspaces"],
+        "modules-center": [],                                                                           //battery   //disk     // uptime      //updates        // systray
+    // "modules-right": ["custom/per-core","clock","pulseaudio", "backlight", "network", "cpu", "memory", "temperature", "battery", "disk", "custom/uptime", "custom/updates", "tray"],
+    "modules-right": ["mpris","custom/ndict","cpu","memory","temperature","network","pulseaudio", "backlight", "power-profiles-daemon", "battery","tray","clock#IA","clock" ],
+
+
+    "niri/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{index}:{name}",
+        "format-named": "{name}",
+        "format-icons": {
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
+            "10": "10"
+        }
+    },
+
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+
+
+
+    "power-profiles-daemon": {
+      "format": "{icon}",
+      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+      "tooltip": true,
+      "format-icons": {
+        "default": "",
+        "performance": "",
+        "balanced": "",
+        "power-saver": ""
+      }
+    },
+    
+"custom/ndict": {
+    "format": "{}",
+    "return-type": "json",
+    "interval": 1,
+    "exec": "/home/infidel/.local/bin/ndict-waybar",
+    "on-click": "/home/infidel/.local/bin/ndict-waybar toggle",
+    "signal": 8
+},
+
+"mpris": {
+    // Leave "player" commented out or unset to use the default (playerctld),
+    // which automatically follows the most recently active player.
+    // "player": "playerctld",
+    // "interval": 1,
+    "format": "{player_icon} {dynamic}",
+    "format-paused": "{status_icon} <i>{dynamic}</i>",
+    "format-stopped": "⏹️",
+    "tooltip-format": "{player} | {artist} - {title}",
+
+    "dynamic-len": 30,
+    "artist-len": 15,
+    "title-len": 20,
+
+    "player-icons": {
+        "default": "▶",
+        "firefox": "󰈹", // Nerd Font icon for Firefox
+        "spotify": "󰓇", // Nerd Font icon for Spotify
+        "vlc": "󰕼"     // Nerd Font icon for VLC
+    },
+    "status-icons": {
+        "playing": "▶",
+        "paused": "⏸"
+    },
+
+
+
+    // --- CONTROL LOGIC ---
+    // Here we override the default actions to target the player
+    // specified in our state file.
+    "on-click": "playerctl --player \"$(cat /tmp/waybar_mpris_controlled_player || playerctl -l | head -n 1)\" play-pause",
+    "on-scroll-up": "playerctl --player \"$(cat /tmp/waybar_mpris_controlled_player || playerctl -l | head -n 1)\" next",
+    "on-scroll-down": "playerctl --player \"$(cat /tmp/waybar_mpris_controlled_player || playerctl -l | head -n 1)\" previous",
+    
+    // Middle-click executes our switcher script.
+    "on-click-middle": "~/.config/waybar/scripts/mpris-control.sh",
+    "on-click-right": "playerctl --player \"$(cat /tmp/waybar_mpris_controlled_player || playerctl -l | head -n 1)\" stop"
+},
+
+
+
+"custom/mpris": {
+    "format": "{}",
+    "return-type": "json",
+    // This is the script that generates the text for the bar
+    "exec": "~/.config/waybar/scripts/mpris-waybar.sh",
+
+    // This defines the icons for the format string in the script
+    "format-icons": {
+        "Playing": "", // Font Awesome Play icon
+        "Paused": "",  // Font Awesome Pause icon
+        "Stopped": "" // Font Awesome Stop icon
+    },
+
+    // Define what happens on clicks and scrolls
+    // All commands now target the player stored in our state file
+    "on-click": "playerctl --player \"$(cat /tmp/waybar_mpris_player)\" play-pause",
+    "on-click-right": "playerctl --player \"$(cat /tmp/waybar_mpris_player)\" stop",
+    
+    // Middle-click will run our switcher script!
+    "on-click-middle": "~/.config/waybar/scripts/mpris-switch.sh",
+
+    "on-scroll-up": "playerctl --player \"$(cat /tmp/waybar_mpris_player)\" next",
+    "on-scroll-down": "playerctl --player \"$(cat /tmp/waybar_mpris_player)\" previous",
+    "smooth-scrolling-threshold": 1
+},
+
+
+
+
+
+    "custom/playerctl": {
+        "format": " 󰐊 {}",
+        "return-type": "json",
+        "max-length": 40,
+        "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} - {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{artist}} - {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
+        "on-click": "playerctl play-pause",
+        "on-click-right": "playerctl next"
+    },
+
+    "custom/weather": {
+        "exec": "curl 'https://wttr.in/?format=1'",
+        "interval": 3600,
+        "format": "{}",
+        "tooltip": true
+    },
+
+    "custom/quote": {
+        "format": "󰚛 {}",
+        "interval": 3600,
+        "exec": "fortune -s",
+        "on-click": "fortune | yad --text-info --width=400 --height=200 --title='Fortune'",
+        "tooltip": true
+    },
+
+    "custom/updates": {
+        "format": "󰚰 {}",
+        "exec": "checkupdates | wc -l",
+        "interval": 3600,
+        "on-click": "kitty -e sudo pacman -Syu",
+        "signal": 8
+    },
+
+    "custom/uptime": {
+        "format": "󰔟 {}",
+        "exec": "uptime -p | sed 's/up //; s/ days/d/; s/ hours/h/; s/ minutes/m/'",
+        "interval": 60
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󰈈",
+            "deactivated": "󰈉"
+        },
+        "tooltip": true
+    },
+
+    "clock": {
+        "format": "󰥔 {0:%I:%M %p}",
+        "format-alt": "󰃮 {:%Y-%m-%d}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode"          : "month",
+            "mode-mon-col"  : 3,
+            "weeks-pos"     : "right",
+            "on-scroll"     : 1,
+            "on-click-right": "mode",
+            "format": {
+                "months":     "<span color='#d3c6aa'><b>{}</b></span>",
+                "days":       "<span color='#e67e80'>{}</span>",
+                "weeks":      "<span color='#a7c080'><b>W{}</b></span>",
+                "weekdays":   "<span color='#7fbbb3'><b>{}</b></span>",
+                "today":      "<span color='#dbbc7f'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions": {
+            "on-click-right": "mode",
+            "on-click-forward": "tz_up",
+            "on-click-backward": "tz_down",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
+    },
+    
+    "clock#IA": {
+        "format": "󰥔 {0:%I:%M %p}",
+        // "format-alt": "󰃮 {:%Y-%m-%d}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "timezone": "US/Central",
+        "calendar": {
+            "mode"          : "month",
+            "mode-mon-col"  : 3,
+            "weeks-pos"     : "right",
+            "on-scroll"     : 1,
+            "on-click-right": "mode",
+            "format": {
+                "months":     "<span color='#d3c6aa'><b>{}</b></span>",
+                "days":       "<span color='#e67e80'>{}</span>",
+                "weeks":      "<span color='#a7c080'><b>W{}</b></span>",
+                "weekdays":   "<span color='#7fbbb3'><b>{}</b></span>",
+                "today":      "<span color='#dbbc7f'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions": {
+            "on-click-right": "mode",
+            "on-click-forward": "tz_up",
+            "on-click-backward": "tz_down",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
+    },
+
+    "cpu": {
+        // We apply the monospace font here for the default state
+        "format": "<span font_family='monospace'>{usage1:>2} {usage2:>2} {usage3:>2} {usage4:>2} {usage5:>2} {usage6:>2} {usage7:>2} {usage8:>2} {usage9:>2} {usage10:>2} {usage11:>2} {usage12:>2} {usage13:>2} {usage14:>2} {usage15:>2}</span>",
+        
+        // And apply it to every other state as well
+        "format-critical":  "<span color='#c20821' font_family='monospace'><b>{usage1:>2} {usage2:>2} {usage3:>2} {usage4:>2} {usage5:>2} {usage6:>2} {usage7:>2} {usage8:>2} {usage9:>2} {usage10:>2} {usage11:>2} {usage12:>2} {usage13:>2} {usage14:>2} {usage15:>2}</b></span>",
+        "format-high":      "<span color='#e03c52' font_family='monospace'>{usage1:>2} {usage2:>2} {usage3:>2} {usage4:>2} {usage5:>2} {usage6:>2} {usage7:>2} {usage8:>2} {usage9:>2} {usage10:>2} {usage11:>2} {usage12:>2} {usage13:>2} {usage14:>2} {usage15:>2}</span>",
+        "format-medium":    "<span color='#85c600' font_family='monospace'>{usage1:>2} {usage2:>2} {usage3:>2} {usage4:>2} {usage5:>2} {usage6:>2} {usage7:>2} {usage8:>2} {usage9:>2} {usage10:>2} {usage11:>2} {usage12:>2} {usage13:>2} {usage14:>2} {usage15:>2}</span>",
+        "format-low":       "<span color='grey' font_family='monospace'>{usage1:>2} {usage2:>2} {usage3:>2} {usage4:>2} {usage5:>2} {usage6:>2} {usage7:>2} {usage8:>2} {usage9:>2} {usage10:>2} {usage11:>2} {usage12:>2} {usage13:>2} {usage14:>2} {usage15:>2}</span>",
+        
+        "tooltip": false,
+        "states": {
+            "critical": 90,
+            "high": 50,
+            "medium": 25,
+            "low": 0
+        },
+        "interval": 2
+    },
+
+    "memory": {
+        "format": "{used:>2}G",
+        "interval": 10,
+        // "on-click": "alacritty -e btop"
+    },
+
+    "temperature": {
+        "critical-threshold": 80,
+        "hwmon-path": ["/sys/class/hwmon/hwmon2/temp1_input"],
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": ["󱃃", "󰔏", "󱃂"],
+        "on-click": "kitty -e s-tui"
+    },
+
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": "󰚥 {capacity}%",
+        "format-alt": "{icon} {time}",
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    },
+
+    "network": {
+        "format-wifi": "󰖩 {essid} ({signalStrength}%)",
+        "format-ethernet": "󰈀  {ifname}",
+        "format-linked": "󰈀  {ifname} (No IP)",
+        "format-disconnected": "󰖪 Disconnected",
+        "format-alt": " {bandwidthUpBits}  {bandwidthDownBits}",
+        "tooltip-format": "{ifname}: {ipaddr}",
+        // "on-click": "foot -e nmtui"
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume} {format_source}",
+        "format-bluetooth": "󰂰 {volume} {format_source}",
+        "format-bluetooth-muted": "󰂲 {icon}",
+        "format-muted": "󰝟 {format_source}",
+        "format-source": " {volume}",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "󰋋",
+            "hands-free": "󰥰",
+            "headset": "󰋎",
+            "phone": "󰏲",
+            "portable": "󰄝",
+            "car": "󰄋",
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +2%",
+        "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -2%"
+    },
+
+    "backlight": {
+        "format": "{icon} {percent}%",
+        "format-icons": ["󰃞", "󰃟", "󰃠"],
+        "on-scroll-up": "brightnessctl --exponent=3.5 set +1%",
+        "on-scroll-down": "brightnessctl --exponent=3.5 set 1%-",
+        "scroll-step": 0.000001
+    },
+
+    "disk": {
+        "interval": 30,
+        "format": "󰋊 {percentage_used}%",
+        "path": "/",
+        "on-click": "kitty -e gdu /"
+    },
+
+    "tray": {
+        "icon-size": 18,
+        "spacing": 5
+    }
+}

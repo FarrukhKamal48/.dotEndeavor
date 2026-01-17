@@ -1,0 +1,64 @@
+# User customizations for Oh my tmux!
+
+# set zsh as default shell
+set-option -g default-shell /bin/zsh
+
+# increase history size
+set -g history-limit 10000
+
+set -g mouse on
+
+# force Vi mode
+set -g status-keys vi
+set -g mode-keys vi
+
+# replace C-b with C-Space (and disable C-a secondary prefix)
+set -g prefix C-Space
+bind C-Space send-prefix
+unbind C-b
+set -gu prefix2
+unbind C-a
+
+# custom reload binding
+bind r source-file ~/.config/tmux/tmux.conf \; display 'config reloaded'
+
+# split bindings
+bind - split-window -v
+bind _ split-window -h
+bind | split-window -h
+
+# pane navigation
+bind -r h select-pane -L
+bind -r j select-pane -D
+bind -r k select-pane -U
+bind -r l select-pane -R
+
+# pane resizing
+bind -r H resize-pane -L 2
+bind -r J resize-pane -D 2
+bind -r K resize-pane -U 2
+bind -r L resize-pane -R 2
+
+# window navigation
+bind -r C-h previous-window
+bind -r C-l next-window
+bind Tab last-window
+
+# mouse toggle with display message
+bind m run "tmux set -g mouse #{?mouse,off,on}" \; display 'mouse #{?mouse,on,off}'
+
+# Custom bindings for external windows
+bind-key n run-shell -b "nohup foot --working-directory=#{pane_current_path} tmux >/dev/null 2>&1 &"
+bind-key o run-shell -b "nohup foot --working-directory=#{pane_current_path} tmux new-session yazi >/dev/null 2>&1 &"
+
+# copy mode bindings
+bind Enter copy-mode
+bind -T copy-mode-vi v send-keys -X begin-selection
+bind -T copy-mode-vi C-v send-keys -X rectangle-toggle
+bind -T copy-mode-vi y send-keys -X copy-pipe "wl-copy"
+bind -T copy-mode-vi Escape send-keys -X cancel
+bind -T copy-mode-vi H send-keys -X start-of-line
+bind -T copy-mode-vi L send-keys -X end-of-line
+bind -T copy-mode-vi K send-keys -N 5 Up
+bind -T copy-mode-vi J send-keys -N 5 Down
+bind -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe "wl-copy"

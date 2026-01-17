@@ -1,0 +1,472 @@
+{
+  "Revision": "0.6.6.2",
+  "Profiles": [
+    {
+      "Tablet": "Huion Kamvas 16 (Gen 3)",
+      "OutputMode": {
+        "Path": "OpenTabletDriver.Desktop.Output.LinuxArtistMode",
+        "Settings": [],
+        "Enable": true
+      },
+      "Filters": [
+        {
+          "Path": "tablet_calibration.tablet_calibration_stretch_area",
+          "Settings": [
+            {
+              "Property": "left_stretch",
+              "Value": 1.0
+            },
+            {
+              "Property": "right_stretch",
+              "Value": 1.0
+            },
+            {
+              "Property": "top_stretch",
+              "Value": 1.0
+            },
+            {
+              "Property": "bottom_stretch",
+              "Value": 1.0
+            },
+            {
+              "Property": "x_offset",
+              "Value": 0.0
+            },
+            {
+              "Property": "y_offset",
+              "Value": 0.0
+            },
+            {
+              "Property": "disable_clamping",
+              "Value": null
+            }
+          ],
+          "Enable": true
+        },
+        {
+          "Path": "tablet_calibration.tablet_calibration_stretch_tablet",
+          "Settings": [
+            {
+              "Property": "left_stretch",
+              "Value": 1.0
+            },
+            {
+              "Property": "right_stretch",
+              "Value": 1.0
+            },
+            {
+              "Property": "top_stretch",
+              "Value": 1.0
+            },
+            {
+              "Property": "bottom_stretch",
+              "Value": 1.0
+            },
+            {
+              "Property": "x_offset",
+              "Value": 0.0
+            },
+            {
+              "Property": "y_offset",
+              "Value": 0.0
+            },
+            {
+              "Property": "disable_clamping",
+              "Value": true
+            }
+          ],
+          "Enable": true
+        },
+        {
+          "Path": "slimy_scylla.slimy_scylla_dynamic_speed_smooth",
+          "Settings": [
+            {
+              "Property": "min_smooth_speed",
+              "Value": 0
+            },
+            {
+              "Property": "max_smooth_speed",
+              "Value": 55
+            },
+            {
+              "Property": "smooth_amount",
+              "Value": 0.98
+            },
+            {
+              "Property": "inertia_accel",
+              "Value": 0.5
+            },
+            {
+              "Property": "inertia_decel",
+              "Value": 0.85
+            },
+            {
+              "Property": "pressure_deadzone_percent",
+              "Value": null
+            },
+            {
+              "Property": "remove_tail_pressure_reports",
+              "Value": 1
+            }
+          ],
+          "Enable": false
+        },
+        {
+          "Path": "slimy_scylla.slimy_scylla_dynamic_weighted",
+          "Settings": [
+            {
+              "Property": "drag",
+              "Value": 0.2
+            },
+            {
+              "Property": "mass",
+              "Value": 31.25
+            },
+            {
+              "Property": "max_pressure_speed",
+              "Value": 20.0
+            },
+            {
+              "Property": "pressure_deadzone_percent",
+              "Value": null
+            },
+            {
+              "Property": "remove_tail_pressure_reports",
+              "Value": 1
+            }
+          ],
+          "Enable": false
+        },
+        {
+          "Path": "slimy_scylla.slimy_scylla_input_degradation_jitter",
+          "Settings": [
+            {
+              "Property": "pressure_noise_amount",
+              "Value": 0.05
+            },
+            {
+              "Property": "pressure_noise_period",
+              "Value": 10.0
+            },
+            {
+              "Property": "position_noise_amount",
+              "Value": 7.0
+            },
+            {
+              "Property": "position_noise_period",
+              "Value": 15.0
+            },
+            {
+              "Property": "pressure_deadzone_percent",
+              "Value": null
+            }
+          ],
+          "Enable": false
+        },
+        {
+          "Path": "slimy_scylla.slimy_scylla_input_degradation_pressure_random",
+          "Settings": [
+            {
+              "Property": "amount_percent",
+              "Value": 10.0
+            },
+            {
+              "Property": "completely_random_pressure",
+              "Value": null
+            },
+            {
+              "Property": "pressure_deadzone_percent",
+              "Value": null
+            }
+          ],
+          "Enable": false
+        },
+        {
+          "Path": "slimy_scylla.slimy_scylla_pressure_curve",
+          "Settings": [
+            {
+              "Property": "gain",
+              "Value": 1.0
+            },
+            {
+              "Property": "softness",
+              "Value": 0.0
+            },
+            {
+              "Property": "minimum_value_percent",
+              "Value": 0.0
+            },
+            {
+              "Property": "maximum_value_percent",
+              "Value": 100.0
+            },
+            {
+              "Property": "invert",
+              "Value": null
+            },
+            {
+              "Property": "pressure_deadzone_percent",
+              "Value": null
+            }
+          ],
+          "Enable": true
+        },
+        {
+          "Path": "slimy_scylla.slimy_scylla_tilt_smoothing_moving_average",
+          "Settings": [
+            {
+              "Property": "amount",
+              "Value": 10
+            }
+          ],
+          "Enable": false
+        },
+        {
+          "Path": "slimy_scylla.slimy_scylla_tilt_smoothing_exponential_moving_average",
+          "Settings": [
+            {
+              "Property": "amount",
+              "Value": 0.1
+            }
+          ],
+          "Enable": false
+        },
+        {
+          "Path": "slimy_scylla.slimy_scylla_pressure_processing_sample_and_hold",
+          "Settings": [
+            {
+              "Property": "sample_number",
+              "Value": 15
+            },
+            {
+              "Property": "pressure_deadzone_percent",
+              "Value": null
+            },
+            {
+              "Property": "remove_tail_pressure_reports",
+              "Value": 1
+            }
+          ],
+          "Enable": false
+        },
+        {
+          "Path": "slimy_scylla.slimy_scylla_pressure_processing_moving_average",
+          "Settings": [
+            {
+              "Property": "amount",
+              "Value": 10
+            },
+            {
+              "Property": "pressure_deadzone_percent",
+              "Value": null
+            },
+            {
+              "Property": "remove_tail_pressure_reports",
+              "Value": 1
+            }
+          ],
+          "Enable": false
+        },
+        {
+          "Path": "slimy_scylla.slimy_scylla_pressure_processing_fixed_value",
+          "Settings": [
+            {
+              "Property": "value_percent",
+              "Value": 22.0
+            },
+            {
+              "Property": "pressure_deadzone_percent",
+              "Value": null
+            },
+            {
+              "Property": "remove_tail_pressure_reports",
+              "Value": 1
+            }
+          ],
+          "Enable": false
+        },
+        {
+          "Path": "slimy_scylla.slimy_scylla_pressure_processing_exponential_moving_average",
+          "Settings": [
+            {
+              "Property": "amount",
+              "Value": 0.1
+            },
+            {
+              "Property": "pressure_deadzone_percent",
+              "Value": null
+            },
+            {
+              "Property": "remove_tail_pressure_reports",
+              "Value": 1
+            }
+          ],
+          "Enable": false
+        },
+        {
+          "Path": "slimy_scylla.slimy_scylla_position_smoothing_pulled_string",
+          "Settings": [
+            {
+              "Property": "string_length",
+              "Value": 35
+            },
+            {
+              "Property": "pressure_deadzone_percent",
+              "Value": null
+            },
+            {
+              "Property": "remove_tail_position_reports",
+              "Value": 1
+            },
+            {
+              "Property": "leak_smoothing_to_hover",
+              "Value": null
+            },
+            {
+              "Property": "always_apply_to_hover",
+              "Value": null
+            },
+            {
+              "Property": "never_intercept_pressure_on_off",
+              "Value": true
+            }
+          ],
+          "Enable": false
+        },
+        {
+          "Path": "slimy_scylla.slimy_scylla_position_smoothing_exponential_moving_average",
+          "Settings": [
+            {
+              "Property": "amount",
+              "Value": 0.1
+            },
+            {
+              "Property": "catch_up",
+              "Value": true
+            },
+            {
+              "Property": "pressure_deadzone_percent",
+              "Value": null
+            },
+            {
+              "Property": "remove_tail_position_reports",
+              "Value": 1
+            },
+            {
+              "Property": "leak_smoothing_to_hover",
+              "Value": null
+            },
+            {
+              "Property": "always_apply_to_hover",
+              "Value": null
+            },
+            {
+              "Property": "never_intercept_pressure_on_off",
+              "Value": null
+            }
+          ],
+          "Enable": false
+        }
+      ],
+      "AbsoluteModeSettings": {
+        "Display": {
+          "Width": 2560.0,
+          "Height": 1440.0,
+          "X": 1280.0,
+          "Y": 720.0,
+          "Rotation": 0.0
+        },
+        "Tablet": {
+          "Width": 349.6,
+          "Height": 196.65001,
+          "X": 174.8,
+          "Y": 98.35,
+          "Rotation": 0.0
+        },
+        "EnableClipping": true,
+        "EnableAreaLimiting": false,
+        "LockAspectRatio": true
+      },
+      "RelativeModeSettings": {
+        "XSensitivity": 10.0,
+        "YSensitivity": 10.0,
+        "RelativeRotation": 0.0,
+        "RelativeResetDelay": "00:00:00.1000000"
+      },
+      "Bindings": {
+        "TipActivationThreshold": 0.0,
+        "TipButton": {
+          "Path": "OpenTabletDriver.Desktop.Binding.MouseBinding",
+          "Settings": [
+            {
+              "Property": "Button",
+              "Value": "Left"
+            }
+          ],
+          "Enable": true
+        },
+        "EraserActivationThreshold": 1.0,
+        "EraserButton": {
+          "Path": "OpenTabletDriver.Desktop.Binding.AdaptiveBinding",
+          "Settings": [
+            {
+              "Property": "Binding",
+              "Value": "Eraser"
+            }
+          ],
+          "Enable": true
+        },
+        "PenButtons": [
+          {
+            "Path": "OpenTabletDriver.Desktop.Binding.LinuxArtistMode.LinuxArtistModeButtonBinding",
+            "Settings": [
+              {
+                "Property": "Button",
+                "Value": "Pen Button 1"
+              }
+            ],
+            "Enable": true
+          },
+          {
+            "Path": "OpenTabletDriver.Desktop.Binding.LinuxArtistMode.LinuxArtistModeButtonBinding",
+            "Settings": [
+              {
+                "Property": "Button",
+                "Value": "Pen Button 2"
+              }
+            ],
+            "Enable": true
+          },
+          {
+            "Path": "OpenTabletDriver.Desktop.Binding.LinuxArtistMode.LinuxArtistModeButtonBinding",
+            "Settings": [
+              {
+                "Property": "Button",
+                "Value": "Pen Button 3"
+              }
+            ],
+            "Enable": true
+          }
+        ],
+        "AuxButtons": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "MouseButtons": [],
+        "MouseScrollUp": null,
+        "MouseScrollDown": null,
+        "DisablePressure": false,
+        "DisableTilt": false
+      }
+    }
+  ],
+  "LockUsableAreaDisplay": true,
+  "LockUsableAreaTablet": true,
+  "Tools": []
+}

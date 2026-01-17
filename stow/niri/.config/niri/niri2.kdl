@@ -1,0 +1,254 @@
+// This is your personalized Niri config, translated from your Sway setup.
+// Niri uses the KDL format: https://kdl.dev
+// For a full guide, see the Niri wiki: https://github.com/YaLTeR/niri/wiki/Configuration:-Introduction
+
+// --- Input Device Configuration ---
+// Translated from your sway 'input' and 'xinput' settings.
+input {
+    keyboard {
+        // Key repeat rate from your sway config.
+        repeat-delay 200
+        repeat-rate 50
+
+        xkb {
+            // Add your keyboard layout settings here if needed.
+            // layout "us"
+        }
+
+        numlock
+    }
+
+    // Settings for all touchpads.
+    touchpad {
+        tap
+        dwt // Disable While Typing
+        natural-scroll
+        middle-emulation
+    }
+
+    // Settings for all mice. Your sway config sets natural scroll and a specific accel speed.
+    mouse {
+        natural-scroll
+        // This is a direct translation of 'libinput Accel Speed -0.6'
+        accel-speed -0.6
+    }
+
+    // Uncomment this to have your mouse cursor jump to newly focused windows.
+    // warp-mouse-to-focus
+}
+
+// --- Output Configuration ---
+// You MUST configure your outputs. Run `niri msg outputs` inside a Niri session
+// to find your output names (e.g., "eDP-1", "DP-1").
+// Then, uncomment and edit a block like this for each monitor.
+/*
+output "eDP-1" {
+    // Example: mode "1920x1080@144.000"
+    // Example: scale 1.0
+}
+output "DP-1" {
+    // Example: mode "2560x1440"
+    // Example: position x=1920 y=0
+}
+*/
+
+
+// --- Layout and Appearance ---
+// Translated from your gaps, borders, and color settings.
+layout {
+    // You had gaps set to 0.
+    gaps 0
+
+    // Set a border similar to your Sway config.
+    border {
+        on // You used `default_border pixel 3`, so we enable this.
+        width 3
+        // Your focused color was $lightblue (#2294ff)
+        active-color "#2294ff"
+        // Your unfocused color was $darkblue (#08052b)
+        inactive-color "#08052b"
+        // Your urgent color was $urgentred (#e53935)
+        urgent-color "#e53935"
+    }
+
+    // Niri doesn't have "smart borders". The border is either on or off.
+    // Focus ring is off by default when border is on. This is good.
+    focus-ring {
+        off
+    }
+
+    // Optional: enable shadows for a more modern look.
+    // shadow { on; }
+
+    // Set the default width for new windows to half the screen.
+    default-column-width { proportion 0.5; }
+}
+
+// --- Startup Applications ---
+// Translated from your `exec` and `exec_always` lines.
+spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+spawn-at-startup "waybar"     // Niri works well with Waybar.
+spawn-at-startup "dunst"      // For notifications.
+spawn-at-startup "copyq"      // Your clipboard manager.
+// Niri has built-in support for XDG autostart, so `dex` is not needed.
+// Things like `nm-applet` should start automatically if installed.
+
+// You used 'autotiling', which is not needed as Niri handles its own layout.
+
+// Ask clients to not draw their own decorations (like title bars).
+// This makes the UI more consistent with borders.
+prefer-no-csd
+
+// Screenshot path from your Sway config.
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+
+// --- Window Rules ---
+// Translated from your `for_window` rules.
+window-rule {
+    match app-id="com.github.hluk.copyq"
+    open-floating true
+}
+window-rule {
+    match app-id="pavucontrol"
+    open-floating true
+}
+// Add other floating rules here, e.g., for calculators, color pickers...
+// window-rule {
+//     match app-id="gnome-calculator"
+//     open-floating true
+// }
+
+// --- Keybindings ---
+// This is the main section, translated from your `bindsym` settings.
+// Mod is automatically Super (Win key).
+binds {
+    // --- Essential Apps & Actions ---
+    Mod+Return { spawn "alacritty"; }
+    Mod+Period { spawn "ghostty"; } // Your secondary terminal
+    Mod+C      { close-window; } // Your preference over Mod+Q
+    
+    // FIX: Wrapped complex spawn commands in `sh -c "..."` for correct parsing.
+    Mod+space  { spawn "sh" "-c" "rofi -show drun -config ~/.config/rofi/rofidmenu.rasi"; }
+    Mod+T      { spawn "sh" "-c" "rofi -show window -config ~/.config/rofi/rofidmenu.rasi"; }
+    Mod+Q      { spawn "brave" "--password-store=basic"; } // FIX: Split command and argument.
+    Mod+E      { spawn "sh" "-c" "alacritty -e ranger ~/University/8th_Semester/"; } // FIX: Wrapped in shell to handle `~`.
+
+    // Reload Niri config
+    Mod+Shift+C { reload-config; }
+    // Niri doesn't have a direct 'restart' like i3/sway. `reload-config` is usually enough.
+
+    // Quit Niri (shows a confirmation dialog)
+    Mod+Shift+E { quit; }
+
+    // --- Focus Movement (Niri Style) ---
+    // H and L move between COLUMNS. J and K move between WINDOWS inside a column.
+    Mod+H     { focus-column-left; }
+    Mod+J     { focus-window-down; }
+    Mod+K     { focus-window-up; }
+    Mod+L     { focus-column-right; }
+    Mod+Left  { focus-column-left; }
+    Mod+Down  { focus-window-down; }
+    Mod+Up    { focus-window-up; }
+    Mod+Right { focus-column-right; }
+
+    // --- Window Movement ---
+    Mod+Shift+H     { move-column-left; }
+    Mod+Shift+J     { move-window-down; }
+    Mod+Shift+K     { move-window-up; }
+    Mod+Shift+L     { move-column-right; }
+    Mod+Shift+Left  { move-column-left; }
+    Mod+Shift+Down  { move-window-down; }
+    Mod+Shift+Up    { move-window-up; }
+    Mod+Shift+Right { move-column-right; }
+
+    // --- Workspace Switching ---
+    // Niri uses vertical workspaces. 'next' is down, 'prev' is up.
+    Mod+D { focus-workspace-down; } // Your `workspace next`
+    Mod+A { focus-workspace-up; }   // Your `workspace prev`
+
+    // Move focused column to another workspace
+    Mod+Shift+D { move-column-to-workspace-down; }
+    Mod+Shift+A { move-column-to-workspace-up; }
+
+    // Direct workspace switching by number
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+0 { focus-workspace 10; }
+
+    // Move column to workspace by number
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
+    Mod+Shift+0 { move-column-to-workspace 10; }
+
+    // --- Layout Control ---
+    // Fullscreen and Floating
+    Mod+M { fullscreen-window; }
+    Mod+F { fullscreen-window; } // You had both M and F
+    Mod+Shift+space { toggle-window-floating; }
+    // This is like `focus mode_toggle` to switch between tiled and floating layers
+    Alt+space { switch-focus-between-floating-and-tiling; } // You used Alt+Space for this
+
+    // Niri's equivalent of tabbed layout (for the current column)
+    Mod+P { toggle-column-tabbed-display; } // Your `layout tabbed`
+    // NOTE: There is NO `split h`/`split v`. New windows create new columns.
+
+    // --- Resizing ---
+    // Niri does not have a "resize mode". You bind keys to resize directly.
+    // Here are translations for your resize arrow keys.
+    Mod+R {
+        set-column-width "+10%";
+    }
+    Mod+Shift+R {
+        set-column-width "-10%";
+    }
+
+    // --- Screenshots (using grim/slurp for Wayland) ---
+    // Built-in screenshot to file
+    Print { screenshot-screen; }
+    // Your custom screenshot binds from sway
+    Mod+Print       { spawn "sh" "-c" "grim -g \"$(slurp)\" - | copyq write image/png -"; }
+    Mod+Shift+W     { spawn "sh" "-c" "grim -g \"$(slurp)\" - | wl-copy"; }
+    Mod+Shift+Q     { spawn "sh" "-c" "grim -g \"$(slurp)\" \"$HOME/Pictures/Screenshots/$(date '+%F-%T').png\""; }
+    Mod+Shift+Tab   { spawn "sh" "-c" "grim -g \"$(slurp)\" - | tesseract - - | wl-copy"; }
+
+    // --- Media and Hardware Keys ---
+    // These are direct translations of your `spawn` commands.
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
+    XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+
+    XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "set" "5%+"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "5%-"; }
+
+    XF86AudioPlay  { spawn "playerctl" "play-pause"; }
+    XF86AudioPause { spawn "playerctl" "play-pause"; }
+    XF86AudioNext  { spawn "playerctl" "next"; }
+    XF86AudioPrev  { spawn "playerctl" "previous"; }
+    
+    // --- Custom Scripts and App Binds ---
+    Mod+Shift+backslash { power-off-monitors; }
+    // For suspend, ensure your system is configured to allow this without a password prompt from your user session.
+    Mod+Shift+Control+backslash { spawn "systemctl" "suspend"; }
+
+    // Clipboard manager binds
+    Alt+C { spawn "copyq" "menu"; }
+    Alt+X { spawn "copyq" "next"; }
+    Alt+Z { spawn "copyq" "previous"; }
+    Alt+V { spawn "copyq" "paste"; }
+}

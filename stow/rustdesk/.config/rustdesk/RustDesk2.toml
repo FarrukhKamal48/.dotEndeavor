@@ -1,0 +1,14 @@
+rendezvous_server = '91.98.29.119:21116'
+nat_type = 1
+serial = 0
+unlock_pin = ''
+trusted_devices = '00i/Nw1tXlhYiixGTzOEKhh+Rj'
+
+[options]
+av1-test = 'Y'
+relay-server = '91.98.29.119'
+custom-rendezvous-server = '91.98.29.119'
+local-ip-addr = '192.168.1.12'
+stop-service = 'Y'
+verification-method = 'use-permanent-password'
+key = 'lRqN0Z84waoRE77Gr2ZV6mvV344Wfg0FvvIhb4XMMp4='
