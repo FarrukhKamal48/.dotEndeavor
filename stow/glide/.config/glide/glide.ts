@@ -32,7 +32,7 @@ glide.keymaps.set(["normal","insert","visual","ignore","command","op-pending"], 
 }, { description: "Universal Escape" });
 
 // 2. For Insert mode: blur the active element to return to Normal
-glide.keymaps.set("insert", "<A-p>", "mode_change normal", { 
+glide.keymaps.set("insert", "<A-;>", "blur", { 
     description: "Escape Insert Mode" 
 });
 
@@ -83,8 +83,8 @@ const scroll = (amount: number) => {
 
 glide.keymaps.set("normal", "j", scroll(300));
 glide.keymaps.set("normal", "k", scroll(-300));
-glide.keymaps.set("normal", "<S-j>", scroll(800));
-glide.keymaps.set("normal", "<S-k>", scroll(-800));
+glide.keymaps.set("normal", "J", scroll(800));
+glide.keymaps.set("normal", "K", scroll(-800));
 glide.keymaps.set("normal", "<A-j>", scroll(50));
 glide.keymaps.set("normal", "<A-k>", scroll(-50));
 
@@ -93,13 +93,13 @@ glide.keymaps.set("normal", "<A-k>", scroll(-50));
 // =============================================================================
 
 // History Navigation (Using Back/Forward)
-glide.keymaps.set("normal", "n", "back");
-glide.keymaps.set("normal", "m", "forward");
+glide.keymaps.set("normal", "<A-h>", "back");
+glide.keymaps.set("normal", "<A-l>", "forward");
 
 // Tab Navigation (H and L)
-glide.keymaps.set("normal", "<S-h>", "tab_prev");
-glide.keymaps.set("normal", "<S-l>", "tab_next");
-glide.keymaps.set("normal", "q", "tab_close");
+glide.keymaps.set("normal", "H", "tab_prev");
+glide.keymaps.set("normal", "L", "tab_next");
+glide.keymaps.set("normal", "Q", "tab_close");
 
 // New Tab logic
 glide.keymaps.set("normal", "t", "tab_new");
@@ -112,99 +112,18 @@ glide.keymaps.set("normal", "T", async () => {
 // KEYMAPS - HINTS & MODES
 // =============================================================================
 
-// =============================================================================
-// HINT MODES: f (Focus/Foreground) vs F (Background)
-// =============================================================================
-
-// =============================================================================
-// SHARED CONTENT SCRIPT
-// This runs inside the web page. It returns the URL if it's a link,
-// otherwise it attempts to click/focus the element immediately.
-// =============================================================================
-const interactWithElement = (element: HTMLElement) => {
-    // 1. If it is a Link, just return the URL. Don't click it yet.
-    if (element.tagName === 'A') {
-        return { 
-            type: "link", 
-            url: (element as HTMLAnchorElement).href 
-        };
-    }
-
-    // 2. If it is NOT a link, force interaction (Focus & Click)
-    if (!element.hasAttribute("tabindex")) {
-        element.setAttribute("tabindex", "-1");
-    }
-    element.focus();
-    
-    // Simulate physical click
-    const rect = element.getBoundingClientRect();
-    const opts = { bubbles: true, cancelable: true, view: window, 
-                   clientX: rect.left + rect.width/2, clientY: rect.top + rect.height/2 };
-    element.dispatchEvent(new MouseEvent('mousedown', opts));
-    element.dispatchEvent(new MouseEvent('mouseup', opts));
-
-    // Check if we need Insert Mode
-    const tag = element.tagName;
-    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'IFRAME' || element.isContentEditable) {
-        return { type: "input" };
-    }
-    
-    return { type: "click" };
-};
-
-// =============================================================================
-// KEYMAPS
-// =============================================================================
-
-// 1. lowercase 'f' -> Open Links in FOREGROUND Tab (Focus new tab)
-glide.keymaps.set("normal", "f", () => {
-    glide.hints.show({
-        auto_activate: true,
-        action: async ({ content }) => {
-            // Execute the shared script without arguments
-            const result = await content.execute(interactWithElement);
-
-            if (result && result.type === "link") {
-                const current = await glide.tabs.active();
-                await browser.tabs.update(current.id, {
-                    url : result.url, 
-                });
-                // await browser.tabs.create({ 
-                //     url: result.url, 
-                //     active: true,
-                //     index: current.index 
-                // });
-            } else if (result && result.type === "input") {
-                await glide.excmds.execute("mode_change insert");
-                // Iframe injection fix
-                await new Promise(r => setTimeout(r, 150));
-                await glide.keys.send("<S-Tab>");
-            }
-        }
-    });
-}, { description: "Hint: Foreground / Click" });
-
-// 2. uppercase 'F' -> Open Links in BACKGROUND Tab (Stay on current page)
+// Normal Background Hint (F)
 glide.keymaps.set("normal", "F", () => {
     glide.hints.show({
-        auto_activate: true,
         action: async ({ content }) => {
-            const result = await content.execute(interactWithElement);
-
-            if (result && result.type === "link") {
+            const url = await content.execute((el) => (el as HTMLAnchorElement).href);
+            if (url) {
                 const current = await glide.tabs.active();
-                await browser.tabs.create({ 
-                    url: result.url, 
-                    active: false, // <--- Stay on current tab
-                    index: current.index + 1 
-                });
-            } else if (result && result.type === "input") {
-                // If you accidentally used 'F' on an input, still switch mode
-                await glide.excmds.execute("mode_change insert");
+                await browser.tabs.create({ url, active: false, index: current.index + 1 });
             }
         }
     });
-}, { description: "Hint: Background Tab" });
+});
 
 // STICKY HINT MODE (gF) - Removed space between g and F
 glide.keymaps.set("normal", "gF", () => {
