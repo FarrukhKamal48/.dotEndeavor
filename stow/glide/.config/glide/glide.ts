@@ -1,360 +1,311 @@
-// ~/.config/glide/glide.ts
+// 1. Declare Global Types (MUST BE AT THE TOP)
+declare global {
+  interface GlideGlobals {
+    is_sticky_hint_active?: boolean;
+  }
+}
+
 
 // =============================================================================
-// CARET / VISUAL MODE APPEARANCE
+// GLOBAL SETTINGS
 // =============================================================================
 
-// Make the caret 10px thick (effectively a block cursor)
-// Note: This applies globally (including in the address bar)
+glide.g.is_sticky_hint_active = false;
+glide.g.mapleader = "<Space>";
+glide.o.hint_size = "18px";
+glide.o.scroll_implementation = "keys";
+
+// Caret / Visual Mode Appearance
 glide.prefs.set("ui.caretWidth", 1);
-
-// Optional: Stop the caret from blinking to make it easier to track
 glide.prefs.set("ui.caretBlinkTime", 0);
 
 // =============================================================================
-// GENERAL SETTINGS & LEADER
+// UNIVERSAL ESCAPE (Alt + ;)
 // =============================================================================
 
-glide.o.hint_size = "18px";
+// 1. For Normal, Hint, and Caret modes: stop sticky hints and return to Normal
+glide.keymaps.set(["normal","insert","visual","ignore","command","op-pending"], "<A-;>", () => {
+    glide.g.is_sticky_hint_active = false;
+    glide.excmds.execute("hints_remove");
+    glide.excmds.execute("clear");
+    glide.excmds.execute("mode_change normal");
+}, { description: "Universal Escape" });
 
-// Set space as leader (Matches your: vim.g.mapleader = " ")
-glide.g.mapleader = "<Space>";
-
-// Set scroll behavior to keys to ensure J/K mappings work reliably
-glide.o.scroll_implementation = "keys";
-
-// Set hint charectors (remvove 'f')
-glide.o.hint_chars = "hjklasdgyuiopqwertnmzxcvb"
-
-// Reload config
-glide.keymaps.set("normal", "<leader>R", "config_reload", { 
-    description: "Reload Glide configuration" 
+// 2. For Insert mode: blur the active element to return to Normal
+glide.keymaps.set("insert", "<A-p>", "mode_change normal", { 
+    description: "Escape Insert Mode" 
 });
 
 // =============================================================================
-// NAVIGATION (The "Sonic" Movements)
+// RECURSIVE STICKY HINTS LOGIC
 // =============================================================================
 
-let scroll_speed = 150;
-let scroll_multiplier = 3;
-let scroll_behavior : ScrollBehavior = "smooth"
+const startStickyHints = () => {
+    if (!glide.g.is_sticky_hint_active) return;
 
-// Smooth Scroll Down
-glide.keymaps.set("normal", "j", async ({ tab_id }) => {
-    await glide.content.execute((speed, behavior) => {
-        window.scrollBy({ top: speed, behavior: behavior });
-    }, { tab_id, args:[scroll_speed, scroll_behavior] });
-});
-
-// Smooth Scroll Up
-glide.keymaps.set("normal", "k", async ({ tab_id }) => {
-    await glide.content.execute((speed, behavior) => {
-        window.scrollBy({ top: -speed, behavior: behavior });
-    }, { tab_id, args:[scroll_speed, scroll_behavior] });
-});
-
-// Lua: keymap("n", "<S-j>", "5j", opts) -> Move Down Fast
-glide.keymaps.set("normal", "J", async ({ tab_id }) => {
-    await glide.content.execute((speed, multiplier, behavior) => {
-        window.scrollBy({ top: speed * multiplier, behavior: behavior });
-    }, { tab_id, args:[scroll_speed, scroll_multiplier, scroll_behavior] });
-}, { description: "Sonic Down (10j)" });
-
-// Lua: keymap("n", "<S-k>", "5k", opts) -> Move Up Fast
-glide.keymaps.set("normal", "K", async ({ tab_id }) => {
-    await glide.content.execute((speed, multiplier, behavior) => {
-        window.scrollBy({ top: -speed * multiplier, behavior: behavior });
-    }, { tab_id, args:[scroll_speed, scroll_multiplier, scroll_behavior] });
-}, { description: "Sonic Up (10k)" });
-
-// Lua: keymap("n", "<S-A-j>", "15j", opts) -> Super Sonic Down
-// In browser, <C-d> (Scroll half page) is a good equivalent to 15j
-glide.keymaps.set("normal", "<A-S-j>", async ({ tab_id }) => {
-    await glide.content.execute((behavior) => {
-        window.scrollBy({ top: 1800, behavior: behavior });
-    }, { tab_id, args:[scroll_behavior] });
-}, { description: "Super-Sonic Down" });
-
-// Lua: keymap("n", "<S-A-k>", "15k", opts) -> Super Sonic Up
-glide.keymaps.set("normal", "<A-S-k>", async ({ tab_id }) => {
-    await glide.content.execute((behavior) => {
-        window.scrollBy({ top: -1800, behavior: behavior });
-    }, { tab_id, args:[scroll_behavior] });
-}, { description: "Super-Sonic Up" });
-
-
-// Page Next and previous
-glide.keymaps.set("normal", "H", "back", { description: "Previous Page" });
-glide.keymaps.set("normal", "H", "forward", { description: "Next Page" });
-
-
-// =============================================================================
-// TABS / BUFFERS NAVIGATION
-// =============================================================================
-
-// Map 't' to open a new tab (automatically focuses the URL bar)
-glide.keymaps.set("normal", "t", "tab_new", { description: "Open new tab" });
-
-// Map 't' to open a new tab immediately after the current one
-glide.keymaps.set("normal", "T", async () => {
-    // 1. Get the current tab location
-    const current = await glide.tabs.active();
-    
-    // 2. Create a new tab at the next index (Right below/next to current)
-    await browser.tabs.create({
-        active: true,
-        index: current.index + 1
-    });
-}, { description: "Open new tab next to current" });
-
-// Lua: keymap("n", "<S-h>", ":bprevious<CR>", opts)
-// Glide: Switch to previous tab
-glide.keymaps.set("normal", "H", "tab_prev", { description: "Previous Tab" });
-
-// Lua: keymap("n", "<S-l>", ":bnext<CR>", opts)
-// Glide: Switch to next tab
-glide.keymaps.set("normal", "L", "tab_next", { description: "Next Tab" });
-
-// Lua: keymap("n", "<S-q>", "<cmd>Bdelete!<CR>", opts)
-// Glide: Close current tab
-glide.keymaps.set("normal", "q", "tab_close", { description: "Close Tab" });
-
-// Lua: keymap("n", "<leader>fp", ":ProjectFzf<CR>")
-// Glide: Open Tab Search / Command Line
-glide.keymaps.set("normal", "<leader>fp", "commandline_show", { description: "Search Tabs/Commands" });
-
-
-// =============================================================================
-// WINDOW / ZOOM MANAGEMENT
-// =============================================================================
-
-// Lua: keymap("n", "<C-Up>", ":resize -2<CR>")
-// Glide: Zoom In (Closest equivalent to resizing a window split)
-glide.keymaps.set("normal", "<C-Up>", async () => {
-    const currentZoom = await browser.tabs.getZoom();
-    await browser.tabs.setZoom(currentZoom + 0.1);
-}, { description: "Zoom In" });
-
-// Lua: keymap("n", "<C-Down>", ":resize +2<CR>")
-// Glide: Zoom Out
-glide.keymaps.set("normal", "<C-Down>", async () => {
-    const currentZoom = await browser.tabs.getZoom();
-    await browser.tabs.setZoom(currentZoom - 0.1);
-}, { description: "Zoom Out" });
-
-// Lua: keymap("n", "<C-h>", "<C-w>h", opts) -> Window Left
-// In a browser, we can map this to switching to the tab to the immediate left
-// glide.keymaps.set("normal", "<C-h>", "tab_prev");
-// glide.keymaps.set("normal", "<C-l>", "tab_next");
-
-
-// Map 'gi' to focus an input and automatically switch to Insert Mode
-glide.keymaps.set("normal", "g i", () => {
     glide.hints.show({
-        // 1. Selector for all common editable fields
-        selector: "input:not([type='hidden']), textarea, [contenteditable]",
-        
-        // 2. If there is only one (like Google Search), it focuses instantly
-        auto_activate: true,
-
         action: async ({ content }) => {
-            // 3. Prepare and focus the element inside the web page
+            const url = await content.execute((el) => (el as HTMLAnchorElement).href);
+
+            if (url) {
+                const current = await glide.tabs.active();
+                await browser.tabs.create({ 
+                    url, 
+                    active: false, 
+                    index: current.index + 1 
+                });
+
+                // Wait 150ms to ensure Glide has finished the mode transition 
+                // back to Normal before re-triggering Hint mode.
+                setTimeout(startStickyHints, 150);
+            } else {
+                glide.g.is_sticky_hint_active = false;
+            }
+        }
+    });
+};
+
+// =============================================================================
+// KEYMAPS - NAVIGATION
+// =============================================================================
+
+// Reload config (Shift + R)
+glide.keymaps.set("normal", "<leader>R", "config_reload");
+
+// Smooth Scrolling
+const scroll = (amount: number) => {
+    return async ({ tab_id }: { tab_id: number }) => {
+        await glide.content.execute((amt) => {
+            window.scrollBy({ top: amt, behavior: "smooth" });
+        }, { tab_id, args: [amount] });
+    };
+};
+
+glide.keymaps.set("normal", "j", scroll(300));
+glide.keymaps.set("normal", "k", scroll(-300));
+glide.keymaps.set("normal", "<S-j>", scroll(800));
+glide.keymaps.set("normal", "<S-k>", scroll(-800));
+glide.keymaps.set("normal", "<A-j>", scroll(50));
+glide.keymaps.set("normal", "<A-k>", scroll(-50));
+
+// =============================================================================
+// KEYMAPS - TABS & PAGES
+// =============================================================================
+
+// History Navigation (Using Back/Forward)
+glide.keymaps.set("normal", "n", "back");
+glide.keymaps.set("normal", "m", "forward");
+
+// Tab Navigation (H and L)
+glide.keymaps.set("normal", "<S-h>", "tab_prev");
+glide.keymaps.set("normal", "<S-l>", "tab_next");
+glide.keymaps.set("normal", "q", "tab_close");
+
+// New Tab logic
+glide.keymaps.set("normal", "t", "tab_new");
+glide.keymaps.set("normal", "T", async () => {
+    const current = await glide.tabs.active();
+    await browser.tabs.create({ active: true, index: current.index + 1 });
+});
+
+// =============================================================================
+// KEYMAPS - HINTS & MODES
+// =============================================================================
+
+// =============================================================================
+// HINT MODES: f (Focus/Foreground) vs F (Background)
+// =============================================================================
+
+// =============================================================================
+// SHARED CONTENT SCRIPT
+// This runs inside the web page. It returns the URL if it's a link,
+// otherwise it attempts to click/focus the element immediately.
+// =============================================================================
+const interactWithElement = (element: HTMLElement) => {
+    // 1. If it is a Link, just return the URL. Don't click it yet.
+    if (element.tagName === 'A') {
+        return { 
+            type: "link", 
+            url: (element as HTMLAnchorElement).href 
+        };
+    }
+
+    // 2. If it is NOT a link, force interaction (Focus & Click)
+    if (!element.hasAttribute("tabindex")) {
+        element.setAttribute("tabindex", "-1");
+    }
+    element.focus();
+    
+    // Simulate physical click
+    const rect = element.getBoundingClientRect();
+    const opts = { bubbles: true, cancelable: true, view: window, 
+                   clientX: rect.left + rect.width/2, clientY: rect.top + rect.height/2 };
+    element.dispatchEvent(new MouseEvent('mousedown', opts));
+    element.dispatchEvent(new MouseEvent('mouseup', opts));
+
+    // Check if we need Insert Mode
+    const tag = element.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'IFRAME' || element.isContentEditable) {
+        return { type: "input" };
+    }
+    
+    return { type: "click" };
+};
+
+// =============================================================================
+// KEYMAPS
+// =============================================================================
+
+// 1. lowercase 'f' -> Open Links in FOREGROUND Tab (Focus new tab)
+glide.keymaps.set("normal", "f", () => {
+    glide.hints.show({
+        auto_activate: true,
+        action: async ({ content }) => {
+            // Execute the shared script without arguments
+            const result = await content.execute(interactWithElement);
+
+            if (result && result.type === "link") {
+                const current = await glide.tabs.active();
+                await browser.tabs.update(current.id, {
+                    url : result.url, 
+                });
+                // await browser.tabs.create({ 
+                //     url: result.url, 
+                //     active: true,
+                //     index: current.index 
+                // });
+            } else if (result && result.type === "input") {
+                await glide.excmds.execute("mode_change insert");
+                // Iframe injection fix
+                await new Promise(r => setTimeout(r, 150));
+                await glide.keys.send("<S-Tab>");
+            }
+        }
+    });
+}, { description: "Hint: Foreground / Click" });
+
+// 2. uppercase 'F' -> Open Links in BACKGROUND Tab (Stay on current page)
+glide.keymaps.set("normal", "F", () => {
+    glide.hints.show({
+        auto_activate: true,
+        action: async ({ content }) => {
+            const result = await content.execute(interactWithElement);
+
+            if (result && result.type === "link") {
+                const current = await glide.tabs.active();
+                await browser.tabs.create({ 
+                    url: result.url, 
+                    active: false, // <--- Stay on current tab
+                    index: current.index + 1 
+                });
+            } else if (result && result.type === "input") {
+                // If you accidentally used 'F' on an input, still switch mode
+                await glide.excmds.execute("mode_change insert");
+            }
+        }
+    });
+}, { description: "Hint: Background Tab" });
+
+// STICKY HINT MODE (gF) - Removed space between g and F
+glide.keymaps.set("normal", "gF", () => {
+    glide.g.is_sticky_hint_active = true;
+    startStickyHints();
+});
+
+// Focus Input (gi)
+glide.keymaps.set("normal", "gi", () => {
+    glide.hints.show({
+        selector: "input:not([type='hidden']), textarea, [contenteditable]",
+        auto_activate: true,
+        action: async ({ content }) => {
             await content.execute((element) => {
-                // Ensure the element is focusable (crucial for [contenteditable] divs)
-                if (!element.hasAttribute("tabindex") && 
-                    element.tagName !== "INPUT" && 
-                    element.tagName !== "TEXTAREA") {
+                if (!element.hasAttribute("tabindex") && element.tagName !== "INPUT" && element.tagName !== "TEXTAREA") {
                     element.setAttribute("tabindex", "-1");
                 }
                 element.focus();
-                
-                // For some inputs, a click is required to trigger site-specific logic
                 element.click();
             });
-
-            // 4. Change mode to insert using the official excmd
             await glide.excmds.execute("mode_change insert");
-            
-            glide.notify("Input focused (Insert Mode)");
         }
     });
-}, { description: "Focus input and enter Insert Mode" });
+});
 
-
-// Map <leader>v to focus the video player and switch to Insert Mode via excmd
+// Focus Video Player (<leader>v) - Broad Selector + Focus Injection
 glide.keymaps.set("normal", "<leader>v", () => {
     glide.hints.show({
-        // Selector for video tags and common player IDs/classes
-        selector: "video, [id*='player'], [class*='player']",
+        // 1. Loose Selector: Targets video/iframe tags OR anything with player-related terms in ID/Class
+        selector: `
+            video, 
+            iframe, 
+            [id*='player'], [class*='player'], 
+            [id*='video'], [class*='video'], 
+            [id*='media'], [class*='media'],
+            .playable, .vjs-tech, .jwplayer
+        `.replace(/\s+/g, ' ').trim(), // Clean up the string for Glide
         
+        // 2. Automatically select if there's only one obvious winner
         auto_activate: true,
 
         action: async ({ content }) => {
-            // 1. Prepare and focus the element inside the web page
+            // 3. Prepare the element inside the page
             await content.execute((element) => {
-                // Ensure the element can receive focus
+                element.scrollIntoView({ block: "center", behavior: "smooth" });
+                
+                // Ensure it can receive focus
                 if (!element.hasAttribute("tabindex")) {
                     element.setAttribute("tabindex", "-1");
                 }
                 element.focus();
-                element.scrollIntoView({ block: "center", behavior: "smooth" });
+                
+                // Simulate a click gesture at the center to "wake up" the element
+                const rect = element.getBoundingClientRect();
+                const x = rect.left + rect.width / 2;
+                const y = rect.top + rect.height / 2;
+                const opts = { bubbles: true, clientX: x, clientY: y, view: window };
+                element.dispatchEvent(new MouseEvent('mousedown', opts));
+                element.dispatchEvent(new MouseEvent('mouseup', opts));
             });
 
-            // 2. Execute the mode_change excmd to enter insert mode
-            // This matches the schema: name="mode_change", arg[0]="insert"
+            // 4. Delay to allow Glide's "Hint Mode" to finish closing
+            // and the browser to settle focus on the frame.
+            await new Promise(resolve => setTimeout(resolve, 250));
+
+            // 5. Inject the Shift+Tab to transfer focus inside the frame/player
+            await glide.keys.send("<S-Tab>");
+
+            // 6. Final Mode Switch: Put Glide into Insert Mode
             await glide.excmds.execute("mode_change insert");
             
-            glide.notify("Player focused (Insert Mode)");
         }
     });
-}, { description: "Focus video player" });
-
-
-// =============================================================================
-// URL & HIERARCHY (OIL.NVIM)
-// =============================================================================
-
-// Lua: vim.keymap.set("n", "-", "<cmd>Oil --float<CR>")
-// Glide: Go up one directory level in the URL (e.g. site.com/foo/bar -> site.com/foo)
-glide.keymaps.set("normal", "-", "go_up", { description: "Go up URL hierarchy" });
-
-
+}, { description: "Broad-match focus video player" });
 
 // =============================================================================
-// INSERT MODE ESCAPE
+// UTILITIES & ESCAPE
 // =============================================================================
 
-// // Lua: keymap("i", "jk", "<ESC>", opts)
-// // Glide: Blurs the active input element to return to Normal mode
-// glide.keymaps.set("insert", "jk", "blur", { description: "Escape Insert Mode" });
-//
-// // Lua: keymap("i", "kj", "<ESC>", opts)
-// glide.keymaps.set("insert", "kj", "blur");
-//
-
-// =============================================================================
-// COPYING & CLIPBOARD
-// =============================================================================
-
-// Lua: keymap("v", "<leader>L", ...) -> Copy reference
-// Glide: Yank current URL
-glide.keymaps.set("normal", "<leader>L", "url_yank", { description: "Yank URL" });
-
-// Lua: keymap("n", "<C-a>", "ggVG", opts) -> Select All
-glide.keymaps.set("normal", "<C-a>", async () => {
-    // We use content execution to select text on the page
-    await glide.content.execute(() => {
-        document.execCommand("selectAll");
-    });
-}, { description: "Select All" });
-
-// // =============================================================================
-// // VISUAL / CARET MODE
-// // =============================================================================
-//
-// // 1. Press 'v' in Normal mode to enter Caret mode
-// glide.keymaps.set("normal", "v", "mode_change visual", { 
-//     description: "Enter Visual (Caret) Mode" 
-// });
-//
-// // 2. Press 'y' in Caret mode to copy the selection and return to Normal mode
-// glide.keymaps.set("visual", "y", "visual_selection_copy", { 
-//     description: "Yank selection" 
-// });
-//
-// // 3. Press 'Esc' (or your 'jk' bind) to exit Caret mode without copying
-// glide.keymaps.set("visual", "<Escape>", "mode_change normal");
-// glide.keymaps.set("visual", "jk", "mode_change normal");
-//
-// // OPTIONAL: Ensure basic movement exists in Caret mode if not default
-// // (Glide usually defaults these, but explicit is safer)
-// glide.keymaps.set("visual", "h", "caret_move left");
-// glide.keymaps.set("visual", "l", "caret_move right");
-// glide.keymaps.set("visual", "j", "caret_move down");
-// glide.keymaps.set("visual", "k", "caret_move up");
-
-// =============================================================================
-// MISC / TOOLS
-// =============================================================================
-
-// Map <leader>c to clear all notifications (warnings, errors, etc.)
-glide.keymaps.set("normal", "<leader>c", "clear", { 
-    description: "Clear notifications" 
+// Clear / Escape
+glide.keymaps.set(["normal", "hint"], "<Escape>", () => {
+    glide.g.is_sticky_hint_active = false;
+    glide.excmds.execute("hints_remove");
+    glide.excmds.execute("clear");
 });
 
-// Map 'F' to open hints in a background tab immediately after the current one
-glide.keymaps.set("normal", "F", () => {
-    glide.hints.show({
-        action: async ({ content }) => {
-            // 1. Get the URL from the hinted element
-            const url = await content.execute((element) => {
-                return (element as HTMLAnchorElement).href;
-            });
+// Insert Mode Escape
+glide.keymaps.set("insert", "jk", "mode_change normal");
+glide.keymaps.set("insert", "kj", "mode_change normal");
 
-            if (url) {
-                // 2. Get the current active tab info
-                const currentTab = await glide.tabs.active();
+// Misc Tools
+glide.keymaps.set("normal", "<leader>c", "clear");
+glide.keymaps.set("normal", "<leader>h", "hints_remove");
+glide.keymaps.set("normal", "<leader>L", "url_yank");
+glide.keymaps.set("normal", "<leader>fp", "commandline_show");
+glide.keymaps.set("normal", "-", "go_up");
 
-                // 3. Create the new tab at the next index position
-                await browser.tabs.create({ 
-                    url: url, 
-                    active: false,               // Do not switch focus
-                    index: currentTab.index + 1  // Insert right after current tab
-                });
-                
-            } else {
-            }
-        }
-    });
-}, { description: "Open hint in background tab (next)" });
-
-// Lua: keymap("n", "<leader>h", "<cmd>nohlsearch<CR>", opts)
-// Glide: Remove hints (and generic clear)
-glide.keymaps.set("normal", "<leader>h", "hints_remove", { description: "Clear Hints" });
-
-// Lua: keymap("n", "<leader>gg", "<cmd>lua _LAZYGIT_TOGGLE()<CR>")
-// Glide: Open GitHub or current repo logic
-glide.keymaps.set("normal", "<leader>gg", async () => {
-    const url = new URL(glide.ctx.url);
-    // If we are on github, go to issues, otherwise go to github home
-    if (url.hostname === "github.com") {
-         // Append /issues if not there
-         if (!url.pathname.includes("/issues")) {
-             url.pathname = url.pathname + "/issues";
-             await browser.tabs.update({ url: url.toString() });
-         }
-    } else {
-        await browser.tabs.create({ url: "https://github.com" });
-    }
-}, { description: "LazyGit / GitHub" });
-
-// Lua: keymap("n", "<leader>e", ":NvimTreeToggle<CR>")
-// Glide: Toggle Sidebar (Bookmarks/History)
-glide.keymaps.set("normal", "<leader>e", async () => {
-    await browser.sidebarAction.toggle();
-}, { description: "Toggle Sidebar" });
-
-
-// =============================================================================
-// CUSTOM BOOKMARK PICKER (Like Telescope)
-// =============================================================================
-
-// Maps <leader>fb to a fuzzy finder for bookmarks
-glide.keymaps.set("normal", "<leader>fb", async () => {
-    const bookmarks = await browser.bookmarks.getRecent(20);
-  
-    glide.commandline.show({
-      title: "Telescope Bookmarks",
-      options: bookmarks.map((bookmark) => ({
-        label: bookmark.title || bookmark.url || "Untitled",
-        description: bookmark.url,
-        async execute() {
-          if (bookmark.url) {
-              await browser.tabs.create({ active: true, url: bookmark.url });
-          }
-        },
-      })),
-    });
-  }, { description: "Telescope Bookmarks" });
-
-
+// Zoom logic
+glide.keymaps.set("normal", "<C-Up>", async () => {
+    await browser.tabs.setZoom((await browser.tabs.getZoom()) + 0.1);
+});
+glide.keymaps.set("normal", "<C-Down>", async () => {
+    await browser.tabs.setZoom((await browser.tabs.getZoom()) - 0.1);
+});
