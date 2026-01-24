@@ -13,11 +13,43 @@ declare global {
 glide.g.is_sticky_hint_active = false;
 glide.g.mapleader = "<Space>";
 glide.o.hint_size = "18px";
+glide.o.hint_chars = "hjklasdgyuiopqwertnmzxcvb";
 glide.o.scroll_implementation = "keys";
 
 // Caret / Visual Mode Appearance
 glide.prefs.set("ui.caretWidth", 1);
 glide.prefs.set("ui.caretBlinkTime", 0);
+
+// make the mode button more visible and prominent
+glide.styles.add(css`
+    :root {
+        --glide-mode-normal: #89b4fa;
+        --glide-mode-insert: #a6e3a1;
+        --glide-mode-hint: #cba6f7;
+        --glide-mode-command: #fab387;
+        --glide-mode-op-pending: #fb4934;
+        --glide-mode-visual: #f38ba8;
+    }
+`);
+glide.styles.add(css`
+  #glide-toolbar-mode-button {
+      color: #181825;
+      font-weight: bold;
+      background-color: var(--toolbarbutton-icon-fill-attention, #45a9ff);
+      border-radius: 5px;
+  }
+  #glide-toolbar-mode-button.glide-mode-button {
+      min-width: auto;
+      justify-content: center !important;
+      margin-top : 5px;
+      margin-bottom : 5px;
+      padding-right: 10px;
+      padding-left: 10px;
+  }
+  #glide-toolbar-mode-button.glide-mode-button::after {
+      width: 0;
+  }
+`);
 
 // =============================================================================
 // UNIVERSAL ESCAPE (Alt + ;)
@@ -32,9 +64,33 @@ glide.keymaps.set(["normal","insert","visual","ignore","command","op-pending"], 
 }, { description: "Universal Escape" });
 
 // 2. For Insert mode: blur the active element to return to Normal
-glide.keymaps.set("insert", "<A-;>", "blur", { 
+glide.keymaps.set("insert", "<A-'>", "blur", { 
     description: "Escape Insert Mode" 
 });
+
+const clickBackground = async ({ tab_id }: { tab_id: number }) => {
+    await glide.content.execute(() => {
+        // 1. Deactivate (Blur) any focused element
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+        }
+
+        // 2. Define standard Click Options
+        const eventOptions: MouseEventInit = {
+            view: window,
+            bubbles: true,
+            cancelable: true,
+            buttons: 1
+        };
+
+        // 3. Dispatch events
+        document.body.dispatchEvent(new MouseEvent("mousedown", eventOptions));
+        document.body.dispatchEvent(new MouseEvent("mouseup", eventOptions));
+        document.body.dispatchEvent(new MouseEvent("click", eventOptions));
+    }, { tab_id });
+};
+
+glide.keymaps.set("normal", "<leader>d", clickBackground, { description: "Click background to dismiss/blur" });
 
 // =============================================================================
 // RECURSIVE STICKY HINTS LOGIC
@@ -69,7 +125,6 @@ const startStickyHints = () => {
 // KEYMAPS - NAVIGATION
 // =============================================================================
 
-// Reload config (Shift + R)
 glide.keymaps.set("normal", "<leader>R", "config_reload");
 
 // Smooth Scrolling
@@ -83,8 +138,8 @@ const scroll = (amount: number) => {
 
 glide.keymaps.set("normal", "j", scroll(300));
 glide.keymaps.set("normal", "k", scroll(-300));
-glide.keymaps.set("normal", "J", scroll(800));
-glide.keymaps.set("normal", "K", scroll(-800));
+glide.keymaps.set("normal", "<S-j>", scroll(800));
+glide.keymaps.set("normal", "<S-k>", scroll(-800));
 glide.keymaps.set("normal", "<A-j>", scroll(50));
 glide.keymaps.set("normal", "<A-k>", scroll(-50));
 
@@ -93,17 +148,19 @@ glide.keymaps.set("normal", "<A-k>", scroll(-50));
 // =============================================================================
 
 // History Navigation (Using Back/Forward)
-glide.keymaps.set("normal", "<A-h>", "back");
-glide.keymaps.set("normal", "<A-l>", "forward");
+glide.keymaps.set("normal", "n", "back");
+glide.keymaps.set("normal", "m", "forward");
 
-// Tab Navigation (H and L)
-glide.keymaps.set("normal", "H", "tab_prev");
-glide.keymaps.set("normal", "L", "tab_next");
-glide.keymaps.set("normal", "Q", "tab_close");
+// Tab manipulation
+glide.keymaps.set("normal", "<S-h>", "tab_prev");
+glide.keymaps.set("normal", "<S-l>", "tab_next");
+glide.keymaps.set("normal", "q", "tab_close");
+glide.keymaps.set("normal", "r", "reload")
+
 
 // New Tab logic
 glide.keymaps.set("normal", "t", "tab_new");
-glide.keymaps.set("normal", "T", async () => {
+glide.keymaps.set("normal", "<S-t>", async () => {
     const current = await glide.tabs.active();
     await browser.tabs.create({ active: true, index: current.index + 1 });
 });
@@ -112,7 +169,21 @@ glide.keymaps.set("normal", "T", async () => {
 // KEYMAPS - HINTS & MODES
 // =============================================================================
 
-// Normal Background Hint (F)
+
+// hints to open in current tab
+glide.keymaps.set("normal", "f", () => {
+    glide.hints.show({
+        action: async ({ content }) => {
+            const url = await content.execute((el) => (el as HTMLAnchorElement).href);
+            if (url) {
+                const current = await glide.tabs.active();
+                await browser.tabs.update(current.id, { url, active: false });
+            }
+        }
+    });
+});
+
+// hints to open in new tab
 glide.keymaps.set("normal", "F", () => {
     glide.hints.show({
         action: async ({ content }) => {
@@ -143,11 +214,67 @@ glide.keymaps.set("normal", "gi", () => {
                 }
                 element.focus();
                 element.click();
-            });
-            await glide.excmds.execute("mode_change insert");
+            })
+            // setTimeout(() => glide.keys.send("<S-a>"), 50);
+            glide.keys.send("<S-a>");
         }
     });
 });
+
+// Scrollable element hints
+glide.keymaps.set("normal", "gs", () => {
+    glide.hints.show({
+        selector: "div, section, article, aside, nav, ul, ol, pre, code, main, textarea, [class*='scroll']",
+        
+        pick: async ({ content, hints }) => {
+            const results = await content.map((element: HTMLElement) => {
+                const style = window.getComputedStyle(element);
+                
+                const overflowY = style.overflowY;
+                const overflowX = style.overflowX;
+                const isScrollableStyle = 
+                    (overflowY === 'auto' || overflowY === 'scroll') ||
+                    (overflowX === 'auto' || overflowX === 'scroll');
+
+                const canScroll = 
+                    element.scrollHeight > element.clientHeight || 
+                    element.scrollWidth > element.clientWidth;
+
+                const hasScrollClass = element.className.includes("scroll");
+                const isNotRoot = element !== document.body && element !== document.documentElement;
+
+                return (isScrollableStyle || hasScrollClass) && canScroll && isNotRoot;
+            });
+
+            const filteredHints = hints.filter((_, i) => results[i]);
+
+            // FIX: Added '{}' as the second argument to execute()
+            if (filteredHints.length === 0) {
+                glide.excmds.execute("hints_remove");
+                glide.excmds.execute("mode_change normal");
+            }
+
+            return filteredHints;
+        },
+
+        action: async ({ content }) => {
+            await content.execute((element: HTMLElement) => {
+                element.scrollIntoView({ block: "center", behavior: "smooth" });
+
+                if (!element.hasAttribute("tabindex")) {
+                    element.setAttribute("tabindex", "-1");
+                }
+                element.focus();
+
+                const originalOutline = element.style.outline;
+                element.style.outline = "2px solid red";
+                setTimeout(() => {
+                    element.style.outline = originalOutline;
+                }, 600);
+            });
+        }
+    });
+}, { description: "Focus scrollable elements" });
 
 // Focus Video Player (<leader>v) - Broad Selector + Focus Injection
 glide.keymaps.set("normal", "<leader>v", () => {
