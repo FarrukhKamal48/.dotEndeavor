@@ -196,6 +196,14 @@ glide.keymaps.set("normal", "F", () => {
     });
 });
 
+// hints for browser-ui
+glide.keymaps.set("normal", "gf", () => {
+    glide.hints.show({
+        action: "click",
+        location: "browser-ui",
+    });
+});
+
 // STICKY HINT MODE (gF) - Removed space between g and F
 glide.keymaps.set("normal", "gF", () => {
     glide.g.is_sticky_hint_active = true;
@@ -339,7 +347,7 @@ glide.keymaps.set(["normal", "hint"], "<Escape>", () => {
 
 // Insert Mode Escape
 glide.keymaps.set("insert", "jk", "mode_change normal");
-glide.keymaps.set("insert", "kj", "mode_change normal");
+// glide.keymaps.set("insert", "kj", "mode_change normal");
 
 // Misc Tools
 glide.keymaps.set("normal", "<leader>c", "clear");
