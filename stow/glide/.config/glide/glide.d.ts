@@ -1,6 +1,7 @@
 /* ======================================================
-                Glide version: 0.1.57a
+                Glide version: 0.1.58a
    ====================================================== */
+// 
 
 declare const GLIDE_EXCOMMANDS: [
 	{
@@ -1037,9 +1038,13 @@ declare global {
 				/**
 				 * If only one hint is generated, automatically activate it.
 				 *
+				 * If `true`, the hint will be followed if there is exactly *one* matched hint.
+				 *
+				 * If `"always"`, the first hint that matches will be followed.
+				 *
 				 * @default false
 				 */
-				auto_activate?: boolean;
+				auto_activate?: boolean | "always";
 				/**
 				 * Callback invoked when the selected hint is chosen.
 				 *
@@ -1253,6 +1258,13 @@ declare global {
 			 */
 			parse(key_notation: string): glide.KeyNotation;
 		};
+		/**
+		 * Include another file as part of your config. The given file is evluated as if it
+		 * was just another Glide config file.
+		 *
+		 * @example glide.include("shared.glide.ts")
+		 */
+		include(path: string): Promise<void>;
 		unstable: {
 			/**
 			 * Manage tab split views.
@@ -1284,14 +1296,14 @@ declare global {
 				has_split_view(tab: TabID | Browser.Tabs.Tab): boolean;
 			};
 			/**
+			 * @deprecated Use {@link glide.include} instead.
+			 *
 			 * Include another file as part of your config. The given file is evluated as if it
 			 * was just another Glide config file.
 			 *
-			 * **note**: this function cannot be called from inside a file that has been included
-			 *           itself, i.e. nested {@link glide.unstable.include} calls are not supported.
-			 *
-			 * @example glide.unstable.include("shared.glide.ts")
+			 * @example glide.include("shared.glide.ts")
 			 */
+			/// @docs-skip
 			include(path: string): Promise<void>;
 		};
 		path: {
@@ -1353,6 +1365,29 @@ declare global {
 			 * ```
 			 */
 			stat(path: string): Promise<glide.FileInfo>;
+			/**
+			 * Create a new directory at the given `path`.
+			 *
+			 * Parent directories are created by default, if desired you can turn this off with
+			 * `ts:glide.fs.mkdir('...', { parents: false })`.
+			 *
+			 * By default this will *not* error if the `path` already exists, if you would like it
+			 * to do so, pass `ts:glide.fs.mkdir('...', { exists_ok: false })`
+			 */
+			mkdir(path: string, props?: {
+				/**
+				 * If `false`, do not create missing parent directories.
+				 *
+				 * @default true
+				 */
+				parents?: boolean;
+				/**
+				 * Do not error if the directory already exists.
+				 *
+				 * @default true
+				 */
+				exists_ok?: boolean;
+			}): Promise<void>;
 		};
 		messengers: {
 			/**
@@ -1601,6 +1636,15 @@ declare global {
 		 * @default "show"
 		 */
 		native_tabs: "show" | "hide" | "autohide";
+		/**
+		 * The URL to load when a new tab is created.
+		 *
+		 * This may be a local file (e.g. `"file:///path/to/page.html"`) or
+		 * any other URL, e.g. `"https://example.com"`.
+		 *
+		 * @default "about:newtab"
+		 */
+		newtab_url: string;
 	}
 	/**
 	 * Throws an error if the given value is not truthy.
@@ -1632,6 +1676,12 @@ declare global {
 	 */
 	function assert_never(x: never, detail?: string | Error): never;
 	class FileNotFoundError extends Error {
+		path: string;
+		constructor(message: string, props: {
+			path: string;
+		});
+	}
+	class FileModificationNotAllowedError extends Error {
 		path: string;
 		constructor(message: string, props: {
 			path: string;
@@ -1672,6 +1722,8 @@ declare global {
 		//       the `Options` type as well would be redundant.
 		/// @docs-skip
 		export type Options = GlideOptions;
+		/// @docs-skip
+		export type TypedArray = Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array | BigInt64Array | BigUint64Array;
 		export type SpawnOptions = {
 			cwd?: string;
 			env?: Record<string, string | null>;
@@ -1702,16 +1754,20 @@ declare global {
 			 */
 			exit_code: number | null;
 			/**
-			 * A `ReadableStream` of `string`s from the stdout pipe.
+			 * A `ReadableStream` of `string`s from the stdout pipe with helpers for processing the output.
 			 */
-			stdout: ReadableStream<string>;
+			stdout: glide.ProcessReadStream;
 			/**
-			 * A `ReadableStream` of `string`s from the stderr pipe.
+			 * A `ReadableStream` of `string`s from the stderr pipe with helpers for processing the output.
 			 *
 			 * This is `null` if the `stderr: 'stdout'` option was set as the pipe will be forwarded
 			 * to `stdout` instead.
 			 */
-			stderr: ReadableStream<string> | null;
+			stderr: glide.ProcessReadStream | null;
+			/**
+			 * Write to the process's stdin pipe.
+			 */
+			stdin: glide.ProcessStdinPipe;
 			/**
 			 * Wait for the process to exit.
 			 */
@@ -1728,11 +1784,50 @@ declare global {
 			 */
 			kill(timeout?: number): Promise<glide.CompletedProcess>;
 		};
+		export type ProcessReadStream = ReadableStream<string> & {
+			/**
+			 * When `await`ed returns all of the text in the stream.
+			 *
+			 * When iterated, yields each text chunk in the stream as it comes in.
+			 */
+			text(): Promise<string> & {
+				[Symbol.asyncIterator](): AsyncIterator<string>;
+			};
+			/**
+			 * When `await`ed returns an array of lines.
+			 *
+			 * When iterated, yields each line in the stream as it comes in.
+			 */
+			lines(): Promise<string[]> & {
+				[Symbol.asyncIterator](): AsyncIterator<string>;
+			};
+		};
 		/**
 		 * Represents a process that has exited.
 		 */
 		export type CompletedProcess = glide.Process & {
 			exit_code: number;
+		};
+		export type ProcessStdinPipe = {
+			/**
+			 * Write data to the process's stdin.
+			 *
+			 * Accepts either a string (which will be UTF-8 encoded) or
+			 * a binary array (e.g. ArrayBuffer, Uint8Array etc).
+			 *
+			 * **warning**: you *must* call `.close()` once you are done writing,
+			 *              otherwise the process will never exit.
+			 */
+			write(data: string | ArrayBuffer | glide.TypedArray): Promise<void>;
+			/**
+			 * Close the stdin pipe, signaling EOF to the process.
+			 *
+			 * By default, waits for any pending writes to complete before closing.
+			 * Pass `{ force: true }` to close immediately without waiting.
+			 */
+			close(opts?: {
+				force?: boolean;
+			}): Promise<void>;
 		};
 		export type RGBString = `#${string}` | `rgb(${string})`;
 		/** A web extension tab that is guaranteed to have the `ts:id` property present. */
@@ -1754,7 +1849,14 @@ declare global {
 			readonly version: string;
 			readonly active: boolean;
 			readonly source_uri: URL | null;
+			readonly type: "extension" | "plugin" | "theme" | "locale" | "dictionary" | "sitepermission" | "mlmodel";
 			uninstall(): Promise<void>;
+			/**
+			 * Reload the addon.
+			 *
+			 * This is similar to uninstalling / reinstalling, but less destructive.
+			 */
+			reload(): Promise<void>;
 		};
 		export type AddonInstall = glide.Addon & {
 			cached: boolean;
