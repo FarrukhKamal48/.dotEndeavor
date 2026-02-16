@@ -12,6 +12,7 @@ declare global {
 
 glide.g.is_sticky_hint_active = false;
 glide.g.mapleader = "<Space>";
+glide.o.mapping_timeout = 70;
 glide.o.hint_size = "18px";
 glide.o.hint_chars = "hjklasdgyuiopqwertnmzxcvb";
 glide.o.scroll_implementation = "keys";
