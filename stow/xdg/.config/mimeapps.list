@@ -135,3 +135,4 @@ x-scheme-handler/https=glide-browser-bin.desktop
 x-scheme-handler/unknown=google-chrome.desktop
 x-scheme-handler/etcher=balenaEtcher.desktop
 inode/directory=yazi.desktop
+x-scheme-handler/opencode=OpenCode-handler.desktop
