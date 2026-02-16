@@ -42,6 +42,18 @@ zinit light-mode for \
 # Powerlevel10k Theme (load immediately)
 zinit light romkatv/powerlevel10k
 
+function zvm_config() {
+    ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+    ZVM_KEYTIMEOUT=0.1
+}
+
+function zvm_after_lazy_keybindings() {
+    zvm_bindkey viins 'kj' zvm_exit_insert_mode
+}
+
+# zsh-vi-mode
+zinit ice depth=1
+zinit light jeffreytse/zsh-vi-mode
 
 # Auto Suggestions (defer)
 zinit light zsh-users/zsh-autosuggestions
