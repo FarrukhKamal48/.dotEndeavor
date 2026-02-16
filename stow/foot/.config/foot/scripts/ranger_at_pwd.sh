@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/bash
 
 # Ensure jq is installed
 if ! command -v jq > /dev/null 2>&1; then
