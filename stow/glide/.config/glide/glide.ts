@@ -166,6 +166,31 @@ glide.keymaps.set("normal", "<S-t>", async () => {
     await browser.tabs.create({ active: true, index: current.index + 1 });
 });
 
+// Close all non-active tabs
+glide.keymaps.set("normal", "<S-x>", async () => {
+    const current = await glide.tabs.active();
+    const tabs = await browser.tabs.query({ currentWindow: true });
+    const tabsToClose = tabs.filter(t => t.id !== current.id && t.id !== undefined);
+    await browser.tabs.remove(tabsToClose.map(t => t.id as number));
+}, { description: "Close all tabs except active" });
+
+// Paste url logic
+glide.keymaps.set("normal", "p", async () => {
+    const text = await navigator.clipboard.readText();
+    if (text) {
+        const current = await glide.tabs.active();
+        await browser.tabs.update(current.id, { url: text, active: true });
+    }
+}, { description: "Paste and search from clipboard in current tab" });
+
+glide.keymaps.set("normal", "<S-p>", async () => {
+    const text = await navigator.clipboard.readText();
+    if (text) {
+        const current = await glide.tabs.active();
+        await browser.tabs.create({ url: text, active: true, index: current.index + 1 });
+    }
+}, { description: "Paste and search from clipboard in new tab" });
+
 // =============================================================================
 // KEYMAPS - HINTS & MODES
 // =============================================================================
