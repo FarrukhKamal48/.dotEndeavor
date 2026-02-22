@@ -202,14 +202,17 @@ binds {
     Mod+C { spawn "copyq" "toggle"; }
     Mod+G repeat=false { spawn "glide-bin";}
     Mod+E repeat=false { spawn "alacritty" "-e" "yazi"; }
-    Mod+Shift+E { spawn "~/.scripts/tools/ranger_at_pwd.sh"; }
+    Mod+Shift+E { spawn "~/.scripts/tools/yazi_at_pwd.sh"; }
+    Mod+Ctrl+E { spawn "~/.scripts/tools/alacritty_at_pwd.sh"; }
     Mod+B { spawn "alacritty" "-e" "btop"; }
     Mod+T { spawn "mcontrolcenter"; }
     Mod+X { spawn "filelight"; }
     Mod+Y { spawn "jellyfin-desktop"; }
     Mod+U { spawn "blueman-manager"; }
     Mod+I { spawn "alacritty" "-e" "nmtui"; }
-
+    Mod+O { spawn "alacritty" "-e" "opencode"; }
+    Mod+P { spawn-sh "alacritty -e ~/.scripts/tools/copyparty-sfx.py -p 3924"; }
+    
     // Screenshots
     Ctrl+Shift+1 { spawn "~/.config/niri/scripts/screenshot_to_file.sh"; }
     Ctrl+Shift+2 { spawn "~/.config/niri/scripts/screenshot_to_clip.sh"; }
@@ -291,8 +294,8 @@ binds {
 
     // Sizing Control
     Mod+R { switch-preset-column-width; }
-    Mod+Shift+R { switch-preset-window-height; }
-    Mod+Ctrl+R { reset-window-height; }
+    Mod+Shift+R { set-column-width "50%"; }
+    Mod+Ctrl+R { switch-preset-window-height; }
     Mod+Minus { set-column-width "-5%"; }
     Mod+Equal { set-column-width "+5%"; }
     Mod+Shift+Minus { set-window-height "-5%"; }
