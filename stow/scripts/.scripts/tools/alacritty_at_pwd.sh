@@ -16,7 +16,7 @@ tree=$(niri msg -j windows)
 # Note: foot's app_id is typically "foot" or "alacritty".
 # We use `test("foot"; "i")` for a case-insensitive match.
 focused_foot_pid=$(echo "$tree" | \
-    jq '.[ ] | select(.app_id == "Alacritty" and .is_focused == true) | .pid')
+        jq '.[ ] | select(.app_id == "Alacritty" and .is_focused == true) | .pid')
 echo $focused_foot_pid
 # Alternative check if app_id is not found (e.g. XWayland title might be used by some older configs)
 # if [ -z "$focused_foot_pid" ]; then
@@ -26,7 +26,7 @@ echo $focused_foot_pid
 
 
 if [ -z "$focused_foot_pid" ]; then
-    echo "Focused window is not an foot terminal, or its PID could not be determined."
+    echo "Focused window is not an Alacritty terminal, or its PID could not be determined."
     # As a fallback, open foot in the home directory or current dir of this script
     # foot &
     exit 1
@@ -38,7 +38,7 @@ child_pid=$(pgrep -P $focused_foot_pid)
 target_cwd=$(readlink -f "/proc/${child_pid}/cwd")
 
 if [ -z "$target_cwd" ] || [ ! -d "$target_cwd" ]; then
-    echo "Could not determine the working directory for foot PID ${focused_foot_pid}."
+    echo "Could not determine the working directory for Alacritty PID ${focused_foot_pid}."
     echo "Path found: '${target_cwd}'"
     # Fallback if CWD cannot be read
     # foot &
@@ -46,8 +46,8 @@ if [ -z "$target_cwd" ] || [ ! -d "$target_cwd" ]; then
 fi
 
 # Open a new foot window in the determined CWD
-echo "Opening new foot in: ${target_cwd}"
-foot -a foot ranger "$target_cwd" &
+echo "Opening new Alacritty in: ${target_cwd}"
+alacritty --working-directory "$target_cwd" &
 
 # Optional: Bring the new window to focus (might require slight delay)
 # sleep 0.1 # Adjust if needed
