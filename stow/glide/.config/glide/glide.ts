@@ -181,7 +181,7 @@ glide.keymaps.set("normal", "p", async () => {
         const current = await glide.tabs.active();
         await browser.tabs.update(current.id, { url: text, active: true });
     }
-}, { description: "Paste and search from clipboard in current tab" });
+}, { description: "Paste from clipboard in current tab" });
 
 glide.keymaps.set("normal", "<S-p>", async () => {
     const text = await navigator.clipboard.readText();
@@ -189,7 +189,29 @@ glide.keymaps.set("normal", "<S-p>", async () => {
         const current = await glide.tabs.active();
         await browser.tabs.create({ url: text, active: true, index: current.index + 1 });
     }
-}, { description: "Paste and search from clipboard in new tab" });
+}, { description: "Paste from clipboard in new tab" });
+
+// duplicate tab
+glide.keymaps.set("normal", "d", async () => {
+    const current = await glide.tabs.active();
+    await browser.tabs.create({
+        url: current.url,
+        active: true,
+        index: current.index + 1
+    });
+}, { description: "Duplicate tab in current window" });
+
+glide.keymaps.set("normal", "<S-d>", async () => {
+    const current = await glide.tabs.active();
+    await browser.windows.create({ tabId: current.id });
+}, { description: "Pop current tab to new window" });
+
+glide.keymaps.set("normal", "w", async () => {
+    const session = await browser.sessions.getRecentlyClosed({ maxResults: 1 });
+    if (session[0]?.tab) {
+        await browser.sessions.restore(session[0].tab.sessionId);
+    }
+}, { description: "Reopen closed tab" });
 
 // =============================================================================
 // KEYMAPS - HINTS & MODES
