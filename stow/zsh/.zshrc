@@ -45,10 +45,15 @@ zinit light romkatv/powerlevel10k
 function zvm_config() {
     ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
     ZVM_KEYTIMEOUT=0.1
+    ZVM_SYSTEM_CLIPBOARD_ENABLED=true
 }
 
 function zvm_after_lazy_keybindings() {
     zvm_bindkey viins 'kj' zvm_exit_insert_mode
+    zvm_bindkey vicmd 'n' vi-beginning-of-line
+    zvm_bindkey vicmd 'm' vi-end-of-line
+    zvm_bindkey vicmd '\eh' vi-backward-word
+    zvm_bindkey vicmd '\el' vi-forward-word
 }
 
 # zsh-vi-mode
