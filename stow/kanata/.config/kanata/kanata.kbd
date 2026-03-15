@@ -1,39 +1,89 @@
 ;; defsrc is still necessary
 (defcfg
-  process-unmapped-keys yes
+    process-unmapped-keys yes
+)
+
+(defvar
+    tap-time 200
+    hold-time 200
+    chord-time 100
+    tap-keys (
+        q w e r t y u i o p
+        a s d f g h j k l ;
+        z x c v b n m , . /
+    )
+)
+
+(deffakekeys
+    to-base (layer-switch base)
 )
 
 (defsrc
-  ;; a s d f
-  ;; j k l ;
-  ;; caps 
-  x
-  
+    a s d f j k l ;
+    8 9 0
 )
-(defvar
-  tap-time 200
-  hold-time 200
+(deflayer base
+    @c_a @c_s @c_d @c_f @c_j @c_k @c_l @c_;
+    @sn_8 @sn_9 @sn_0
+
+)
+(deflayer nomods
+    a s d f j k l ;
+    @sb_8 @sb_9 @sb_0
 )
 
 (defalias
-  ;; lctl (multi f24 (tap-hold $tap-time $hold-time a lctl))
-  ;; lalt (multi f24 (tap-hold $tap-time $hold-time s lalt))
-  ;; lshift (multi f24 (tap-hold $tap-time $hold-time d lshift))
-  ;; lsup (multi f24 (tap-hold $tap-time $hold-time f lmet))
-  
-  ;; lsup (multi f24 (tap-hold $tap-time $hold-time j rmet))
-  ;; lshift (multi f24 (tap-hold $tap-time $hold-time k rshift))
-  ;; lalt (multi f24 (tap-hold $tap-time $hold-time l ralt))
-  ;; lctl (multi f24 (tap-hold $tap-time $hold-time ; rctl))
-  
-  ;; escctrl (tap-hold 100 100 esc lctl)
-  
-  xalt (multi f24 (tap-hold $tap-time $hold-time x lalt))
+    c_a (chord home_chord a)
+    c_s (chord home_chord s)
+    c_d (chord home_chord d)   
+    c_f (chord home_chord f)   
+    c_j (chord home_chord j)   
+    c_k (chord home_chord k)   
+    c_l (chord home_chord l)   
+    c_; (chord home_chord ;)   
+
+    sb_8 (chord switch-to-base 8)
+    sb_9 (chord switch-to-base 9)
+    sb_0 (chord switch-to-base 0)
+    
+    sn_8 (chord switch-to-nomods 8)
+    sn_9 (chord switch-to-nomods 9)
+    sn_0 (chord switch-to-nomods 0)
 )
 
-(deflayer base
-  ;; @lctl @lalt @lshift @lsup
-  ;; @j @k @l @;
-  ;; @escctrl 
-  @xalt
+(defchords home_chord $chord-time
+    (a) @L_sup  
+    (s) @L_ctl  
+    (d) @L_alt  
+    (f) @L_shift
+    (j) @R_shift 
+    (k) @R_alt  
+    (l) @R_ctl  
+    (;) @R_sup  
+
+    (j k l) esc
+    (s d f) tab
+)
+
+(defchords switch-to-nomods $chord-time
+    (8 9 0) (layer-switch nomods)
+)
+(defchords switch-to-base $chord-time
+    (8 9 0) (layer-switch base)
+)
+
+(defalias
+    tap (multi 
+        (layer-switch nomods)
+        (on-idle-fakekey to-base tap 20)
+    )
+
+    L_sup   (tap-hold-press $tap-time $hold-time (multi a @tap) lmet )
+    L_ctl   (tap-hold-press $tap-time $hold-time (multi s @tap) lctl )
+    L_alt   (tap-hold-press $tap-time $hold-time (multi d @tap) lalt )
+    L_shift (tap-hold-press $tap-time $hold-time (multi f @tap) lshift )
+    R_shift (tap-hold-press $tap-time $hold-time (multi j @tap) rshift )
+    R_alt   (tap-hold-press $tap-time $hold-time (multi k @tap) ralt )
+    R_ctl   (tap-hold-press $tap-time $hold-time (multi l @tap) rctl )
+    R_sup   (tap-hold-press $tap-time $hold-time (multi ; @tap) rmet )
 )
