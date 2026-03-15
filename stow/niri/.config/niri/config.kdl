@@ -249,27 +249,27 @@ binds {
     Mod+Shift+P { toggle-column-tabbed-display; }
 
     // Focus Control
-    Mod+H { focus-column-left; }
-    Mod+L { focus-column-right; }
-    Mod+J { focus-window-down; }
-    Mod+K { focus-window-up; }
+    Mod+H { focus-column-or-monitor-left; }
+    Mod+J { focus-window-or-workspace-down; }
+    Mod+K { focus-window-or-workspace-up; }
+    Mod+L { focus-column-or-monitor-right; }
     
-    Mod+A { focus-column-left; }
-    Mod+D { focus-column-right; }
-    Mod+S { focus-workspace-down; }
-    Mod+W { focus-workspace-up; }
+    Mod+A { focus-column-or-monitor-left; }
+    Mod+S { focus-window-or-workspace-down; }
+    Mod+W { focus-window-or-workspace-up; }
+    Mod+D { focus-column-or-monitor-right; }
     
     // Window Movement
-    Mod+Shift+H { move-column-left; }
-    Mod+Shift+L { move-column-right; }
-    Mod+Shift+J { move-column-to-workspace-down; }
-    Mod+Shift+K { move-column-to-workspace-up; }
+    Mod+Shift+H { move-column-left-or-to-monitor-left; }
+    Mod+Shift+J repeat=false { move-window-down-or-to-workspace-down; }
+    Mod+Shift+K repeat=false { move-window-up-or-to-workspace-up; }
+    Mod+Shift+L { move-column-right-or-to-monitor-right; }
     
-    Mod+Shift+A { move-column-left; }
-    Mod+Shift+D { move-column-right; }
-    Mod+Shift+S { move-column-to-workspace-down; }
-    Mod+Shift+W { move-column-to-workspace-up; }
-
+    Mod+Shift+A { move-column-left-or-to-monitor-left; }
+    Mod+Shift+S repeat=false { move-window-to-workspace-down; }
+    Mod+Shift+W repeat=false { move-window-to-workspace-up; }
+    Mod+Shift+D { move-column-right-or-to-monitor-right; }
+    
     Mod+Comma { consume-window-into-column; }
     Mod+Period { expel-window-from-column; }
     
