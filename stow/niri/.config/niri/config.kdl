@@ -45,12 +45,11 @@ input {
 }
 
 
-
-
 prefer-no-csd
 
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "waybar"
+spawn-at-startup "kitty" "--class" "HeadlessKitty" "--single-instance" "--start-as" "hidden" "--listen-on" "unix:/tmp/kitty-socket" "-o" "allow_remote_control=yes" "tail" "-f" "/dev/null"
 
 environment {
     HSA_OVERRIDE_GFX_VERSION "11.0.0"
@@ -197,21 +196,22 @@ binds {
     Mod+Shift+Return { spawn "systemctl" "reboot"; }
 
     // Spawning Applications
-    Mod+Space repeat=false hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
-    Alt+Space hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    Mod+C { spawn "copyq" "toggle"; }
+    Mod+Space repeat=false { spawn "kitty" "--single-instance" "tmux"; }
+    Alt+Space repeat=false { spawn "fuzzel"; }
     Mod+G repeat=false { spawn "glide-bin";}
-    Mod+E repeat=false { spawn "alacritty" "-e" "yazi"; }
+    Mod+E repeat=false { spawn-sh "kitty --single-instance tmux new-session yazi"; }
+    Mod+C repeat=false { spawn "copyq" "toggle"; }
+    Mod+T repeat=false { spawn "mcontrolcenter"; }
+    Mod+B repeat=false { spawn "kitty" "-1" "btop"; }
+    Mod+U repeat=false { spawn "blueman-manager"; }
+    Mod+I repeat=false { spawn "kitty" "-1" "nmtui"; }
+    Mod+O repeat=false { spawn "kitty" "-1" "opencode"; }
+    Mod+Y repeat=false { spawn "kitty" "-1" "sudo" "systemctl-tui"; }
+    Mod+N repeat=false { spawn "glide-bin" "--new-window" "https://messages.google.com/web/conversations";}
+    Mod+P repeat=false { spawn-sh "kitty --single-instance ~/.scripts/tools/copyparty-sfx.py -p 3924"; }
+
     Mod+Shift+E { spawn "~/.scripts/tools/yazi_at_pwd.sh"; }
     Mod+Ctrl+E { spawn "~/.scripts/tools/alacritty_at_pwd.sh"; }
-    Mod+B { spawn "alacritty" "-e" "btop"; }
-    Mod+T { spawn "mcontrolcenter"; }
-    Mod+X { spawn "filelight"; }
-    Mod+Y { spawn "jellyfin-desktop"; }
-    Mod+U { spawn "blueman-manager"; }
-    Mod+I { spawn "alacritty" "-e" "nmtui"; }
-    Mod+O { spawn "alacritty" "-e" "opencode"; }
-    Mod+P { spawn-sh "alacritty -e ~/.scripts/tools/copyparty-sfx.py -p 3924"; }
     
     // Screenshots
     Ctrl+Shift+1 { spawn "~/.config/niri/scripts/screenshot_to_file.sh"; }
