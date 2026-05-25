@@ -1,0 +1,56 @@
+[metadata]
+name = "systemd-units"
+description = "List and manage systemd services"
+requirements = ["systemctl"]
+
+[source]
+# Removed --plain (invalid for list-unit-files) and --all (redundant for unit-files)
+command = "systemctl list-unit-files --type=service --no-pager --no-legend"
+# We show the service name and its enabled/disabled state in the list
+display = "{split: :0} | {split: :1}"
+
+[preview]
+# Changed COLORS to 1 for the status colors you wanted earlier
+# Added '|| true' to ensure the preview displays even if a service is in a 'failed' state
+command = "env SYSTEMD_COLORS=1 systemctl status '{split: :0}' --no-pager || true"
+
+[ui]
+layout = "portrait"
+
+[keybindings]
+ctrl-s = "actions:start"
+f2 = "actions:stop"
+ctrl-e = "actions:enable"
+ctrl-d = "actions:disable"
+# Manual reload key in case you need to force a refresh
+ctrl-l = "reload_source"
+
+[actions.start]
+description = "Start the selected service"
+command = "sudo systemctl start '{split: :0}'; sleep 0.2"
+mode = "fork"
+post_actions = ["reload_source"]
+
+[actions.stop]
+description = "Stop the selected service"
+command = "sudo systemctl stop '{split: :0}'; sleep 0.2"
+mode = "fork"
+post_actions = ["reload_source"]
+
+[actions.restart]
+description = "Restart the selected service"
+command = "sudo systemctl restart '{split: :0}'; sleep 0.2"
+mode = "fork"
+post_actions = ["reload_source"]
+
+[actions.enable]
+description = "Enable the selected service"
+command = "sudo systemctl enable '{split: :0}'; sleep 0.2"
+mode = "fork"
+post_actions = ["reload_source"]
+
+[actions.disable]
+description = "Disable the selected service"
+command = "sudo systemctl disable '{split: :0}'; sleep 0.2"
+mode = "fork"
+post_actions = ["reload_source"]
