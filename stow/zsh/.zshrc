@@ -247,6 +247,7 @@ alias vnlmon='~/VisualNeo/VS_LM/StartServer.sh'
 alias vnlmoff='~/VisualNeo/VS_LM/StopServer.sh'
 alias vnar='~/VisualNeo/VS_AR/VisualSim.sh'
 
+
 update_terminal_cwd() {
   # $PWD is the current working directory.
   printf "\e]7;file://localhost%s\a" "$PWD:A"
