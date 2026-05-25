@@ -22,16 +22,19 @@ unbind C-a
 # custom reload binding
 bind r source-file ~/.config/tmux/tmux.conf \; display 'config reloaded'
 
+# ssh clipboard
+set -s set-clipboard on
+
 # split bindings
 bind - split-window -v
 bind _ split-window -h
 bind | split-window -h
 
 # pane navigation
-bind -r h select-pane -L
-bind -r j select-pane -D
-bind -r k select-pane -U
-bind -r l select-pane -R
+bind -r C-h select-pane -L
+bind -r C-j select-pane -D
+bind -r C-k select-pane -U
+bind -r C-l select-pane -R
 
 # pane resizing
 bind -r H resize-pane -L 2
@@ -40,16 +43,21 @@ bind -r K resize-pane -U 2
 bind -r L resize-pane -R 2
 
 # window navigation
-bind -r C-h previous-window
-bind -r C-l next-window
+bind -r h previous-window
+bind -r l next-window
 bind Tab last-window
 
 # mouse toggle with display message
 bind m run "tmux set -g mouse #{?mouse,off,on}" \; display 'mouse #{?mouse,on,off}'
 
+bind s choose-tree -Zs -F "#[fg=cyan]#{session_name} #[fg=white]| #[fg=yellow]#{pane_current_path} #[fg=white]| #[fg=green]#{pane_current_command} #[fg=blue]#(ps -o args= -p #{pane_pid} | cut -c 1-60)"
+
 # Custom bindings for external windows
-bind-key n run-shell -b "nohup foot --working-directory=#{pane_current_path} tmux >/dev/null 2>&1 &"
-bind-key o run-shell -b "nohup foot --working-directory=#{pane_current_path} tmux new-session yazi >/dev/null 2>&1 &"
+bind-key n run-shell -b "kitty -1 --detach -d '#{pane_current_path}' tmux"
+bind-key o run-shell -b "kitty -1 --detach -d '#{pane_current_path}' tmux new-session yazi"
+
+# Edit History Browser
+bind-key e run-shell -b "$HOME/.config/opencode/.opencode/edits-cli.sh"
 
 # copy mode bindings
 bind Enter copy-mode
@@ -62,3 +70,34 @@ bind -T copy-mode-vi L send-keys -X end-of-line
 bind -T copy-mode-vi K send-keys -N 5 Up
 bind -T copy-mode-vi J send-keys -N 5 Down
 bind -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe "wl-copy"
+
+# --- Battery Optimizations ---
+# Disable status bar when no clients attached (stops background polling)
+# set-hook -g client-attached 'set -g status on'
+# set-hook -g client-detached 'set -g status off'
+
+# Increase status update interval to reduce polling (default is 10s)
+set -g status-interval 600
+
+# Disable activity monitoring (saves polling overhead)
+set -g monitor-activity off
+
+set -g set-titles-string "#h: #W"
+
+set -g status-right '#(whoami)@#h '  #!important
+
+# Remove uptime from status-left (default shows: ❐ #S | ↑ with uptime)
+tmux_conf_theme_status_left=' ❐ #S '
+
+# --- Plugins (TPM) ---
+set-environment -g TMUX_PLUGIN_MANAGER_PATH '~/.config/tmux/plugins/'
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'sainnhe/tmux-fzf'
+TMUX_FZF_OPTIONS="-p -w 100% -h 100% -m"
+TMUX_FZF_LAUNCH_KEY="f"
+TMUX_FZF_ORDER="pane|session|window|command|keybinding|clipboard|process"
+TMUX_FZF_WINDOW_FORMAT="#{window_name} | #{pane_current_command} | #{b:pane_current_path}"
+bind f run-shell -b "~/.tmux/plugins/tmux-fzf/tmux-fzf.sh"
+
+# Initialize TPM (keep at the very bottom)
+run '~/.tmux/plugins/tpm/tpm'
