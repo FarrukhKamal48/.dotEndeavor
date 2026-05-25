@@ -7,7 +7,7 @@
     "modules-left": ["niri/workspaces"],
         "modules-center": [],                                                                           //battery   //disk     // uptime      //updates        // systray
     // "modules-right": ["custom/per-core","clock","pulseaudio", "backlight", "network", "cpu", "memory", "temperature", "battery", "disk", "custom/uptime", "custom/updates", "tray"],
-    "modules-right": ["mpris","custom/ndict","cpu","memory","temperature","network","pulseaudio", "backlight", "power-profiles-daemon", "battery","tray","clock#IA","clock" ],
+    "modules-right": ["mpris","cpu","memory","temperature","network","pulseaudio", "backlight", "power-profiles-daemon", "battery","tray","clock#IA","clock" ],
 
 
     "niri/workspaces": {
