@@ -214,7 +214,7 @@ export RUSTC_WRAPPER="sccache"
 export _JAVA_AWT_WM_NONREPARENTING=1 CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1
 export LS_COLORS=$(vivid generate tokyonight-night)
 PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.modular/bin:$HOME/programs/synlig:$HOME/programs/sv2v/bin:$HOME/repos/riscv-pk/build:$HOME/.lmstudio/bin:$PATH"
-PATH="/tools/Xilinx/Vivado/2019.2/bin:/opt/intelFPGA/20.1/modelsim_ase/bin:/opt/spike/bin:/opt/riscv64/bin:/opt/riscv32/bin:/opt/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/:$PATH"
+PATH="/tools/Xilinx/Vivado/2019.2/bin:/opt/intelFPGA/20.1/modelsim_ase/bin:/opt/spike/bin:/opt/riscv64/bin:/opt/riscv32/bin:/opt/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/:/opt/MATLAB/R2022a/bin/:$PATH"
 export PATH
 
 # ROCM vars
