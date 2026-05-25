@@ -95,4 +95,3 @@ socket_operation_timeout_seconds = 10
 # Model download timeout in seconds
 # How long to wait for Whisper model download to complete before giving up
 model_download_timeout_seconds = 300
-
