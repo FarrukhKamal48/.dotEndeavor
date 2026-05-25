@@ -20,16 +20,19 @@
 
 (defsrc
     a s d f j k l ;
-    8 9 0
+    8 9 0 
+    x
 )
 (deflayer base
     @c_a @c_s @c_d @c_f @c_j @c_k @c_l @c_;
-    @sn_8 @sn_9 @sn_0
+    @sn_8 @sn_9 @sn_0 
+    x
 
 )
 (deflayer nomods
     a s d f j k l ;
     @sb_8 @sb_9 @sb_0
+    @x_alt
 )
 
 (defalias
@@ -66,9 +69,15 @@
 )
 
 (defchords switch-to-nomods $chord-time
+    (8) 8
+    (9) 9
+    (0) 0
     (8 9 0) (layer-switch nomods)
 )
 (defchords switch-to-base $chord-time
+    (8) 8
+    (9) 9
+    (0) 0
     (8 9 0) (layer-switch base)
 )
 
@@ -86,4 +95,7 @@
     R_alt   (tap-hold-press $tap-time $hold-time (multi k @tap) ralt )
     R_ctl   (tap-hold-press $tap-time $hold-time (multi l @tap) rctl )
     R_sup   (tap-hold-press $tap-time $hold-time (multi ; @tap) rmet )
+
+    x_alt   (tap-hold-press $tap-time $hold-time (multi x @tap) lalt )
+    
 )
