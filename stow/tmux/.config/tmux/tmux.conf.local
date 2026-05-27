@@ -90,7 +90,7 @@ set -g status-right '#(whoami)@#h '  #!important
 tmux_conf_theme_status_left=' ❐ #S '
 
 # --- Plugins (TPM) ---
-set-environment -g TMUX_PLUGIN_MANAGER_PATH '~/.config/tmux/plugins/'
+set-environment -g TMUX_PLUGIN_MANAGER_PATH "$HOME/.config/tmux/plugins/"
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'sainnhe/tmux-fzf'
 TMUX_FZF_OPTIONS="-p -w 100% -h 100% -m"
@@ -100,4 +100,4 @@ TMUX_FZF_WINDOW_FORMAT="#{window_name} | #{pane_current_command} | #{b:pane_curr
 bind f run-shell -b "~/.tmux/plugins/tmux-fzf/tmux-fzf.sh"
 
 # Initialize TPM (keep at the very bottom)
-run '~/.tmux/plugins/tpm/tpm'
+run "$HOME/.config/tmux/plugins/tpm/tpm"
