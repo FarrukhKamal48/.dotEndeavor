@@ -1,6 +1,7 @@
-*.pyc
 stow/glide/.config/glide/glide/
+stow/glide/.config/glide/glide.d.ts
 stow/OpenTabletDriver/.config/OpenTabletDriver/Logs/
 stow/tmux/.config/tmux/plugins
 stow/opencode/.config/opencode/package-lock.json
-stow/glide/.config/glide/glide.d.ts
+stow/ranger/.config/ranger/plugins
+stow/rustdesk/.config/rustdesk/RustDesk_local.toml
