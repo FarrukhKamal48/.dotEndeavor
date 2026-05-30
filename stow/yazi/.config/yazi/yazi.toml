@@ -1,5 +1,5 @@
 # A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
-"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+# "$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
 
 [manager]
 ratio          = [ 2, 5, 5 ]
@@ -102,11 +102,13 @@ suppress_preload = false
 [[plugin.prepend_fetchers]]
 id   = "git"
 url = "*"
+group = "file"
 run  = "git"
 
 [[plugin.prepend_fetchers]]
 id   = "git"
 url = "*/"
+group = "file"
 run  = "git"
 
 fetchers = [

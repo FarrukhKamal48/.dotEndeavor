@@ -3,27 +3,27 @@ dark = "catppuccin-mocha"
 
 [git]
 
-[CODES.ignored]
+[codes.ignored]
 fg = "darkgray"
 sign = "⊘ "
 
-[CODES.untracked]
+[codes.untracked]
 fg = "magenta"
 sign = "? "
 
-[CODES.modified]
+[codes.modified]
 fg = "yellow"
 sign = "✎ "
 
-[CODES.added]
+[codes.added]
 fg = "green"
 sign = "+ "
 
-[CODES.deleted]
+[codes.deleted]
 fg = "red"
 sign = "- "
 
-[CODES.updated]
+[codes.updated]
 fg = "yellow"
 sign = "↻ "
 

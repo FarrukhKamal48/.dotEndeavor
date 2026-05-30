@@ -1,6 +1,6 @@
 # A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
-"$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
+# "$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 
 
 [mgr]
@@ -453,3 +453,4 @@ desc = "Jump to a directory via television"
 on  = "<C-f>"
 run = "plugin tv text"
 desc = "Open files using neovim and jump to where the string is located"
+
